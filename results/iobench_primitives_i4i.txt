@@ -1,0 +1,9 @@
+r4k	direct=true	threads=1	read_ms=206.18	write_ms=0.06
+r512	direct=true	threads=1	read_ms=207.77	write_ms=0.07
+w4k	direct=true	threads=1	read_ms=0.06	write_ms=52.76
+r4k	direct=true	threads=32	read_ms=11.40	write_ms=1.60
+r512	direct=true	threads=32	read_ms=11.97	write_ms=1.54
+w4k	direct=true	threads=32	read_ms=1.56	write_ms=8.24
+seqw8MB	direct=true	threads=1	read_ms=0.05	write_ms=3.39
+seqr8MB	direct=true	threads=1	read_ms=0.04	write_ms=4.42
+fsync	direct=true	threads=1	read_ms=0.03	write_ms=0.07

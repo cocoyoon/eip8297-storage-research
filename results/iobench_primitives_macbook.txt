@@ -1,0 +1,10 @@
+r4k	direct=true	threads=1	blocks=30	reads=2000x4096B+0x512B	page_writes=0	seq_w=0	seq_r=0	fsyncs=0	mean_ms=251.28	p50_ms=252.13	p99_ms=301.52	read_ms=251.20	write_ms=0.08
+r512	direct=true	threads=1	blocks=30	reads=0x4096B+2000x512B	page_writes=0	seq_w=0	seq_r=0	fsyncs=0	mean_ms=324.45	p50_ms=289.23	p99_ms=594.04	read_ms=324.26	write_ms=0.19
+w4k	direct=true	threads=1	blocks=30	reads=0x4096B+0x512B	page_writes=2000	seq_w=0	seq_r=0	fsyncs=0	mean_ms=244.18	p50_ms=241.14	p99_ms=274.36	read_ms=0.06	write_ms=244.12
+r4k	direct=true	threads=32	blocks=30	reads=2000x4096B+0x512B	page_writes=0	seq_w=0	seq_r=0	fsyncs=0	mean_ms=20.32	p50_ms=19.76	p99_ms=23.87	read_ms=19.85	write_ms=0.47
+r512	direct=true	threads=32	blocks=30	reads=0x4096B+2000x512B	page_writes=0	seq_w=0	seq_r=0	fsyncs=0	mean_ms=21.02	p50_ms=17.16	p99_ms=46.84	read_ms=20.64	write_ms=0.38
+w4k	direct=true	threads=32	blocks=30	reads=0x4096B+0x512B	page_writes=2000	seq_w=0	seq_r=0	fsyncs=0	mean_ms=104.87	p50_ms=52.23	p99_ms=667.61	read_ms=0.30	write_ms=104.57
+w4035	direct=true	threads=32	blocks=100	reads=0x4096B+0x512B	page_writes=4035	seq_w=0	seq_r=0	fsyncs=0	mean_ms=94.04	p50_ms=92.32	p99_ms=117.93	read_ms=0.34	write_ms=93.71
+fsync	direct=true	threads=1	blocks=100	reads=0x4096B+0x512B	page_writes=1	seq_w=0	seq_r=0	fsyncs=1	mean_ms=11.55	p50_ms=10.22	p99_ms=25.10	read_ms=0.26	write_ms=11.30
+seqw8MB	direct=true	threads=1	blocks=30	reads=0x4096B+0x512B	page_writes=0	seq_w=8192000	seq_r=0	fsyncs=0	mean_ms=0.49	p50_ms=0.49	p99_ms=0.53	read_ms=0.02	write_ms=0.47
+seqr8MB	direct=true	threads=1	blocks=30	reads=0x4096B+0x512B	page_writes=0	seq_w=0	seq_r=8192000	fsyncs=0	mean_ms=2.87	p50_ms=2.84	p99_ms=3.71	read_ms=0.02	write_ms=2.85

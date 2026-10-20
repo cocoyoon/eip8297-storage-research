@@ -1,0 +1,8 @@
+[package]
+name = "pbt-char"
+version = "0.1.0"
+edition.workspace = true
+
+[dependencies]
+pbt-ref = { path = "../pbt-ref" }
+pbt-store = { path = "../pbt-store" }
