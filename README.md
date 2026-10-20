@@ -1,4 +1,4 @@
-# pbt-storage-replay
+# eip8297-storage-research
 
 Replays Ethereum mainnet state changes into an EIP-8297 partitioned binary tree (PBT) and compares two on-disk layouts for its state under the same DRAM budget:
 
