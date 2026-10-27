@@ -12,8 +12,11 @@ split into 2^B caches of D / 2^B, one per part, instead of one shared LRU.
 
 Per-block counts and IO costs are averaged cell by cell (each end of a
 `lo-hi` range on its own) and the verdict is recomputed with the same rule
-as the report: a store is named only if it wins by TOO_CLOSE or more
-whichever end of its own range each store is at. Rows are kept only for
+as the report: the cost columns fall into families (the text before the
+first comma: page, log, LSM, B+tree), each represented by its variant with
+the best worst case, and a family is named only if it beats every other
+family by TOO_CLOSE or more whichever end of its own range each is at. The
+columns are read from the parts' own table headers. Rows are kept only for
 DRAM budgets every part reports.
 
 usage: uv run tools/mainnet/combine_parts.py --out FILE PART.md ...
@@ -42,38 +45,59 @@ def fmt(x):
     return f"{hi:.0f}" if abs(hi - lo) < 0.5 else f"{lo:.0f}-{hi:.0f}"
 
 
-def verdict(page, logs):
-    running = [l for l in logs if l is not None]
-    if page is None:
-        return "log (page cannot run)" if running else "-"
-    if not running:
-        return "page (log cannot run)"
-    p_lo, p_hi = page
-    safest = min(running, key=lambda r: r[1])
-    keenest = min(running, key=lambda r: r[0])
-    if p_lo / safest[1] >= TOO_CLOSE:
-        return f"log ({p_lo / safest[1]:.2f}x to {p_hi / safest[0]:.2f}x)"
-    if keenest[0] / p_hi >= TOO_CLOSE:
-        return f"page ({keenest[0] / p_hi:.2f}x to {safest[1] / p_lo:.2f}x)"
-    if safest[1] <= p_lo:
-        return f"too close (log by {p_lo / safest[1]:.2f}x to {p_hi / safest[0]:.2f}x)"
-    if keenest[0] >= p_hi:
-        return f"too close (page by {keenest[0] / p_hi:.2f}x to {safest[1] / p_lo:.2f}x)"
-    log_best, page_best = p_hi / keenest[0], safest[1] / p_lo
-    word = "too close" if max(log_best, page_best) < TOO_CLOSE else "undecided"
-    return f"{word} (log by up to {log_best:.2f}x, page by up to {page_best:.2f}x)"
+def family(name):
+    """'page, NOMT value store' -> 'page': the text before the first comma."""
+    return name.split(",")[0].strip()
+
+
+def verdict(cells, names):
+    """The same rule as `bench.rs::verdict`: W is the family holding the
+    smallest hi (its `safest` variant), R the other family nearest it by lo
+    (its `keenest` variant); W wins by at least keenest_R.lo / safest_W.hi."""
+    fams, order = {}, []  # family -> [safest, keenest]
+    for span, name in zip(cells, names):
+        if span is None:
+            continue
+        f = family(name)
+        if f not in fams:
+            fams[f] = [span, span]
+            order.append(f)
+        else:
+            if span[1] < fams[f][0][1]:
+                fams[f][0] = span
+            if span[0] < fams[f][1][0]:
+                fams[f][1] = span
+    if not fams:
+        return "-"
+    if len(fams) == 1:
+        return f"{order[0]} (others cannot run)"
+    w = min(order, key=lambda f: fams[f][0][1])  # min keeps the first on ties
+    r = min((f for f in order if f != w), key=lambda f: fams[f][1][0])
+    (ws, wk), (rs, rk) = fams[w], fams[r]
+    r_min, r_max = rk[0] / ws[1], rs[1] / ws[0]
+    if r_min >= TOO_CLOSE:
+        return f"{w} ({r_min:.2f}x to {r_max:.2f}x over {r})"
+    if ws[1] <= rk[0]:
+        return f"too close ({w} by {r_min:.2f}x to {r_max:.2f}x over {r})"
+    a, b = rs[1] / wk[0], ws[1] / rk[0]
+    word = "too close" if max(a, b) < TOO_CLOSE else "undecided"
+    return f"{word} ({w} by up to {a:.2f}x, {r} by up to {b:.2f}x)"
 
 
 def tables(md):
-    """{title: {dram_gb: [cells]}} for every IO cost table."""
+    """{title: (columns, {dram_gb: [cells]})} for every IO cost table. The
+    columns are the store names between `DRAM GB` and `cheapest`."""
     out, title = {}, None
     for line in md.splitlines():
         if line.startswith("### IO cost per block, mainnet replay"):
             title = line[4:]
-            out[title] = {}
-        elif title and line.startswith("| ") and not line.startswith("| DRAM") and not line.startswith("|---"):
+            out[title] = (None, {})
+        elif title and line.startswith("| DRAM"):
             cols = [c.strip() for c in line.strip("|").split("|")]
-            out[title][cols[0]] = [cell(c) for c in cols[1:-1]]
+            out[title] = (cols[1:-1], out[title][1])
+        elif title and line.startswith("| ") and not line.startswith("|---"):
+            cols = [c.strip() for c in line.strip("|").split("|")]
+            out[title][1][cols[0]] = [cell(c) for c in cols[1:-1]]
         elif title and line.startswith("###"):
             title = None
     return out
@@ -105,6 +129,16 @@ FIGURES = [
     ("page store: reads of pages untouched since the replay began", r"of the page store's, ([\d.]+)\."),
     ("execution reads of existing keys per block", r"execution reads, per block: ([\d.]+) of existing keys"),
     ("index write amplification", r"Write amplification ([\d.]+) per index update"),
+    ("LSM of records: write amplification per record update", r"Record write amplification ([\d.]+) per record update"),
+    ("LSM of records: the model's write amplification per record update", r"plus one WAL copy of each update\), the model's ([\d.]+) scaled by"),
+    ("index: the model's write amplification per index update", r"the model gives ([\d.]+), and a real RocksDB fed this stream"),
+    ("LSM of records: bytes per entry", r"An entry is ([\d.]+) B, the mean record"),
+    ("B+tree: pages rewritten per block", r"measured, B\+tree, per block: ([\d.]+) pages rewritten"),
+    ("B+tree: leaf-page reads per block with no cache", r"pages rewritten copy-on-write; with no cache ([\d.]+) leaf-page reads"),
+    ("page log: pages appended per block", r"page log: ([\d.]+) pages appended per block"),
+    ("page LSM: write amplification per page update", r"page write amplification ([\d.]+) per page update"),
+    ("log store: relocations per block at g = 2/3", r"relocations ([\d.]+) per block at g = 2/3"),
+    ("page store: elided-page touches per block", r"the ([\d.]+) elided-page touches per block"),
 ]
 
 
@@ -123,7 +157,7 @@ def main():
         "> Each part replays the accounts and contracts of one address-hash subtree and scales its figures to the whole; "
         "together the parts cover every key once, so their figures average to the whole. A DRAM budget is taken as "
         f"{n} caches of 1/{n} each, one per part, instead of one shared cache. Costs are averaged cell by cell; the "
-        f"verdict is recomputed (a store is named only if it wins by {TOO_CLOSE}x or more at every end of both ranges).\n"
+        f"verdict is recomputed (a family of stores is named only if it beats every other family by {TOO_CLOSE}x or more whichever end of its own range each is at).\n"
     )
     o.append("Parts: " + ", ".join(f"`{p}`" for p in args.parts) + "\n")
     o.append("| figure | " + " | ".join(f"part {i}" for i in range(n)) + " | combined |")
@@ -139,11 +173,14 @@ def main():
     o.append("")
     ts = [tables(md) for md in mds]
     for title in ts[0]:
+        header, first = ts[0][title]
+        if header is None or any(t[title][0] != header for t in ts):
+            sys.exit(f"parts disagree on the columns of {title!r}")
         o.append(f"### {title}\n")
-        o.append("| DRAM GB | page, NOMT value store | log, index in DRAM | log, index on disk (1.5 B) | log, index on disk (4.25 B) | cheapest |")
-        o.append("|---|---|---|---|---|---|")
-        for gb, cells in ts[0][title].items():
-            rows = [t[title].get(gb) for t in ts]
+        o.append("| DRAM GB | " + " | ".join(header) + " | cheapest |")
+        o.append("|" + "---|" * (len(header) + 2))
+        for gb, cells in first.items():
+            rows = [t[title][1].get(gb) for t in ts]
             if any(r is None for r in rows):
                 continue  # a budget only some parts report
             avg = []
@@ -153,7 +190,7 @@ def main():
                     avg.append(None)
                 else:
                     avg.append((sum(x[0] for x in col) / n, sum(x[1] for x in col) / n))
-            o.append(f"| {gb} | " + " | ".join(fmt(x) for x in avg) + f" | {verdict(avg[0], avg[1:])} |")
+            o.append(f"| {gb} | " + " | ".join(fmt(x) for x in avg) + f" | {verdict(avg, header)} |")
         o.append("")
     # The IO mix for timed IO: plain numbers, averaged cell by cell.
     mixes = [mix_table(md) for md in mds]

@@ -6,3 +6,9 @@ edition.workspace = true
 [dependencies]
 pbt-ref = { path = "../pbt-ref" }
 pbt-store = { path = "../pbt-store" }
+# Only for `lsm-validate`: feeding a replay's record stream to a real
+# RocksDB. Off by default so the usual build stays small.
+rocksdb = { version = "0.25", optional = true, default-features = false, features = ["snappy", "lz4"] }
+
+[features]
+rocksdb = ["dep:rocksdb"]

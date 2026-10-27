@@ -1,2 +1,5 @@
-target/
+/target/
+*.log
+*.wal
 __pycache__/
+.DS_Store

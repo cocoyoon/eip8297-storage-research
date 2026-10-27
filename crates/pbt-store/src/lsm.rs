@@ -42,6 +42,20 @@ pub struct LsmConfig {
     pub ratio: f64,
 }
 
+/// How the write buffer holds updates.
+#[derive(Clone, Copy, Debug)]
+pub enum Buffer {
+    /// An in-place map: an update of an entry already in the buffer
+    /// replaces it, so the buffer holds its capacity in distinct entries
+    /// and flushes once that many have gathered.
+    Distinct,
+    /// An append-only memtable, as RocksDB and Pebble keep one: every
+    /// update takes room, so the buffer holds `updates` updates, flushes
+    /// the distinct entries among them, and `l0_files` flushed runs are
+    /// merged into the first level at once.
+    Memtable { updates: f64, l0_files: f64 },
+}
+
 /// One level of the modeled engine.
 #[derive(Clone, Debug)]
 pub struct LsmLevel {
@@ -57,6 +71,8 @@ pub struct LsmLevel {
     /// Entries written per index update when that outflow is merged into
     /// the next level.
     pub written: f64,
+    /// Entries read back per index update by that merge.
+    pub read: f64,
 }
 
 #[derive(Clone, Debug)]
@@ -202,7 +218,7 @@ impl DistinctCounter {
 /// Distinct ids in a window of `w` updates, interpolated on the measured
 /// curve (log-log between powers of two). Past the longest window, the
 /// longest window's distinct share.
-fn distinct_at(curve: &[(u64, f64)], w: f64) -> f64 {
+pub fn distinct_at(curve: &[(u64, f64)], w: f64) -> f64 {
     let (wl, dl) = *curve.last().expect("non-empty curve");
     if w >= wl as f64 {
         return dl / wl as f64 * w;
@@ -238,27 +254,37 @@ pub fn cost_from_curve(
     while caps.last().unwrap() / cfg.ratio > buffer {
         caps.push(caps.last().unwrap() / cfg.ratio);
     }
-    caps.push(buffer);
-    caps.reverse(); // buffer, L1, ..., last
+    caps.reverse(); // L1, ..., last
+    cost_with_levels(
+        curve,
+        stream_len,
+        relocations,
+        buffer,
+        &caps,
+        Buffer::Distinct,
+    )
+}
+
+/// As `cost_from_curve`, with the levels given: `buffer` entries in the
+/// write buffer (for a memtable, the entries its bytes would hold, which
+/// only names the level), then `caps`, the distinct entries each level on
+/// disk holds, smallest first, the last holding everything.
+pub fn cost_with_levels(
+    curve: &[(u64, f64)],
+    stream_len: u64,
+    relocations: f64,
+    buffer: f64,
+    caps: &[f64],
+    kind: Buffer,
+) -> LsmCost {
+    let mut caps = caps.to_vec();
+    caps.insert(0, buffer); // buffer, L1, ..., last
     let longest = curve.last().map_or(0, |c| c.0);
     // Distinct entries (of all kinds) among `w` stream updates.
     let distinct = |w: f64| distinct_at(curve, w) + relocations * w;
     let per_update = 1.0 + relocations;
-    let mut levels = Vec::new();
-    let (mut amp, mut read_amp) = (0.0, 0.0);
-    for k in 0..caps.len() {
-        let c = caps[k];
-        if k + 1 == caps.len() {
-            levels.push(LsmLevel {
-                capacity: c,
-                window: None,
-                measured: true,
-                outflow: 0.0,
-                written: 0.0,
-            });
-            break;
-        }
-        // Smallest window touching c distinct entries (distinct is monotone).
+    // Smallest window touching c distinct entries (distinct is monotone).
+    let window_for = |c: f64| {
         let (mut lo, mut hi) = (1.0f64, 1.0f64);
         while distinct(hi) < c {
             hi *= 2.0;
@@ -271,15 +297,60 @@ pub fn cost_from_curve(
                 hi = mid;
             }
         }
-        let w = hi;
-        // Per index update of any kind.
-        let outflow = c / w / per_update;
+        hi
+    };
+    let mut levels = Vec::new();
+    let (mut amp, mut read_amp) = (0.0, 0.0);
+    for k in 0..caps.len() {
+        let c = caps[k];
+        if k + 1 == caps.len() {
+            levels.push(LsmLevel {
+                capacity: c,
+                window: None,
+                measured: true,
+                outflow: 0.0,
+                written: 0.0,
+                read: 0.0,
+            });
+            break;
+        }
         let next = caps[k + 1];
-        let (written, read) = if k == 0 {
-            // Flush once, then merge with the whole first level.
-            (outflow * (2.0 + next / c), outflow * (1.0 + next / c))
-        } else {
-            (outflow * (1.0 + next / c), outflow * (1.0 + next / c))
+        let (w, outflow, written, read) = match (k, kind) {
+            (0, Buffer::Memtable { updates, l0_files }) => {
+                // The memtable fills over `updates` updates and flushes the
+                // distinct entries among them, each once; every `l0_files`
+                // flushes, those runs are merged together (duplicates
+                // across them dropped) and with the whole first level,
+                // which they span.
+                let w = updates;
+                let flushed = distinct(w) / w / per_update;
+                let batch = l0_files * w;
+                let merged_in = distinct(batch) / batch / per_update;
+                let written = flushed + merged_in + next / batch / per_update;
+                let read = l0_files * flushed * w / batch + next / batch / per_update;
+                (w, merged_in, written, read)
+            }
+            (0, Buffer::Distinct) => {
+                // Flush once, then merge with the whole first level.
+                let w = window_for(c);
+                let outflow = c / w / per_update;
+                (
+                    w,
+                    outflow,
+                    outflow * (2.0 + next / c),
+                    outflow * (1.0 + next / c),
+                )
+            }
+            _ => {
+                let w = window_for(c);
+                let outflow = c / w / per_update;
+                (
+                    w,
+                    outflow,
+                    outflow * (1.0 + next / c),
+                    outflow * (1.0 + next / c),
+                )
+            }
         };
         amp += written;
         read_amp += read;
@@ -289,6 +360,7 @@ pub fn cost_from_curve(
             measured: w <= longest as f64,
             outflow,
             written,
+            read,
         });
     }
     let stream_distinct = curve
@@ -369,6 +441,38 @@ mod tests {
         }
         // flush 1 + merge (1 + 10) + (1 + 10) + (1 + 10)
         assert!((c.amplification - 34.0).abs() < 1e-3, "{}", c.amplification);
+    }
+
+    #[test]
+    fn a_memtable_flushes_what_its_updates_touched() {
+        // 50 hot ids: a memtable of 250 updates holds all 50, flushes 50
+        // entries per 250 updates (0.2 per update) and merges them with the
+        // whole first level (1000) every 4 flushes: (1000 + 50) / 1000 per
+        // update on top of the flush itself.
+        let s: Vec<u64> = (0..1u64 << 16).map(|i| i % 50).collect();
+        let curve = distinct_curve(&s);
+        let caps = [1000.0, 10_000.0, 100_000.0];
+        let m = cost_with_levels(
+            &curve,
+            s.len() as u64,
+            0.0,
+            100.0,
+            &caps,
+            Buffer::Memtable {
+                updates: 250.0,
+                l0_files: 4.0,
+            },
+        );
+        let l0 = &m.levels[0];
+        assert!((l0.outflow - 0.05).abs() < 1e-6, "{l0:?}");
+        assert!((l0.written - (0.2 + 0.05 + 1.0)).abs() < 1e-6, "{l0:?}");
+        // The in-place buffer of 100 entries flushes once per 250 updates too,
+        // but the model lets it fill with 100 distinct entries first.
+        let d = cost_with_levels(&curve, s.len() as u64, 0.0, 100.0, &caps, Buffer::Distinct);
+        assert!(d.levels[0].written < l0.written);
+        // The levels given are the levels used.
+        let caps_used: Vec<f64> = m.levels.iter().map(|l| l.capacity).collect();
+        assert_eq!(caps_used, vec![100.0, 1000.0, 10_000.0, 100_000.0]);
     }
 
     #[test]

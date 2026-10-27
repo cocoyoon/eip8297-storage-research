@@ -315,6 +315,8 @@ impl StackProfile {
             displaced_leaf_splits: 0,
             leaf_fetches: 0,
             appended_bytes: 0,
+            btree_leaf_page_writes: 0,
+            btree_interior_page_writes: 0,
         }
     }
 }
@@ -391,6 +393,10 @@ pub struct CacheProfile {
     /// Log store only, MEASURED: bytes appended by commits in the window.
     /// Compaction rewrites are not in it.
     pub appended_bytes: u64,
+    /// B+tree baseline only, MODELED: distinct leaf pages and interior
+    /// pages copied per commit, summed over the window's blocks.
+    pub btree_leaf_page_writes: u64,
+    pub btree_interior_page_writes: u64,
 }
 
 impl CacheProfile {
@@ -441,6 +447,18 @@ impl CacheProfile {
         let new = (entries as f64 * self.index_entry_bytes) as u64;
         c.fixed_dram_bytes = self.fixed_dram_bytes.saturating_sub(old) + new;
         c.index_entries = entries;
+        c
+    }
+
+    /// The same curve with an index of `entries` entries at `bytes` each
+    /// in its fixed part, in place of whatever index it had.
+    pub fn with_index(&self, entries: u64, bytes: f64) -> CacheProfile {
+        let mut c = self.clone();
+        let old = (self.index_entries as f64 * self.index_entry_bytes) as u64;
+        let new = (entries as f64 * bytes) as u64;
+        c.fixed_dram_bytes = self.fixed_dram_bytes.saturating_sub(old) + new;
+        c.index_entries = entries;
+        c.index_entry_bytes = bytes;
         c
     }
 

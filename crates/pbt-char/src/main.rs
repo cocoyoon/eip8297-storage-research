@@ -18,9 +18,12 @@ mod alloc;
 mod bench;
 mod gen;
 mod iobench;
+#[cfg(feature = "rocksdb")]
+mod lsmvalidate;
 mod mainnet;
 mod report;
 mod rng;
+mod stream;
 
 #[global_allocator]
 static ALLOC: alloc::Counting = alloc::Counting;
@@ -38,8 +41,9 @@ fn main() {
         Some("replay") => replay(&args[1..]),
         Some("bench") => bench_cmd(&args[1..]),
         Some("iobench") => iobench_cmd(&args[1..]),
+        Some("lsm-validate") => lsm_validate_cmd(&args[1..]),
         _ => {
-            eprintln!("usage: pbt-char synth|replay|bench|iobench [flags]");
+            eprintln!("usage: pbt-char synth|replay|bench|iobench|lsm-validate [flags]");
             std::process::exit(2);
         }
     }
@@ -94,6 +98,68 @@ fn iobench_cmd(args: &[String]) {
     }
 }
 
+/// Feed a replay's record stream to a real RocksDB and set its writes
+/// beside the model's; see `lsmvalidate.rs`. Needs `--features rocksdb`.
+///   lsm-validate --stream FILE --db DIR [--label NAME] [--out DIR]
+///                [--buffer-mb 256] [--l0-trigger 1] [--level-base-mb 10*buffer]
+///                [--multiplier 10] [--target-file-mb 64] [--key path|page]
+///                [--compression snappy|lz4|none] [--sync] [--bloom-bits 10]
+///                [--block-cache-mb 64] [--threads 8] [--blocks N]
+///                [--measure-from-block N] [--ballast N] [--repeat N]
+///                [--index-mode --relocations R]
+#[cfg(feature = "rocksdb")]
+fn lsm_validate_cmd(args: &[String]) {
+    let buffer_bytes = flag_u64(args, "--buffer-mb", 256) << 20;
+    let multiplier = flag_f64(args, "--multiplier", 10.0);
+    let compression_name = flag(args, "--compression").unwrap_or_else(|| "snappy".into());
+    let compression = match compression_name.as_str() {
+        "none" => rocksdb::DBCompressionType::None,
+        "lz4" => rocksdb::DBCompressionType::Lz4,
+        "snappy" => rocksdb::DBCompressionType::Snappy,
+        other => panic!("--compression {other}: use snappy, lz4 or none"),
+    };
+    let cfg = lsmvalidate::Config {
+        stream: flag(args, "--stream").expect("--stream FILE"),
+        db: flag(args, "--db").expect("--db DIR"),
+        label: flag(args, "--label").unwrap_or_else(|| "lsm_validate".into()),
+        out_dir: flag(args, "--out").unwrap_or_else(|| "results".into()),
+        buffer_bytes,
+        l0_trigger: flag_u64(args, "--l0-trigger", 1) as i32,
+        level_base_bytes: flag(args, "--level-base-mb")
+            .map(|s| s.parse::<u64>().expect("--level-base-mb N") << 20)
+            .unwrap_or((buffer_bytes as f64 * multiplier) as u64),
+        multiplier,
+        target_file_bytes: flag_u64(args, "--target-file-mb", 64) << 20,
+        key: match flag(args, "--key").as_deref() {
+            Some("page") => lsmvalidate::KeyLayout::Page,
+            Some("hash") => lsmvalidate::KeyLayout::Hash,
+            None | Some("path") => lsmvalidate::KeyLayout::Path,
+            Some(other) => panic!("--key {other}: use path, page or hash"),
+        },
+        compression,
+        compression_name,
+        sync: has(args, "--sync"),
+        measure_from: flag(args, "--measure-from-block")
+            .map(|s| s.parse().expect("--measure-from-block N")),
+        max_blocks: flag(args, "--blocks").map(|s| s.parse().expect("--blocks N")),
+        threads: flag_u64(args, "--threads", 8) as i32,
+        bloom_bits: flag_f64(args, "--bloom-bits", 10.0),
+        block_cache_bytes: flag_u64(args, "--block-cache-mb", 64) << 20,
+        count_keys: has(args, "--count-keys"),
+        ballast: flag_u64(args, "--ballast", 0) as u32,
+        repeat: flag_u64(args, "--repeat", 1) as u32,
+        index_mode: has(args, "--index-mode"),
+        relocations: flag_f64(args, "--relocations", 0.0),
+    };
+    lsmvalidate::run(cfg);
+}
+
+#[cfg(not(feature = "rocksdb"))]
+fn lsm_validate_cmd(_args: &[String]) {
+    eprintln!("lsm-validate needs the rocksdb feature: cargo build --release -p pbt-char --features rocksdb");
+    std::process::exit(2);
+}
+
 fn bench_cmd(args: &[String]) {
     let mut p = Params::default();
     p.seed = flag_u64(args, "--seed", p.seed);
@@ -132,6 +198,7 @@ fn bench_cmd(args: &[String]) {
                     .collect()
             })
             .unwrap_or_default(),
+        record_stream: flag(args, "--mainnet-record-stream"),
         mainnet: None,
     };
     let out_dir = flag(args, "--out").unwrap_or_else(|| "results".into());

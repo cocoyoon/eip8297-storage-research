@@ -5,6 +5,7 @@ use crate::gen::{Params, World, Write as StateWrite};
 use crate::mainnet;
 use pbt_ref::tree::{CommitSink, PbtTree, ReadPath, RecordKind, RewriteStats, ZoneLabel};
 use pbt_store::append::BranchHashPolicy;
+use pbt_store::btree::BtreeBackend;
 use pbt_store::mrc::CacheProfile;
 use pbt_store::paged::Packing;
 use pbt_store::shape::SharedShape;
@@ -38,6 +39,9 @@ pub struct BenchConfig {
     /// Set when the workload is a mainnet replay: the full state it stands
     /// in for, and what it was built from.
     pub mainnet: Option<MainnetCtx>,
+    /// Write every committed record and delete, the starting state first,
+    /// to this file (`stream.rs`), for a real engine to replay.
+    pub record_stream: Option<String>,
 }
 
 pub struct MainnetCtx {
@@ -143,9 +147,10 @@ pub fn run_with(cfg: BenchConfig, blocks: usize, mut world: Box<dyn Workload>) -
     let mut backends: Vec<Box<dyn Backend>> = Vec::new();
     if let Some(mn) = &cfg.mainnet {
         // A replay stands in for a state far larger than itself, so only
-        // the two stores that can be judged against that full state run:
-        // the page store told what the full state looks like, and the log
-        // store whose branch reads are profiled.
+        // the stores that can be judged against that full state run: the
+        // page store told what the full state looks like, the log store
+        // whose branch reads are profiled, and the modeled B+tree of
+        // records placed by that same full state.
         backends.push(Box::new(
             PagedBackend::with_packing(None, cfg.resident_levels, Packing::Positional)
                 .with_shape(mn.shape.clone()),
@@ -154,6 +159,11 @@ pub fn run_with(cfg: BenchConfig, blocks: usize, mut world: Box<dyn Workload>) -
             None,
             cfg.resident_levels * 6,
             BranchHashPolicy::ReadBack,
+        )));
+        backends.push(Box::new(BtreeBackend::new(
+            mn.shape.clone(),
+            2 * mn.scale.leaves(),
+            cfg.resident_levels,
         )));
         // The page store is charged the read of every value-store page it
         // overwrites. The log store gets the same event charged: the read
@@ -216,6 +226,11 @@ pub fn run_with(cfg: BenchConfig, blocks: usize, mut world: Box<dyn Workload>) -
 
     // Genesis: build the tree and prime every backend with the same batches.
     let mut tree = PbtTree::new();
+    let mut stream = cfg.record_stream.as_deref().map(|p| {
+        let mut w = crate::stream::StreamWriter::create(p).expect("record stream file");
+        w.genesis().unwrap();
+        w
+    });
     if cfg.cache_sweep {
         for b in backends.iter_mut() {
             b.prepare_cache_sweep();
@@ -231,6 +246,9 @@ pub fn run_with(cfg: BenchConfig, blocks: usize, mut world: Box<dyn Workload>) -
         let mut sink = CommitSink::default();
         let mut stats = RewriteStats::default();
         tree.commit(&mut stats, Some(&mut sink));
+        if let Some(w) = stream.as_mut() {
+            w.sink(&sink).unwrap();
+        }
         eprintln!(
             "[bench] genesis batch {}/{}: {} records, {}",
             i + 1,
@@ -245,8 +263,9 @@ pub fn run_with(cfg: BenchConfig, blocks: usize, mut world: Box<dyn Workload>) -
     if cfg.cache_sweep {
         for b in backends.iter_mut() {
             b.enable_cache_profile();
-            // Index updates from here on drive the on-disk index model.
-            if cfg.mainnet.is_some() && b.name().starts_with("append-readback") {
+            // Update streams from here on drive the merge-tree models: the
+            // log store's index entries, the page store's pages.
+            if cfg.mainnet.is_some() {
                 b.record_index_stream();
             }
         }
@@ -260,6 +279,9 @@ pub fn run_with(cfg: BenchConfig, blocks: usize, mut world: Box<dyn Workload>) -
     let mut paths: Vec<ReadPath> = Vec::new();
     let mut read_paths_total: u64 = 0;
     let warmup = cfg.warmup_blocks;
+    if let Some(w) = stream.as_mut() {
+        w.start().unwrap();
+    }
     for i in 0..warmup + blocks {
         if i == warmup {
             baseline = backends.iter().map(|b| b.metrics()).collect();
@@ -293,6 +315,10 @@ pub fn run_with(cfg: BenchConfig, blocks: usize, mut world: Box<dyn Workload>) -
         let mut sink = CommitSink::default();
         let mut stats = RewriteStats::default();
         tree.commit(&mut stats, Some(&mut sink));
+        if let Some(w) = stream.as_mut() {
+            w.block(i as u32).unwrap();
+            w.sink(&sink).unwrap();
+        }
         if cfg.cache_sweep && i >= warmup {
             for r in sink.records.iter().filter(|r| r.kind == RecordKind::Leaf) {
                 let zone = match r.zone {
@@ -341,6 +367,9 @@ pub fn run_with(cfg: BenchConfig, blocks: usize, mut world: Box<dyn Workload>) -
                 crate::alloc::heap()
             );
         }
+    }
+    if let Some(w) = stream.take() {
+        w.finish().unwrap();
     }
     for b in backends.iter_mut() {
         b.finalize();
@@ -928,6 +957,254 @@ fn log_with_disk_index(
     Some(x)
 }
 
+/// A cost cell: `(lo, hi)` per block, or None when the store cannot run.
+type Span = Option<(f64, f64)>;
+
+/// An LSM of records at report time: the engine constants above over the
+/// replay's own update stream.
+#[derive(Clone, Copy)]
+struct LsmRecords {
+    /// Bytes per entry: the mean record of the write stream, its 4-byte
+    /// log header standing in for the varint lengths, plus the overhead.
+    entry_bytes: f64,
+    /// Entries written per record update over all levels, MEASURED by
+    /// `lsm::cost_from_curve` on the replay's own update stream.
+    amp: f64,
+}
+
+/// An LSM of records at a DRAM budget. `curve` already carries the
+/// engine's fixed DRAM and the size of a cached entry; `updates` is the
+/// records written plus deleted in the window, with no relocations:
+/// compaction is the amplification. Reads: one random 4 KB block per
+/// cache miss (ASSUMED: filters and index blocks are resident, so a lookup
+/// probes one data block). Writes: every update goes to the WAL once and
+/// is written `amp` times by flushes and compaction, which reads back what
+/// it merges. One sync per block. `extra_reads` are lookups outside the
+/// curve that every store pays, the displaced leaves whose key a new branch
+/// needs. The log store's own metrics are not the base here: its
+/// sequential bytes and record counts are its own.
+fn lsm_of_records(
+    updates: u64,
+    extra_reads: u64,
+    curve: &CacheProfile,
+    dram: u64,
+    cfg: LsmRecords,
+    bound: Bound,
+    blocks: u64,
+) -> Option<AtBudget> {
+    let cap = curve.capacity_for(dram)?;
+    let (lo, hi) = curve.bounds_at(cap);
+    let misses = if bound == Bound::Lo { lo } else { hi };
+    let bytes = updates as f64 * cfg.entry_bytes;
+    let m = Metrics {
+        seq_bytes_written: (bytes * (cfg.amp + 1.0)) as u64,
+        seq_bytes_read: (bytes * cfg.amp) as u64,
+        page_reads: misses + extra_reads,
+        read_bytes: (misses + extra_reads) * pbt_store::PAGE,
+        fsyncs: blocks,
+        ..Metrics::default()
+    };
+    Some(AtBudget {
+        cap,
+        reads_lo: lo,
+        reads_hi: hi,
+        m,
+    })
+}
+
+/// Pages appended to a log at a DRAM budget: the page store's dirtied
+/// pages written once each in sequence, found through an index in DRAM,
+/// the log compacted when a fraction `g` of it is garbage (each garbage
+/// page read 1/g times and rewritten (1-g)/g times, amortized). Every
+/// appended page supersedes one, so the garbage equals the pages
+/// appended; relocations update the DRAM index for free.
+fn page_log(
+    appended: u64,
+    curve: &CacheProfile,
+    dram: u64,
+    g: f64,
+    bound: Bound,
+    blocks: u64,
+) -> Option<AtBudget> {
+    let cap = curve.capacity_for(dram)?;
+    let (lo, hi) = curve.bounds_at(cap);
+    let misses = if bound == Bound::Lo { lo } else { hi };
+    let bytes = appended as f64 * pbt_store::PAGE as f64;
+    let m = Metrics {
+        seq_bytes_written: (bytes * (1.0 + (1.0 - g) / g)).round() as u64,
+        seq_bytes_read: (bytes / g).round() as u64,
+        page_reads: misses,
+        read_bytes: misses * pbt_store::PAGE,
+        fsyncs: PAGE_LOG_FSYNCS * blocks,
+        ..Metrics::default()
+    };
+    Some(AtBudget {
+        cap,
+        reads_lo: lo,
+        reads_hi: hi,
+        m,
+    })
+}
+
+/// What the record log's window looks like under its own compaction at
+/// garbage fraction 1/2, from which other fractions are derived.
+struct GcBase<'a> {
+    arm: &'a Metrics,
+    ac_true: &'a CacheProfile,
+    /// Live records relocated in the window at g = 1/2: one per superseded.
+    relocations_at_half: u64,
+    /// Bytes the commits appended in the window.
+    appended: u64,
+    /// Garbage bytes the window created, compacted away at g = 1/2.
+    garbage: u64,
+    stream_updates: u64,
+    index_curve: Option<&'a (Vec<(u64, f64)>, u64)>,
+    records: u64,
+    buffer: u64,
+    assumed_amp: f64,
+}
+
+/// The record log store compacting when a fraction `g` of the log is
+/// garbage instead of 1/2: per garbage byte it reads 1/g and rewrites
+/// (1-g)/g, and relocates (1-g)/g live records per superseded one, each a
+/// further index update. The index engine's amplification is recomputed
+/// with that relocation share. Space is up to 1/(1-g) of the live data.
+fn log_at_gc(base: &GcBase, g: f64) -> (Metrics, CacheProfile, f64) {
+    let m = Metrics {
+        seq_bytes_written: base.appended + (base.garbage as f64 * (1.0 - g) / g).round() as u64,
+        seq_bytes_read: (base.garbage as f64 / g).round() as u64,
+        ..base.arm.clone()
+    };
+    let mut c = base.ac_true.clone();
+    c.relocations = (base.relocations_at_half as f64 * (1.0 - g) / g).round() as u64;
+    let share = c.relocations as f64 / base.stream_updates.max(1) as f64;
+    let amp = base.index_curve.map_or(base.assumed_amp, |(curve, len)| {
+        index_amp_measured(
+            pbt_store::lsm::cost_from_curve(
+                curve,
+                *len,
+                share,
+                pbt_store::lsm::LsmConfig {
+                    entries: base.records,
+                    entry_bytes: INDEX_ENTRY_DISK_BYTES,
+                    buffer_bytes: base.buffer,
+                    ratio: INDEX_SIZE_RATIO,
+                },
+            )
+            .amplification,
+            share,
+        )
+    });
+    (m, c, amp)
+}
+
+/// "page, NOMT value store" -> "page": the family is the text before the
+/// first comma.
+fn family(name: &str) -> &str {
+    name.split(',').next().unwrap_or(name).trim()
+}
+
+/// The cheapest family of stores. Each family stands by the variant with
+/// the best worst case (`safest`, the smallest `hi`) and, where its best
+/// case matters, by the variant with the smallest `lo` (`keenest`). W is
+/// the family holding the smallest `hi` of all; R is the other family
+/// nearest it by `lo`. Each store's unknown reads are its own, so ranges
+/// are independent: the least W wins by is its `hi` against R's `lo`.
+fn verdict(cells: &[Span], names: &[String]) -> String {
+    struct Fam<'a> {
+        name: &'a str,
+        safest: (f64, f64),
+        keenest: (f64, f64),
+    }
+    let mut fams: Vec<Fam> = Vec::new();
+    for (span, name) in cells.iter().zip(names) {
+        let Some(s) = *span else { continue };
+        let f = family(name);
+        match fams.iter_mut().find(|x| x.name == f) {
+            Some(x) => {
+                if s.1 < x.safest.1 {
+                    x.safest = s;
+                }
+                if s.0 < x.keenest.0 {
+                    x.keenest = s;
+                }
+            }
+            None => fams.push(Fam {
+                name: f,
+                safest: s,
+                keenest: s,
+            }),
+        }
+    }
+    match fams.len() {
+        0 => return "-".to_string(),
+        1 => return format!("{} (others cannot run)", fams[0].name),
+        _ => {}
+    }
+    let w = (0..fams.len())
+        .min_by(|a, b| fams[*a].safest.1.partial_cmp(&fams[*b].safest.1).unwrap())
+        .unwrap();
+    let r = (0..fams.len())
+        .filter(|i| *i != w)
+        .min_by(|a, b| fams[*a].keenest.0.partial_cmp(&fams[*b].keenest.0).unwrap())
+        .unwrap();
+    let (wf, rf) = (&fams[w], &fams[r]);
+    let r_min = rf.keenest.0 / wf.safest.1;
+    let r_max = rf.safest.1 / wf.safest.0;
+    if r_min >= TOO_CLOSE {
+        format!("{} ({r_min:.2}x to {r_max:.2}x over {})", wf.name, rf.name)
+    } else if wf.safest.1 <= rf.keenest.0 {
+        format!(
+            "too close ({} by {r_min:.2}x to {r_max:.2}x over {})",
+            wf.name, rf.name
+        )
+    } else {
+        // The ranges overlap. If neither family could be ahead by the
+        // threshold even at its best, the cell is close rather than open.
+        let a = rf.safest.1 / wf.keenest.0;
+        let b = wf.safest.1 / rf.keenest.0;
+        let word = if a.max(b) < TOO_CLOSE {
+            "too close"
+        } else {
+            "undecided"
+        };
+        format!(
+            "{word} ({} by up to {a:.2}x, {} by up to {b:.2}x)",
+            wf.name, rf.name
+        )
+    }
+}
+
+/// The levels of a modeled merge tree, as a table.
+fn lsm_level_table(md: &mut String, c: &pbt_store::lsm::LsmCost, per_block: f64) {
+    let _ = writeln!(md, "\n  | level | entries | fills in (blocks) | inside the replay | moves down per update | written per update |");
+    let _ = writeln!(md, "  |---|---|---|---|---|---|");
+    for (i, l) in c.levels.iter().enumerate() {
+        let _ = writeln!(
+            md,
+            "  | {} | {:.3e} | {} | {} | {:.3} | {:.2} |",
+            if i == 0 {
+                "write buffer".to_string()
+            } else {
+                format!("L{i}")
+            },
+            l.capacity,
+            l.window
+                .map_or("-".to_string(), |w| format!("{:.0}", w / per_block)),
+            if l.window.is_none() {
+                "-"
+            } else if l.measured {
+                "yes"
+            } else {
+                "no: longest window's share used"
+            },
+            l.outflow,
+            l.written,
+        );
+    }
+    let _ = writeln!(md);
+}
+
 /// Below this ratio the "cheapest" column declines to name a winner. The
 /// independent review of this model found biases of a few percent each, in
 /// both directions, that together move a cell by up to about 1.3x.
@@ -1184,8 +1461,52 @@ const INDEX_ENTRY_DISK_BYTES: f64 = 16.0;
 const INDEX_BUFFER_BYTES: u64 = 256 << 20;
 const INDEX_SIZE_RATIO: f64 = 10.0;
 
-fn index_levels(records: u64, buffer: u64) -> f64 {
-    (records as f64 * INDEX_ENTRY_DISK_BYTES / buffer as f64)
+/// ASSUMED existing-engine baseline: every PBT record is one entry of a
+/// leveled merge tree keyed by tree position, the layout a geth (Pebble)
+/// or Nethermind (RocksDB) node keeps its trie in, with the index engine's
+/// buffer and size ratio. Per entry, 8 B of sequence number and type on
+/// top of the record (prefix compression is not modeled); 1.85 B resident,
+/// a 10-bit bloom filter (1.25 B) and the index blocks (about 0.6 B); and
+/// 16 B of recency bookkeeping per cached record, as the log store's cache
+/// is charged.
+const LSM_RECORD_OVERHEAD_BYTES: f64 = 8.0;
+const LSM_RESIDENT_BYTES_PER_ENTRY: f64 = 1.85;
+const LSM_CACHE_OVERHEAD_BYTES: u64 = 16;
+/// What a real engine wrote against the LSM-of-records model, MEASURED
+/// (2026-10-27) on RocksDB 11.8.1 fed part 0's record stream of the 24.0M
+/// window (`results/lsm_validate_24000000_p0_summary.md`, run
+/// `geth64b4i5`): the part's memtable (64 MB) and level base (2 MB, so the
+/// tree has the five levels the part's state gives geth's base), path keys,
+/// snappy, cold ballast interleaved with the stream's keys standing in for
+/// the untouched state, 15,000 blocks at steady state. Entries written by
+/// flushes and compactions per update (the engine's event log) against the
+/// model's on the same stream; the four interleaved runs gave 0.96 to 1.11.
+/// The model's amplification is scaled by this. The engine's bytes per
+/// entry written were 64 B against the model's 81 B (prefix compression and
+/// snappy, not modeled), which the tables keep as the model's.
+const LSM_RECORDS_ENGINE_OVER_MODEL: f64 = 1.01;
+/// The disk index's engine, MEASURED the same way (runs `idx64b8i` and
+/// `idx64b8g23i`, ballast 8 interleaved) with 16 B hashed keys, 8 B values
+/// and the relocations as random puts: entries the engine wrote per update
+/// over the model's, at half a relocation per update (g = 2/3) and at one
+/// (g = 1/2). The model's amplification is scaled by the fraction, linear in
+/// the relocation share between the two points and held outside them.
+const INDEX_AMP_ENGINE_OVER_MODEL: [(f64, f64); 2] = [(0.5, 0.88), (1.0, 0.83)];
+
+fn index_amp_measured(model_amp: f64, reloc_share: f64) -> f64 {
+    let [(r0, f0), (r1, f1)] = INDEX_AMP_ENGINE_OVER_MODEL;
+    let t = ((reloc_share - r0) / (r1 - r0)).clamp(0.0, 1.0);
+    model_amp * (f0 + t * (f1 - f0))
+}
+/// ASSUMED page-granular stores: a page log keeps one 16 B entry per page
+/// (id and log position) in DRAM and syncs twice per block (log, then
+/// manifest); a page LSM holds a 4 KB page plus its 16 B key per entry.
+const PAGE_INDEX_ENTRY_BYTES: u64 = 16;
+const PAGE_LOG_FSYNCS: u64 = 2;
+const PAGE_LSM_ENTRY_BYTES: f64 = 4112.0;
+
+fn index_levels(records: u64, entry_bytes: f64, buffer: u64) -> f64 {
+    (records as f64 * entry_bytes / buffer as f64)
         .log(INDEX_SIZE_RATIO)
         .ceil()
         .max(1.0)
@@ -1257,7 +1578,7 @@ fn mainnet_report(rows: &[Row], facts: &RunFacts, mn: &MainnetCtx) -> (String, S
         .with_cacheable(2 * leaf_pages)
         .with_fixed_extra(bbn_bytes + bucket_map + ws_page);
 
-    let levels = index_levels(records, buffer);
+    let levels = index_levels(records, INDEX_ENTRY_DISK_BYTES, buffer);
     let assumed_amp = levels * INDEX_SIZE_RATIO / 2.0;
     // The engine laid out over the full index, fed the replay's own update
     // stream (warm-up included): what it absorbs is measured, the layout is
@@ -1276,7 +1597,11 @@ fn mainnet_report(rows: &[Row], facts: &RunFacts, mn: &MainnetCtx) -> (String, S
             },
         )
     });
-    let amp = lsm_cost.as_ref().map_or(assumed_amp, |c| c.amplification);
+    let amp_model = lsm_cost.as_ref().map_or(assumed_amp, |c| c.amplification);
+    // The tables use what a real engine wrote; the model stays in the prose.
+    let amp = lsm_cost.as_ref().map_or(assumed_amp, |c| {
+        index_amp_measured(c.amplification, c.relocation_share)
+    });
     let index_disk = records as f64 * INDEX_ENTRY_DISK_BYTES;
     // One 16-byte pointer per 4 KB index page, so a lookup is one read.
     let index_fixed = buffer + (index_disk / pbt_store::PAGE as f64 * 16.0) as u64;
@@ -1300,11 +1625,132 @@ fn mainnet_report(rows: &[Row], facts: &RunFacts, mn: &MainnetCtx) -> (String, S
             .fixed_dram_bytes
             + di.fixed_bytes
     };
+    // Existing-engine baselines, MODELED from the same replay. An LSM of
+    // records: the write stream's mean record is the entry, fed through the
+    // same engine as the index, with no relocations.
+    let mean_record = ac.appended_bytes as f64 / arm.record_writes.max(1) as f64;
+    let lsm_updates = arm.record_writes + arm.record_deletes;
+    let lsm_entry_bytes = mean_record + LSM_RECORD_OVERHEAD_BYTES;
+    let lsm_records_cost = ar.index_curve.as_ref().map(|(curve, len)| {
+        pbt_store::lsm::cost_from_curve(
+            curve,
+            *len,
+            0.0,
+            pbt_store::lsm::LsmConfig {
+                entries: records,
+                entry_bytes: lsm_entry_bytes,
+                buffer_bytes: buffer,
+                ratio: INDEX_SIZE_RATIO,
+            },
+        )
+    });
+    let lsm_amp_model = lsm_records_cost.as_ref().map_or(
+        index_levels(records, lsm_entry_bytes, buffer) * INDEX_SIZE_RATIO / 2.0,
+        |c| c.amplification,
+    );
+    // The tables use the model scaled by what a real engine wrote; the
+    // model's own figure stays in the prose and the sensitivity table.
+    let lsm_amp = if lsm_records_cost.is_some() {
+        lsm_amp_model * LSM_RECORDS_ENGINE_OVER_MODEL
+    } else {
+        lsm_amp_model
+    };
+    let lr = LsmRecords {
+        entry_bytes: lsm_entry_bytes,
+        amp: lsm_amp,
+    };
+    // Node cache: the log store's record-granular stream, with the LSM's
+    // resident part in place of the log's index. The log's resident top is
+    // already in the curve's fixed DRAM; the buffer is the memtable the
+    // commit's records sit in.
+    let lsm_node = ac
+        .with_index(records, LSM_RESIDENT_BYTES_PER_ENTRY)
+        .with_cacheable(records)
+        .with_fixed_extra(buffer)
+        .with_entry_bytes(lsm_entry_bytes.round() as u64 + LSM_CACHE_OVERHEAD_BYTES);
+    // The B+tree of records, if it ran: its own curve over leaf and
+    // interior pages for its column, its leaf-page curve as the LSM's block
+    // cache. Its page count is the full state's; take it at 1/k.
+    let bt = profiled(rows, "btree");
+    let bt_true = bt.map(|(br, bc)| {
+        let btm = Metrics {
+            fsyncs: br.m.fsyncs / k,
+            ..br.m.clone()
+        };
+        let ws_bt = (btm.rand_page_writes as f64 / b * pbt_store::PAGE as f64) as u64;
+        let c = bc
+            .with_cacheable(bc.cacheable_entries / k)
+            .with_fixed_extra(ws_bt);
+        (btm, c)
+    });
+    let bt_leaf = bt.and_then(|(br, _)| br.cache_vs.as_ref());
+    let lsm_block = bt_leaf.map(|lc| {
+        lc.with_index(records, LSM_RESIDENT_BYTES_PER_ENTRY)
+            .with_cacheable(lc.cacheable_entries / k)
+            .with_fixed_extra(buffer)
+    });
+    // The page row of the design space, from the page store's own run: its
+    // dirtied pages appended to a log or put into a merge tree, and its
+    // page cache standing in for the block cache of an LSM of records
+    // whose key order makes a block one page.
+    let page_index_bytes = 2 * leaf_pages * PAGE_INDEX_ENTRY_BYTES;
+    let pages_appended = prm.rand_page_writes + pvs.value_leaf_page_writes;
+    let pl_curve = pvs
+        .with_cacheable(2 * leaf_pages)
+        .with_fixed_extra(page_index_bytes + ws_page);
+    let page_lsm_cost = pr
+        .index_curve
+        .as_ref()
+        .filter(|(c, len)| *len > 0 && c.last().is_some_and(|x| x.1 > 0.0))
+        .map(|(c, len)| {
+            pbt_store::lsm::cost_from_curve(
+                c,
+                *len,
+                0.0,
+                pbt_store::lsm::LsmConfig {
+                    entries: 2 * leaf_pages,
+                    entry_bytes: PAGE_LSM_ENTRY_BYTES,
+                    buffer_bytes: buffer,
+                    ratio: INDEX_SIZE_RATIO,
+                },
+            )
+        });
+    let page_lsm = page_lsm_cost.as_ref().map(|c| LsmRecords {
+        entry_bytes: PAGE_LSM_ENTRY_BYTES,
+        amp: c.amplification,
+    });
+    let page_lsm_curve = pvs
+        .with_cacheable(2 * leaf_pages)
+        .with_index(2 * leaf_pages, LSM_RESIDENT_BYTES_PER_ENTRY)
+        .with_fixed_extra(buffer);
+    let lsm_paged = pvs
+        .with_cacheable(2 * leaf_pages)
+        .with_index(records, LSM_RESIDENT_BYTES_PER_ENTRY)
+        .with_fixed_extra(buffer);
+    // An elided page's records sit in the block the changed key's own read
+    // fetches (the page store reads that key's value page; here the leaf
+    // record is in its bottom page's block), so they add no read of their own.
+    let lsm_paged_extra = ac.displaced_leaf_splits;
+    // The record log with lazier garbage collection.
+    let gc_base = GcBase {
+        arm: &arm,
+        ac_true: &ac_true,
+        relocations_at_half: ac.relocations,
+        appended: ac.appended_bytes,
+        garbage: arm.seq_bytes_written.saturating_sub(ac.appended_bytes),
+        stream_updates,
+        index_curve: ar.index_curve.as_ref(),
+        records,
+        buffer,
+        assumed_amp,
+    };
+    let gc23 = log_at_gc(&gc_base, 2.0 / 3.0);
+    let gc23_di = on_disk(1.5, gc23.2);
 
     let _ = writeln!(md, "\n## Mainnet replay under a full node's DRAM\n");
     let _ = writeln!(
         md,
-        "> Nature: MAINNET write stream, replayed on a tree whose untouched state is\n> MODELED, costed with the COUNTER model. Which keys each block writes, and\n> whether each write creates, rewrites or deletes, is real. The rest of the\n> state is not loaded: beside every written path, wherever the full state has\n> keys on the other side of a branch, a stand-in is inserted, so paths have\n> the depth they would have on mainnet. Where the full state has keys is\n> taken from its size and EIP-8297's hash placement, not from the keys\n> themselves. The page side is NOMT as built; the log side with its index on\n> disk is an ASSUMED engine. {}\n",
+        "> Nature: MAINNET write stream, replayed on a tree whose untouched state is\n> MODELED, costed with the COUNTER model. Which keys each block writes, and\n> whether each write creates, rewrites or deletes, is real. The rest of the\n> state is not loaded: beside every written path, wherever the full state has\n> keys on the other side of a branch, a stand-in is inserted, so paths have\n> the depth they would have on mainnet. Where the full state has keys is\n> taken from its size and EIP-8297's hash placement, not from the keys\n> themselves. The page side is NOMT as built; the log side with its index on\n> disk is an ASSUMED engine. Two existing-engine baselines, an LSM of records\n> and a copy-on-write B+tree, are MODELED from the same replay. {}\n",
         if facts.exec_reads == (0, 0) {
             "Only writes are replayed: no execution reads were given, and code and\n> delegations are left out."
         } else {
@@ -1427,7 +1873,7 @@ fn mainnet_report(rows: &[Row], facts: &RunFacts, mn: &MainnetCtx) -> (String, S
         let per_block = (c.stream_updates * k) as f64 / (facts.warmup + facts.blocks).max(1) as f64;
         let _ = writeln!(
             md,
-            "- inside every index-on-disk figure, the index engine MODELED from this replay: a leveled merge tree over {:.0} GB of 16-byte entries, a {} MB write buffer, levels growing by {}x down to one that holds every entry. How much each level absorbs is MEASURED from the {} index updates of the replay ({:.0} per block, warm-up included): an entry updated again while it sits in the buffer or an upper level never moves further down. The {:.1} relocations per update are taken never to be absorbed. Write amplification {:.1} per index update ({:.0} B written and read), against {:.0} for the assumed engine before. That costs {:.0} per block on `{}` and {:.0} on `{}`. Every lookup the cache cannot answer costs one more 4 KB read (ASSUMED, as before). A log whose branches are found without an index pays neither for branches.",
+            "- inside every index-on-disk figure, the index engine MODELED from this replay: a leveled merge tree over {:.0} GB of 16-byte entries, a {} MB write buffer, levels growing by {}x down to one that holds every entry. How much each level absorbs is MEASURED from the {} index updates of the replay ({:.0} per block, warm-up included): an entry updated again while it sits in the buffer or an upper level never moves further down. The {:.1} relocations per update are taken never to be absorbed. Write amplification {:.1} per index update ({:.0} B written and read): the model gives {:.1}, and a real RocksDB fed this stream as the index sees it wrote {:.2} of that (MEASURED, `results/lsm_validate_24000000_p0_summary.md`); {:.0} for the assumed engine before. That costs {:.0} per block on `{}` and {:.0} on `{}`. Every lookup the cache cannot answer costs one more 4 KB read (ASSUMED, as before). A log whose branches are found without an index pays neither for branches.",
             index_disk / gbk,
             INDEX_BUFFER_BYTES >> 20,
             INDEX_SIZE_RATIO,
@@ -1436,38 +1882,15 @@ fn mainnet_report(rows: &[Row], facts: &RunFacts, mn: &MainnetCtx) -> (String, S
             c.relocation_share,
             amp,
             filter.bytes_per_update,
+            amp_model,
+            amp / amp_model,
             assumed_amp,
             upd_pages * (PROFILES[0].c_seq4k_write + PROFILES[0].c_seq4k_read),
             PROFILES[0].name,
             upd_pages * (PROFILES[1].c_seq4k_write + PROFILES[1].c_seq4k_read),
             PROFILES[1].name,
         );
-        let _ = writeln!(md, "\n  | level | entries | fills in (blocks) | inside the replay | moves down per update | written per update |");
-        let _ = writeln!(md, "  |---|---|---|---|---|---|");
-        for (i, l) in c.levels.iter().enumerate() {
-            let _ = writeln!(
-                md,
-                "  | {} | {:.3e} | {} | {} | {:.3} | {:.2} |",
-                if i == 0 {
-                    "write buffer".to_string()
-                } else {
-                    format!("L{i}")
-                },
-                l.capacity,
-                l.window
-                    .map_or("-".to_string(), |w| format!("{:.0}", w / per_block)),
-                if l.window.is_none() {
-                    "-"
-                } else if l.measured {
-                    "yes"
-                } else {
-                    "no: longest window's share used"
-                },
-                l.outflow,
-                l.written,
-            );
-        }
-        let _ = writeln!(md);
+        lsm_level_table(&mut md, c, per_block);
     } else {
         let _ = writeln!(
         md,
@@ -1483,6 +1906,103 @@ fn mainnet_report(rows: &[Row], facts: &RunFacts, mn: &MainnetCtx) -> (String, S
         PROFILES[1].name,
     );
     }
+    // The existing-engine baselines, laid out over the same full state.
+    let lsm_bytes_per_update = lsm_entry_bytes * lsm_amp;
+    let lsm_pages = lsm_updates as f64 / b * lsm_bytes_per_update / pbt_store::PAGE as f64;
+    let _ = writeln!(
+        md,
+        "- existing-engine baseline, LSM of records, MODELED from this replay with its write amplification MEASURED on RocksDB: every record is one entry of a leveled merge tree keyed by tree position, the layout a geth (Pebble) or Nethermind (RocksDB) node keeps its trie in, with the engine of the index above: a {} MB write buffer and levels growing by {}x down to one holding all {} records. An entry is {:.0} B, the mean record of this replay's write stream ({:.1} B, its 4 B log header standing in for the varint lengths) plus {:.0} B of sequence number and type; prefix compression is not modeled. Updates are the {:.1} records written or deleted per block, with no relocations; the displaced leaves a new branch needs are one read each, as for the log store. Record write amplification {:.1} per record update ({:.0} B written and read back by compaction, plus one WAL copy of each update), the model's {:.1} scaled by {:.2}, what a real RocksDB fed this part's record stream through the engine above at the part's scale, five levels, cold ballast interleaved for the untouched state, wrote of it (MEASURED, `results/lsm_validate_24000000_p0_summary.md`); against {:.1} for the index entries above; that costs {:.0} per block on `{}` and {:.0} on `{}`. Fixed DRAM {:.2} GB: {} B per record of bloom filter (10 bits per key) and index blocks, and the write buffer, ASSUMED, plus the resident top. A lookup the cache cannot answer costs one random 4 KB read (ASSUMED: filters and index blocks resident, so one data block is probed). `LSM, node cache` caches single records at {} B each over the log store's record-granular stream; `LSM, block cache` caches 4 KB blocks over the B+tree's leaf-page stream, the same keys at block granularity. The first is pessimistic for such an engine, the second optimistic: a real one, a block cache under a clean node cache, sits between.",
+        INDEX_BUFFER_BYTES >> 20,
+        INDEX_SIZE_RATIO,
+        records * k,
+        lsm_entry_bytes,
+        mean_record,
+        LSM_RECORD_OVERHEAD_BYTES,
+        lsm_updates as f64 / b,
+        lsm_amp,
+        lsm_bytes_per_update,
+        lsm_amp_model,
+        LSM_RECORDS_ENGINE_OVER_MODEL,
+        amp,
+        lsm_pages * (PROFILES[0].c_seq4k_write + PROFILES[0].c_seq4k_read),
+        PROFILES[0].name,
+        lsm_pages * (PROFILES[1].c_seq4k_write + PROFILES[1].c_seq4k_read),
+        PROFILES[1].name,
+        lsm_node.fixed_dram_bytes as f64 / gbk,
+        LSM_RESIDENT_BYTES_PER_ENTRY,
+        lsm_node.entry_bytes,
+    );
+    if let Some(c) = &lsm_records_cost {
+        let per_block = (c.stream_updates * k) as f64 / (facts.warmup + facts.blocks).max(1) as f64;
+        lsm_level_table(&mut md, c, per_block);
+    }
+    if let Some((btm, btc)) = &bt_true {
+        use pbt_store::btree::{FANOUT, FILL, LEAF_ENTRIES, MEAN_ENTRY_BYTES};
+        let g = pbt_store::btree::Geometry::for_records(records * k);
+        let leaf_reads = bt_leaf.map_or(0, |c| c.accesses);
+        let _ = writeln!(
+            md,
+            "- existing-engine baseline, copy-on-write B+tree, MODELED from this replay: records in key order in 4 KB pages, {} per leaf page ({} B mean entry at fill {}, ASSUMED), {} children per interior page (ASSUMED), height {} over {} leaf pages ({:.0} GB), the layout a reth node keeps its trie in (MDBX). A commit reads every page on the way to the ones it changes, copies each changed leaf and interior page to a fresh location, records the freed pages, rewrites the meta page, and syncs twice. One cache over leaf and interior pages stands for the page cache of a memory-mapped engine; leaf pages holding the resident top are held in DRAM ({:.3} GB). The page map is static: no page splits or merges over the replay.",
+            LEAF_ENTRIES,
+            MEAN_ENTRY_BYTES,
+            FILL,
+            FANOUT,
+            g.height(),
+            g.levels[0],
+            g.total_pages() as f64 * pbt_store::PAGE as f64 / 1e9,
+            btm.dram_bytes as f64 / GB,
+        );
+        let _ = writeln!(
+            md,
+            "- measured, B+tree, per block: {:.1} pages rewritten copy-on-write; with no cache {:.1} leaf-page reads and {:.1} interior-page reads, execution reads included; {:.1} leaf pages and {:.1} interior pages copied, {:.2} MB held by one commit, {:.0} fsyncs",
+            btm.rand_page_writes as f64 / b,
+            leaf_reads as f64 / b,
+            btc.accesses.saturating_sub(leaf_reads) as f64 / b,
+            btc.btree_leaf_page_writes as f64 / b,
+            btc.btree_interior_page_writes as f64 / b,
+            btm.rand_page_writes as f64 / b * pbt_store::PAGE as f64 / MB,
+            btm.fsyncs as f64 / b,
+        );
+    }
+    let _ = writeln!(
+        md,
+        "- page log, MODELED from the page store's run: the same merkle and value-store pages appended to a log in sequence instead of rewritten in place, found through a page index in DRAM ({:.2} GB: {} B per page over {} pages, in place of the bottom branch nodes and the bucket map), compacted when half the log is garbage (each garbage page read twice and rewritten once, amortized; relocations update the DRAM index for free), two syncs per block. page log: {:.1} pages appended per block, each superseding one; space up to 2x the live pages.",
+        page_index_bytes as f64 / gbk,
+        PAGE_INDEX_ENTRY_BYTES,
+        2 * leaf_pages * k,
+        pages_appended as f64 / b,
+    );
+    if let Some(c) = &page_lsm_cost {
+        let per_block = (c.stream_updates * k) as f64 / (facts.warmup + facts.blocks).max(1) as f64;
+        let _ = writeln!(
+            md,
+            "- page LSM, MODELED from the page store's run: the same pages as {:.0} B values of a leveled merge tree keyed by page id, with the engine of the index above; what each level absorbs is MEASURED from the {} page writes of the replay ({:.0} per block, warm-up included). page write amplification {:.1} per page update ({:.0} KB written and read back by compaction per page written, plus one WAL copy).",
+            PAGE_LSM_ENTRY_BYTES,
+            c.stream_updates,
+            per_block,
+            c.amplification,
+            c.amplification * PAGE_LSM_ENTRY_BYTES / 1024.0,
+        );
+        lsm_level_table(&mut md, c, per_block);
+    }
+    let _ = writeln!(
+        md,
+        "- log store, lazier garbage collection, MODELED: compacting when two thirds of the log is garbage instead of half moves one live record per two superseded instead of one per one. relocations {:.1} per block at g = 2/3 ({:.1} at g = 1/2), index write amplification {:.1} ({:.1} at g = 1/2), compaction reading {:.2} MB and rewriting {:.2} MB per block ({:.2} and {:.2} at g = 1/2); space up to 3x the live records instead of 2x.",
+        gc23.1.relocations as f64 / b,
+        ac.relocations as f64 / b,
+        gc23.2,
+        amp,
+        gc23.0.seq_bytes_read as f64 / b / MB,
+        gc23.0.seq_bytes_written.saturating_sub(ac.appended_bytes) as f64 / b / MB,
+        arm.seq_bytes_read as f64 / b / MB,
+        arm.seq_bytes_written.saturating_sub(ac.appended_bytes) as f64 / b / MB,
+    );
+    let _ = writeln!(
+        md,
+        "- LSM, page-keyed, MODELED: the LSM of records with its key laid out as (page level, the 6-level-aligned path prefix, the position within that page) instead of the path itself, so that a 4 KB data block holds the records of one NOMT-style page. Its writes are those of the LSM of records; its reads are the page store's page cache at the LSM's fixed DRAM, plus the displaced leaves ({:.1} per block). The page store keeps the records of a sparse page in no page and rebuilds them from the value page it reads for the changed key; here they sit in the block that read fetches, so the {:.1} elided-page touches per block add no read of their own. The page cache is borrowed from the page store, which refreshes a fully written page without a read and drops an elided one, while a block cache fills only on reads: a favourable stand-in.",
+        ac.displaced_leaf_splits as f64 / b,
+        pvs.uncharged_elided_touches as f64 / b,
+    );
     let _ = writeln!(
         md,
         "- limits of the modeled state: a written stem and a written account's header hold only what the sample writes, so paths inside them are short; fetched slot counts include the slots numbered below 64, which live in the account header and not in the storage zone; an untouched stem is one leaf; the code zone is one leaf. The missing header slots were estimated at under 0.6% of branch records; the others are not quantified."
@@ -1500,7 +2020,7 @@ fn mainnet_report(rows: &[Row], facts: &RunFacts, mn: &MainnetCtx) -> (String, S
     }
     let _ = writeln!(
         md,
-        "- `cheapest` names a store only if it wins by {TOO_CLOSE}x or more whichever end of its own range each store is at. The log store is represented by the variant with the best worst case.\n"
+        "- `cheapest` compares six families, page, log, LSM, B+tree, page log and page LSM, each represented by the variant with the best worst case, and names one only if it beats every other family by {TOO_CLOSE}x or more whichever end of its own range each is at; the ratio printed is against the runner-up named.\n"
     );
 
     // How fast misses fall inside the range the replay resolves exactly.
@@ -1545,23 +2065,65 @@ fn mainnet_report(rows: &[Row], facts: &RunFacts, mn: &MainnetCtx) -> (String, S
         pvs.cold as f64 / b,
     );
 
-    type Span = Option<(f64, f64)>;
-    let costs =
-        |prof: &DeviceProfile, price: Price, d: u64, di: [DiskIndex; 2]| -> (Span, [Span; 3]) {
-            let d = d / k;
+    const COLS: usize = 10;
+    let names: [String; COLS] = [
+        "page, NOMT value store".into(),
+        "log, index in DRAM".into(),
+        format!("log, index on disk ({} B)", filter.resident_bytes),
+        "LSM, node cache".into(),
+        "LSM, block cache".into(),
+        "B+tree, copy-on-write".into(),
+        "log, index on disk, GC at 2/3".into(),
+        "LSM, page-keyed".into(),
+        "page log, GC at 1/2".into(),
+        "page LSM".into(),
+    ];
+    // A cell at both ends of the range; `d` is already at 1/k.
+    let span_of =
+        |prof: &DeviceProfile, price: Price, f: &dyn Fn(Bound) -> Option<AtBudget>| -> Span {
             let cost = |x: Option<AtBudget>| x.map(|x| io_cost(&x.m, prof, blocks, price));
-            let both = |f: &dyn Fn(Bound) -> Option<AtBudget>| -> Span {
-                Some((cost(f(Bound::Lo))?, cost(f(Bound::Hi))?))
-            };
-            (
-                both(&|bd| page_with_value_store(&prm, pc, &pvs_true, d, blocks, bd)),
-                [
-                    both(&|bd| at_budget(&arm, &ac_true, d, bd, displaced)),
-                    both(&|bd| log_with_disk_index(&arm, &ac_true, d, di[0], bd)),
-                    both(&|bd| log_with_disk_index(&arm, &ac_true, d, di[1], bd)),
-                ],
-            )
+            Some((cost(f(Bound::Lo))?, cost(f(Bound::Hi))?))
         };
+    // `di[0]` is the index of the record log at g = 1/2, `di[1]` at g = 2/3.
+    let costs = |prof: &DeviceProfile,
+                 price: Price,
+                 d: u64,
+                 di: [DiskIndex; 2],
+                 lr: LsmRecords|
+     -> [Span; COLS] {
+        let d = d / k;
+        let both = |f: &dyn Fn(Bound) -> Option<AtBudget>| -> Span { span_of(prof, price, f) };
+        [
+            both(&|bd| page_with_value_store(&prm, pc, &pvs_true, d, blocks, bd)),
+            both(&|bd| at_budget(&arm, &ac_true, d, bd, displaced)),
+            both(&|bd| log_with_disk_index(&arm, &ac_true, d, di[0], bd)),
+            both(&|bd| {
+                lsm_of_records(
+                    lsm_updates,
+                    ac.displaced_leaf_splits,
+                    &lsm_node,
+                    d,
+                    lr,
+                    bd,
+                    blocks,
+                )
+            }),
+            lsm_block.as_ref().and_then(|c| {
+                both(&|bd| {
+                    lsm_of_records(lsm_updates, ac.displaced_leaf_splits, c, d, lr, bd, blocks)
+                })
+            }),
+            bt_true
+                .as_ref()
+                .and_then(|(m, c)| both(&|bd| at_budget(m, c, d, bd, Extra::default()))),
+            both(&|bd| log_with_disk_index(&gc23.0, &gc23.1, d, di[1], bd)),
+            both(&|bd| lsm_of_records(lsm_updates, lsm_paged_extra, &lsm_paged, d, lr, bd, blocks)),
+            both(&|bd| page_log(pages_appended, &pl_curve, d, 0.5, bd, blocks)),
+            page_lsm.and_then(|pl| {
+                both(&|bd| lsm_of_records(pages_appended, 0, &page_lsm_curve, d, pl, bd, blocks))
+            }),
+        ]
+    };
     let fmt = |x: Span| match x {
         Some((lo, hi)) if (hi - lo).abs() < 0.5 => format!("{hi:.0}"),
         Some((lo, hi)) => format!("{lo:.0}-{hi:.0}"),
@@ -1582,72 +2144,24 @@ fn mainnet_report(rows: &[Row], facts: &RunFacts, mn: &MainnetCtx) -> (String, S
                 "### IO cost per block, mainnet replay, profile `{}`, reads priced {}\n",
                 prof.name, label
             );
-            let _ = writeln!(
-                md,
-                "| DRAM GB | page, NOMT value store | log, index in DRAM | log, index on disk ({} B) | log, index on disk ({} B) | cheapest |",
-                filter.resident_bytes, fingerprint.resident_bytes
-            );
-            let _ = writeln!(md, "|---|---|---|---|---|---|");
+            let _ = writeln!(md, "| DRAM GB | {} | cheapest |", names.join(" | "));
+            let _ = writeln!(md, "|{}", "---|".repeat(COLS + 2));
             for &gb in &budgets_gb {
-                let (page, logs) = costs(prof, price, (gb * GB) as u64, [filter, fingerprint]);
-                let running: Vec<(f64, f64)> = logs.iter().flatten().copied().collect();
-                let verdict = match (page, running.is_empty()) {
-                    (None, true) => "-".to_string(),
-                    (None, false) => "log (page cannot run)".to_string(),
-                    (Some(_), true) => "page (log cannot run)".to_string(),
-                    (Some((p_lo, p_hi)), false) => {
-                        // Each store's unknown reads are its own, so its
-                        // range is independent of the other's: the least a
-                        // winner wins by is its `hi` against the loser's `lo`.
-                        let by_hi =
-                            |a: &&(f64, f64), b: &&(f64, f64)| a.1.partial_cmp(&b.1).unwrap();
-                        let by_lo =
-                            |a: &&(f64, f64), b: &&(f64, f64)| a.0.partial_cmp(&b.0).unwrap();
-                        let safest = *running.iter().min_by(by_hi).unwrap();
-                        let keenest = *running.iter().min_by(by_lo).unwrap();
-                        if p_lo / safest.1 >= TOO_CLOSE {
-                            format!("log ({:.2}x to {:.2}x)", p_lo / safest.1, p_hi / safest.0)
-                        } else if keenest.0 / p_hi >= TOO_CLOSE {
-                            format!("page ({:.2}x to {:.2}x)", keenest.0 / p_hi, safest.1 / p_lo)
-                        } else if safest.1 <= p_lo {
-                            format!(
-                                "too close (log by {:.2}x to {:.2}x)",
-                                p_lo / safest.1,
-                                p_hi / safest.0
-                            )
-                        } else if keenest.0 >= p_hi {
-                            format!(
-                                "too close (page by {:.2}x to {:.2}x)",
-                                keenest.0 / p_hi,
-                                safest.1 / p_lo
-                            )
-                        } else {
-                            // The ranges overlap. If neither store could be
-                            // ahead by the threshold even at its best, the
-                            // cell is close rather than open.
-                            let (log_best, page_best) = (p_hi / keenest.0, safest.1 / p_lo);
-                            let word = if log_best.max(page_best) < TOO_CLOSE {
-                                "too close"
-                            } else {
-                                "undecided"
-                            };
-                            format!("{word} (log by up to {log_best:.2}x, page by up to {page_best:.2}x)")
-                        }
-                    }
-                };
+                let cells = costs(prof, price, (gb * GB) as u64, [filter, gc23_di], lr);
                 let _ = writeln!(
                     md,
-                    "| {} | {} | {} | {} | {} | {} |",
+                    "| {} | {} | {} |",
                     if gb.fract() == 0.0 {
                         format!("{gb}")
                     } else {
                         format!("{gb:.2}")
                     },
-                    fmt(page),
-                    fmt(logs[0]),
-                    fmt(logs[1]),
-                    fmt(logs[2]),
-                    verdict
+                    cells
+                        .iter()
+                        .map(|c| fmt(*c))
+                        .collect::<Vec<_>>()
+                        .join(" | "),
+                    verdict(&cells, &names)
                 );
             }
             let _ = writeln!(md);
@@ -1664,20 +2178,87 @@ fn mainnet_report(rows: &[Row], facts: &RunFacts, mn: &MainnetCtx) -> (String, S
     let _ = writeln!(md, "|---|---|---|---|---|---|---|---|---|");
     for gb in [4.0f64, 8.0, 16.0, 32.0] {
         let d = (gb * GB) as u64 / k;
-        let rows = [
+        let rows: Vec<(&str, Option<AtBudget>, Option<&CacheProfile>)> = vec![
             (
                 "page",
                 page_with_value_store(&prm, pc, &pvs_true, d, blocks, Bound::Hi),
-                &pvs_true,
+                Some(&pvs_true),
             ),
             (
                 "log, index on disk (1.5 B)",
                 log_with_disk_index(&arm, &ac_true, d, filter, Bound::Hi),
-                &ac_true,
+                Some(&ac_true),
+            ),
+            (
+                "LSM, node cache",
+                lsm_of_records(
+                    lsm_updates,
+                    ac.displaced_leaf_splits,
+                    &lsm_node,
+                    d,
+                    lr,
+                    Bound::Hi,
+                    blocks,
+                ),
+                Some(&lsm_node),
+            ),
+            (
+                "LSM, block cache",
+                lsm_block.as_ref().and_then(|c| {
+                    lsm_of_records(
+                        lsm_updates,
+                        ac.displaced_leaf_splits,
+                        c,
+                        d,
+                        lr,
+                        Bound::Hi,
+                        blocks,
+                    )
+                }),
+                lsm_block.as_ref(),
+            ),
+            (
+                "B+tree, copy-on-write",
+                bt_true
+                    .as_ref()
+                    .and_then(|(m, c)| at_budget(m, c, d, Bound::Hi, Extra::default())),
+                bt_true.as_ref().map(|(_, c)| c),
+            ),
+            (
+                "log, index on disk, GC at 2/3",
+                log_with_disk_index(&gc23.0, &gc23.1, d, gc23_di, Bound::Hi),
+                Some(&gc23.1),
+            ),
+            (
+                "LSM, page-keyed",
+                lsm_of_records(
+                    lsm_updates,
+                    lsm_paged_extra,
+                    &lsm_paged,
+                    d,
+                    lr,
+                    Bound::Hi,
+                    blocks,
+                ),
+                Some(&lsm_paged),
+            ),
+            (
+                "page log, GC at 1/2",
+                page_log(pages_appended, &pl_curve, d, 0.5, Bound::Hi, blocks),
+                Some(&pl_curve),
+            ),
+            (
+                "page LSM",
+                page_lsm.and_then(|pl| {
+                    lsm_of_records(pages_appended, 0, &page_lsm_curve, d, pl, Bound::Hi, blocks)
+                }),
+                Some(&page_lsm_curve),
             ),
         ];
         for (name, x, prof) in rows {
-            let Some(x) = x else { continue };
+            let (Some(x), Some(prof)) = (x, prof) else {
+                continue;
+            };
             // Execution reads are needed while the block executes, one
             // after another unless prefetched; the rest at commit, at once.
             let exec_misses = prof.tag_bounds_at(x.cap).1 as f64;
@@ -1709,8 +2290,8 @@ fn mainnet_report(rows: &[Row], facts: &RunFacts, mn: &MainnetCtx) -> (String, S
     );
     let _ = writeln!(
         md,
-        "The log store with its index on disk ({} B per record in DRAM), IO cost per block. {:.1} is the amplification the tables above use.\n",
-        filter.resident_bytes, amp
+        "The log store with its index on disk ({} B per record in DRAM), IO cost per block. {:.1} is the amplification the tables above use, the model's {:.1} scaled by the RocksDB measurement.\n",
+        filter.resident_bytes, amp, amp_model
     );
     let _ = writeln!(
         md,
@@ -1725,21 +2306,21 @@ fn mainnet_report(rows: &[Row], facts: &RunFacts, mn: &MainnetCtx) -> (String, S
         .flat_map(|p| [(p, Price::PerIo), (p, Price::Bandwidth)])
         .collect();
     let grid: Vec<f64> = if lsm_cost.is_some() {
-        vec![amp, 5.0, 15.0, 30.0]
+        vec![amp, amp_model, 5.0, 30.0]
     } else {
         vec![amp / 3.0, amp, amp * 2.0]
     };
     for a in grid {
-        let di = [on_disk(1.5, a), on_disk(4.25, a)];
+        let di = [on_disk(1.5, a), gc23_di];
         let cells: Vec<String> = combos
             .iter()
-            .map(|(p, price)| fmt(costs(p, *price, d16, di).1[1]))
+            .map(|(p, price)| fmt(costs(p, *price, d16, di, lr)[2]))
             .collect();
         let _ = writeln!(md, "| {:.1} | {} |", a, cells.join(" | "));
     }
     let cells: Vec<String> = combos
         .iter()
-        .map(|(p, price)| fmt(costs(p, *price, d16, [filter, fingerprint]).0))
+        .map(|(p, price)| fmt(costs(p, *price, d16, [filter, gc23_di], lr)[0]))
         .collect();
     let _ = writeln!(
         md,
@@ -1747,21 +2328,120 @@ fn mainnet_report(rows: &[Row], facts: &RunFacts, mn: &MainnetCtx) -> (String, S
         cells.join(" | ")
     );
 
-    let csv = curves_csv_scaled(
-        &[
-            ("page with NOMT value store".to_string(), pvs_true.clone()),
-            ("log with index in DRAM".to_string(), ac_true.clone()),
-            (
-                format!("log with index on disk ({} B)", filter.resident_bytes),
-                ac_true
-                    .with_index_entry_bytes(filter.resident_bytes)
-                    .with_entry_bytes(filter.cache_entry_bytes)
-                    .with_fixed_extra(filter.fixed_bytes),
-            ),
-        ],
-        blocks,
-        k,
+    // The record engine of the LSM baseline is assumed in the same way.
+    let _ = writeln!(
+        md,
+        "### Sensitivity to the record engine's write amplification, 16 GB\n"
     );
+    let _ = writeln!(
+        md,
+        "The LSM of records, IO cost per block. {:.1} is the amplification the tables above use, the model's {:.1} scaled by the RocksDB measurement. Entry-size uncertainty maps onto this axis: bytes per update are entry bytes times amplification.\n",
+        lsm_amp, lsm_amp_model
+    );
+    let _ = writeln!(
+        md,
+        "| write amplification | `{0}` per IO | `{0}` by bytes | `{1}` per IO | `{1}` by bytes |",
+        PROFILES[0].name, PROFILES[1].name
+    );
+    let _ = writeln!(md, "|---|---|---|---|---|");
+    let grid: Vec<f64> = if lsm_records_cost.is_some() {
+        vec![lsm_amp, 5.0, 15.0, 30.0]
+    } else {
+        vec![lsm_amp / 3.0, lsm_amp, lsm_amp * 2.0]
+    };
+    for a in grid {
+        let lr2 = LsmRecords { amp: a, ..lr };
+        for (col, name) in [
+            (3usize, "node cache"),
+            (4, "block cache"),
+            (7, "page-keyed"),
+        ] {
+            let cells: Vec<String> = combos
+                .iter()
+                .map(|(p, price)| fmt(costs(p, *price, d16, [filter, gc23_di], lr2)[col]))
+                .collect();
+            let _ = writeln!(md, "| {:.1}, {} | {} |", a, name, cells.join(" | "));
+        }
+    }
+    let _ = writeln!(md);
+
+    // Garbage collection is a knob both logs have: fewer relocations and
+    // compaction reads for more space.
+    let _ = writeln!(md, "### Sensitivity to garbage collection, 16 GB\n");
+    let _ = writeln!(
+        md,
+        "The record log with its index on disk and the page log, IO cost per block, compacted when a fraction g of the log is garbage; space is up to 1/(1-g) of the live data. The tables above use g = 1/2 for the page log, and 1/2 and 2/3 for the record log.\n"
+    );
+    let _ = writeln!(
+        md,
+        "| g | store | `{0}` per IO | `{0}` by bytes | `{1}` per IO | `{1}` by bytes | space |",
+        PROFILES[0].name, PROFILES[1].name
+    );
+    let _ = writeln!(md, "|---|---|---|---|---|---|---|");
+    for g in [0.5f64, 2.0 / 3.0, 0.8] {
+        let (mg, cg, ag) = log_at_gc(&gc_base, g);
+        let dig = on_disk(1.5, ag);
+        let d = d16 / k;
+        let log_cells: Vec<String> = combos
+            .iter()
+            .map(|(p, price)| {
+                fmt(span_of(p, *price, &|bd| {
+                    log_with_disk_index(&mg, &cg, d, dig, bd)
+                }))
+            })
+            .collect();
+        let _ = writeln!(
+            md,
+            "| {g:.2} | log, index on disk (index amplification {ag:.1}) | {} | {:.1}x |",
+            log_cells.join(" | "),
+            1.0 / (1.0 - g)
+        );
+        let pl_cells: Vec<String> = combos
+            .iter()
+            .map(|(p, price)| {
+                fmt(span_of(p, *price, &|bd| {
+                    page_log(pages_appended, &pl_curve, d, g, bd, blocks)
+                }))
+            })
+            .collect();
+        let _ = writeln!(
+            md,
+            "| {g:.2} | page log | {} | {:.1}x |",
+            pl_cells.join(" | "),
+            1.0 / (1.0 - g)
+        );
+    }
+    let _ = writeln!(md);
+
+    let mut curves = vec![
+        ("page with NOMT value store".to_string(), pvs_true.clone()),
+        ("log with index in DRAM".to_string(), ac_true.clone()),
+        (
+            format!("log with index on disk ({} B)", filter.resident_bytes),
+            ac_true
+                .with_index_entry_bytes(filter.resident_bytes)
+                .with_entry_bytes(filter.cache_entry_bytes)
+                .with_fixed_extra(filter.fixed_bytes),
+        ),
+        ("LSM of records, node cache".to_string(), lsm_node.clone()),
+    ];
+    if let Some(c) = &lsm_block {
+        curves.push(("LSM of records, block cache".to_string(), c.clone()));
+    }
+    if let Some((_, c)) = &bt_true {
+        curves.push(("B+tree, copy-on-write".to_string(), c.clone()));
+    }
+    curves.push((
+        "log with index on disk, GC at 2/3".to_string(),
+        gc23.1
+            .with_index_entry_bytes(gc23_di.resident_bytes)
+            .with_entry_bytes(gc23_di.cache_entry_bytes)
+            .with_fixed_extra(gc23_di.fixed_bytes),
+    ));
+    curves.push(("LSM of records, page-keyed".to_string(), lsm_paged.clone()));
+    curves.push(("page log".to_string(), pl_curve.clone()));
+    curves.push(("page LSM".to_string(), page_lsm_curve.clone()));
+    let csv = curves_csv_scaled(&curves, blocks, k);
     (md, csv)
 }
 
@@ -1973,4 +2653,232 @@ fn report(rows: &[Row], blocks: u64, cuts: &[u32], resident: u32) -> String {
         }
     }
     md
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use pbt_store::mrc::StackProfile;
+
+    fn names(n: &[&str]) -> Vec<String> {
+        n.iter().map(|s| s.to_string()).collect()
+    }
+
+    #[test]
+    fn families_come_before_the_comma() {
+        assert_eq!(family("page, NOMT value store"), "page");
+        assert_eq!(family("log, index on disk (1.5 B)"), "log");
+        assert_eq!(family("B+tree, copy-on-write"), "B+tree");
+        assert_eq!(family("page"), "page");
+    }
+
+    /// With page and log only, the family rule is the rule the two-store
+    /// tables used, ratios included (cells from part 0 of the 24.0M run).
+    #[test]
+    fn verdict_reduces_to_the_two_family_rule() {
+        let nm = names(&[
+            "page, NOMT value store",
+            "log, index in DRAM",
+            "log, index on disk (1.5 B)",
+            "log, index on disk (4.25 B)",
+        ]);
+        let cells = [
+            Some((21399.0, 21399.0)),
+            None,
+            Some((6866.0, 11571.0)),
+            None,
+        ];
+        assert_eq!(verdict(&cells, &nm), "log (1.85x to 3.12x over page)");
+        let cells = [
+            Some((21758.0, 21758.0)),
+            None,
+            Some((22445.0, 22445.0)),
+            None,
+        ];
+        assert_eq!(
+            verdict(&cells, &nm),
+            "too close (page by 1.03x to 1.03x over log)"
+        );
+        let cells = [None, None, Some((1.0, 2.0)), None];
+        assert_eq!(verdict(&cells, &nm), "log (others cannot run)");
+        let cells = [Some((1.0, 2.0)), None, None, None];
+        assert_eq!(verdict(&cells, &nm), "page (others cannot run)");
+        // Overlap: the keenest log variant sets how far log could be ahead.
+        let cells = [
+            Some((9000.0, 11000.0)),
+            Some((1500.0, 12000.0)),
+            Some((8000.0, 10000.0)),
+            None,
+        ];
+        assert_eq!(
+            verdict(&cells, &nm),
+            "undecided (log by up to 7.33x, page by up to 1.11x)"
+        );
+        assert_eq!(verdict(&[None, None, None, None], &nm), "-");
+    }
+
+    #[test]
+    fn verdict_over_four_families() {
+        let nm = names(&[
+            "page, NOMT value store",
+            "log, index on disk (1.5 B)",
+            "LSM, node cache",
+            "LSM, block cache",
+            "B+tree, copy-on-write",
+        ]);
+        let cells = [
+            Some((100.0, 100.0)),
+            Some((60.0, 80.0)),
+            Some((50.0, 70.0)),
+            Some((40.0, 65.0)),
+            Some((200.0, 300.0)),
+        ];
+        assert_eq!(
+            verdict(&cells, &nm),
+            "undecided (LSM by up to 2.00x, log by up to 1.08x)"
+        );
+        let cells = [
+            Some((100.0, 100.0)),
+            Some((60.0, 80.0)),
+            Some((10.0, 20.0)),
+            None,
+            Some((200.0, 300.0)),
+        ];
+        assert_eq!(verdict(&cells, &nm), "LSM (3.00x to 8.00x over log)");
+        let cells = [
+            Some((100.0, 100.0)),
+            Some((60.0, 80.0)),
+            None,
+            None,
+            Some((20.0, 30.0)),
+        ];
+        assert_eq!(verdict(&cells, &nm), "B+tree (2.00x to 4.00x over log)");
+    }
+
+    #[test]
+    fn page_log_arithmetic() {
+        let mut p = StackProfile::new();
+        p.access(1, 4096);
+        p.access(2, 4096);
+        p.access(1, 4096);
+        let curve = p.curve(4112, 0, 10);
+        let x = page_log(100, &curve, 100_000, 0.5, Bound::Hi, 3).unwrap();
+        assert_eq!(x.m.page_reads, 2);
+        assert_eq!(x.m.seq_bytes_written, 100 * 4096 * 2);
+        assert_eq!(x.m.seq_bytes_read, 100 * 4096 * 2);
+        assert_eq!(x.m.fsyncs, PAGE_LOG_FSYNCS * 3);
+        assert_eq!(x.m.rand_page_writes, 0);
+        let lazy = page_log(100, &curve, 100_000, 0.8, Bound::Hi, 3).unwrap();
+        assert_eq!(lazy.m.seq_bytes_written, (100.0 * 4096.0 * 1.25) as u64);
+        assert_eq!(lazy.m.seq_bytes_read, 100 * 4096 * 5 / 4);
+    }
+
+    /// At g = 1/2 the derived window is the measured one; lazier
+    /// collection scales relocations and compaction as stated.
+    #[test]
+    fn log_at_gc_reproduces_the_measured_window_at_one_half() {
+        let arm = Metrics {
+            seq_bytes_written: 1_000 + 400,
+            seq_bytes_read: 800,
+            page_reads: 7,
+            record_writes: 50,
+            ..Metrics::default()
+        };
+        let mut p = StackProfile::new();
+        p.access(1, 512);
+        let mut ac = p.curve(96, 0, 100);
+        ac.relocations = 20;
+        let base = GcBase {
+            arm: &arm,
+            ac_true: &ac,
+            relocations_at_half: 20,
+            appended: 1_000,
+            garbage: 400,
+            stream_updates: 50,
+            index_curve: None,
+            records: 1_000_000,
+            buffer: 1 << 20,
+            assumed_amp: 15.0,
+        };
+        let (m, c, amp) = log_at_gc(&base, 0.5);
+        assert_eq!(m.seq_bytes_written, arm.seq_bytes_written);
+        assert_eq!(m.seq_bytes_read, arm.seq_bytes_read);
+        assert_eq!(m.page_reads, 7);
+        assert_eq!(c.relocations, 20);
+        assert_eq!(amp, 15.0);
+        let (m, c, _) = log_at_gc(&base, 0.8);
+        assert_eq!(m.seq_bytes_written, 1_000 + 100);
+        assert_eq!(m.seq_bytes_read, 500);
+        assert_eq!(c.relocations, 5);
+    }
+
+    #[test]
+    fn the_index_measurement_scales_the_model_between_its_two_points() {
+        let [(r0, f0), (r1, f1)] = INDEX_AMP_ENGINE_OVER_MODEL;
+        assert!((index_amp_measured(10.0, r0) - 10.0 * f0).abs() < 1e-9);
+        assert!((index_amp_measured(10.0, r1) - 10.0 * f1).abs() < 1e-9);
+        let mid = index_amp_measured(10.0, (r0 + r1) / 2.0);
+        assert!((mid - 10.0 * (f0 + f1) / 2.0).abs() < 1e-9);
+        assert_eq!(index_amp_measured(10.0, 0.0), 10.0 * f0);
+        assert_eq!(index_amp_measured(10.0, 5.0), 10.0 * f1);
+    }
+
+    #[test]
+    fn verdict_over_six_families() {
+        let nm = names(&[
+            "page, NOMT value store",
+            "log, index on disk (1.5 B)",
+            "LSM, node cache",
+            "B+tree, copy-on-write",
+            "LSM, page-keyed",
+            "page log, GC at 1/2",
+            "page LSM",
+        ]);
+        let cells = [
+            Some((100.0, 100.0)),
+            Some((60.0, 80.0)),
+            Some((50.0, 70.0)),
+            Some((300.0, 300.0)),
+            Some((30.0, 40.0)),
+            Some((90.0, 95.0)),
+            None,
+        ];
+        assert_eq!(verdict(&cells, &nm), "LSM (1.50x to 2.67x over log)");
+        assert_eq!(family("page log, GC at 1/2"), "page log");
+        assert_eq!(family("page LSM"), "page LSM");
+    }
+
+    #[test]
+    fn lsm_of_records_arithmetic() {
+        let mut p = StackProfile::new();
+        p.access(1, 4096);
+        p.access(2, 4096);
+        p.access(1, 4096);
+        // Two cold accesses, one warm at distance 1.
+        let curve = p.curve(100, 0, 10);
+        let cfg = LsmRecords {
+            entry_bytes: 80.0,
+            amp: 10.0,
+        };
+        let x = lsm_of_records(10, 0, &curve, 1000, cfg, Bound::Hi, 2).unwrap();
+        assert_eq!(x.cap, 10);
+        assert_eq!(x.m.page_reads, 2);
+        assert_eq!(x.m.read_bytes, 2 * 4096);
+        assert_eq!(x.m.seq_bytes_written, 10 * 80 * 11);
+        assert_eq!(x.m.seq_bytes_read, 10 * 80 * 10);
+        assert_eq!(x.m.fsyncs, 2);
+        assert_eq!(x.m.rand_page_writes, 0);
+        let lo = lsm_of_records(10, 3, &curve, 1000, cfg, Bound::Lo, 2).unwrap();
+        assert_eq!(lo.m.page_reads, 3);
+        assert!(lsm_of_records(
+            10,
+            0,
+            &curve.with_fixed_extra(2000),
+            1000,
+            cfg,
+            Bound::Hi,
+            2
+        )
+        .is_none());
+    }
 }

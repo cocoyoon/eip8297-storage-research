@@ -51,7 +51,7 @@ pub const PAGE_ELISION_THRESHOLD: u32 = 20;
 
 /// Bookkeeping per cached page: the same two recency links the log store's
 /// bounded branch cache is charged, so neither side gets its cache free.
-const PAGE_CACHE_OVERHEAD: u64 = 16;
+pub const PAGE_CACHE_OVERHEAD: u64 = 16;
 
 /// Entries in one value-store leaf page. NOMT's Beatree leaf has a
 /// 4094-byte body and a PBT leaf entry is a 34-byte key plus a 32-byte
@@ -314,6 +314,10 @@ pub struct PagedCore {
     /// replays a sliver of a much larger state. None for a self-contained
     /// workload, where every page is judged by what the run itself put in it.
     pub shape: Option<SharedShape>,
+    /// The ids of the pages each block writes, merkle and value-store, in
+    /// order: the update stream a store of whole pages would see. Kept only
+    /// when asked for, and never reset, so it includes the warm-up.
+    pub page_stream: Option<crate::lsm::DistinctCounter>,
 }
 
 /// The bit path of a page's root, recovered from its id: `page_id_from`
@@ -356,6 +360,7 @@ impl PagedCore {
             value_leaf_page_writes: 0,
             value_bbn_writes: 0,
             shape: None,
+            page_stream: None,
         }
     }
 
@@ -556,6 +561,9 @@ impl PagedCore {
                 // In-place 4KB write at the page's own bucket.
                 self.m.rand_page_writes += 1;
                 wal += WAL_PAGE_OVERHEAD + nodes as u64 * NODE_BYTES;
+                if let Some(s) = self.page_stream.as_mut() {
+                    s.push(id64(&id));
+                }
             }
         }
         // Meta-map pages touched by fresh-bucket allocation and tombstones:
@@ -601,6 +609,9 @@ impl PagedCore {
             }
             for pg in &pages {
                 p.access(value_leaf_id(*pg), PAGE);
+                if let Some(s) = self.page_stream.as_mut() {
+                    s.push(value_leaf_id(*pg));
+                }
             }
             self.value_leaf_page_writes += pages.len() as u64;
             self.value_bbn_writes += bbns.len() as u64;
@@ -881,6 +892,16 @@ impl Backend for PagedBackend {
         self.core.cache_profile()
     }
 
+    /// The page writes, one id in 16 tracked, for a store that would keep
+    /// these pages in a merge tree.
+    fn record_index_stream(&mut self) {
+        self.core.page_stream = Some(crate::lsm::DistinctCounter::new(4));
+    }
+
+    fn index_curve(&self) -> Option<(Vec<(u64, f64)>, u64)> {
+        self.core.page_stream.as_ref().map(|c| (c.curve(), c.len()))
+    }
+
     fn extra_report(&self) -> String {
         let n = self.core.occupancy_samples.len().max(1) as f64;
         let sum: u32 = self.core.occupancy_samples.iter().sum();
@@ -921,9 +942,43 @@ impl Backend for PagedBackend {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use pbt_ref::tree::{CommitSink, PbtTree, RewriteStats};
 
     fn key(i: u32) -> Vec<u8> {
         i.to_be_bytes().to_vec()
+    }
+
+    /// The page stream holds exactly the pages a block writes.
+    #[test]
+    fn page_stream_counts_written_pages() {
+        let mut tree = PbtTree::new();
+        let mut keys = Vec::new();
+        for i in 0..64u32 {
+            let mut k = vec![0u8; 34];
+            k[1..5].copy_from_slice(&i.wrapping_mul(0x9E37_79B9).to_be_bytes());
+            keys.push(k);
+        }
+        for k in &keys {
+            tree.write(k, &[1u8; 32]);
+        }
+        let mut genesis = CommitSink::default();
+        tree.commit(&mut RewriteStats::default(), Some(&mut genesis));
+        let mut b = PagedBackend::with_packing(None, 0, Packing::Positional);
+        b.core.elision = false;
+        b.record_index_stream();
+        b.commit_block(&genesis);
+        let (curve1, len1) = b.index_curve().unwrap();
+        assert!(len1 > 0 && !curve1.is_empty());
+        let w1 = b.metrics().rand_page_writes;
+        let mut sink = CommitSink::default();
+        tree.write(&keys[7], &[2u8; 32]);
+        tree.commit(&mut RewriteStats::default(), Some(&mut sink));
+        b.commit_block(&sink);
+        let (_, len2) = b.index_curve().unwrap();
+        // No fresh page, so no meta-map page: the stream grows by exactly
+        // the pages this block wrote.
+        assert_eq!(len2 - len1, b.metrics().rand_page_writes - w1);
+        assert!(len2 > len1);
     }
 
     /// A leaf page splits only when it overflows, the two halves keep every

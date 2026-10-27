@@ -163,6 +163,37 @@ fn count_under(tag: u8, region: &[u8], n: u64, path: &[u8], nbits: usize) -> u64
     c
 }
 
+/// `count_under` for every prefix length `0..=nbits` of `path`, in one
+/// walk: `out[i]` is the count under the first `i` bits.
+fn count_along(tag: u8, region: &[u8], n: u64, path: &[u8], nbits: usize) -> Vec<u64> {
+    let mut out = Vec::with_capacity(nbits + 1);
+    let mut c = n;
+    for i in 0..nbits {
+        out.push(c);
+        match c {
+            0 => {
+                out.resize(nbits + 1, 0);
+                return out;
+            }
+            1 => {
+                let lone = lone_key(tag, region, path, i);
+                let mut ok = true;
+                for j in i..nbits {
+                    ok = ok && bit(&lone, j) == bit(path, j);
+                    out.push(ok as u64);
+                }
+                return out;
+            }
+            _ => {
+                let (c0, c1) = split(&seed(tag, region, path, i), c);
+                c = if bit(path, i) == 0 { c0 } else { c1 };
+            }
+        }
+    }
+    out.push(c);
+    out
+}
+
 /// The leftmost untouched key under the first `nbits` of `prefix`, given
 /// that `c >= 1` of them are there.
 fn leftmost(
@@ -362,6 +393,19 @@ impl MainnetShape {
             .map_or(0, |c| c.untouched_stems)
     }
 
+    /// Leaves of one zone, as `keys_under` counts them at the zone byte.
+    fn zone_total(&self, zone: u8) -> u64 {
+        match zone {
+            ACCOUNT_ZONE => self.scale.accounts * 2,
+            CODE_ZONE => self.scale.code_chunks(),
+            STORAGE_ZONE => {
+                self.scale.storage_contracts * self.scale.neighbor_slots()
+                    + self.running.last().copied().unwrap_or(0)
+            }
+            _ => 0,
+        }
+    }
+
     /// Slots of written contracts whose hash starts with `nbits` of `path`.
     fn written_slots_under(&self, path: &[u8], nbits: usize) -> u64 {
         let nbits = nbits.min(256);
@@ -435,6 +479,95 @@ impl StateShape for MainnetShape {
             CODE_ZONE => self.scale.code_chunks() >> rest.min(63),
             _ => 0,
         }
+    }
+
+    /// `keys_under` at every prefix length, one walk per region instead of
+    /// one per prefix. Agrees with `keys_under` from the zone byte down;
+    /// above it, the zones whose byte starts with the prefix are summed,
+    /// which puts the zones in key order (`keys_under` answers the whole
+    /// state there).
+    fn keys_along(&self, path: &[u8]) -> Vec<u64> {
+        let nbits = u16::from_be_bytes([path[0], path[1]]) as usize;
+        let body = &path[2..];
+        let mut out = Vec::with_capacity(nbits + 1);
+        let zone = body.first().copied().unwrap_or(0);
+        for i in 0..=nbits.min(8) {
+            let mask = if i == 0 { 0 } else { 0xFFu8 << (8 - i) };
+            out.push(
+                [ACCOUNT_ZONE, CODE_ZONE, STORAGE_ZONE]
+                    .iter()
+                    .filter(|z| **z & mask == zone & mask)
+                    .map(|z| self.zone_total(*z))
+                    .sum(),
+            );
+        }
+        if nbits <= 8 {
+            return out;
+        }
+        let rest = nbits - 8;
+        match body[0] {
+            ACCOUNT_ZONE => {
+                let stems = count_along(
+                    REGION_ACCOUNTS,
+                    &[],
+                    self.scale.accounts,
+                    &body[1..],
+                    rest.min(256),
+                );
+                for r in 1..=rest {
+                    out.push(if r > 256 {
+                        stems[256].min(1)
+                    } else {
+                        stems[r] * 2
+                    });
+                }
+            }
+            STORAGE_ZONE => {
+                let top = rest.min(256);
+                let others = count_along(
+                    REGION_CONTRACTS,
+                    &[],
+                    self.scale.storage_contracts,
+                    &body[1..],
+                    top,
+                );
+                for r in 1..=top {
+                    out.push(
+                        others[r] * self.scale.neighbor_slots()
+                            + self.written_slots_under(&body[1..], r),
+                    );
+                }
+                if rest > 256 {
+                    match self.contract(&body[1..33]) {
+                        None => out.resize(nbits + 1, 0),
+                        Some(c) => {
+                            let stems = count_along(
+                                REGION_GROUPS,
+                                &body[1..33],
+                                c.untouched_stems,
+                                &body[33..],
+                                (rest - 256).min(256),
+                            );
+                            for g in 1..=(rest - 256) {
+                                let untouched = if g > 256 {
+                                    stems[256].min(1)
+                                } else {
+                                    (stems[g] as f64 * c.slots_per_stem) as u64
+                                };
+                                out.push(untouched + c.written_under(&body[33..], g));
+                            }
+                        }
+                    }
+                }
+            }
+            CODE_ZONE => {
+                for r in 1..=rest {
+                    out.push(self.scale.code_chunks() >> r.min(63));
+                }
+            }
+            _ => out.resize(nbits + 1, 0),
+        }
+        out
     }
 
     fn value_leaf_page(&self, key: &[u8]) -> u64 {
@@ -1019,6 +1152,60 @@ pub fn load(
 mod tests {
     use super::*;
     use pbt_ref::tree::{CommitSink, PbtTree, RecordKind, RecordOp, RewriteStats};
+    use pbt_store::shape::prefix_path;
+
+    /// `keys_along` is `keys_under` at every prefix length, from the zone
+    /// byte down, for every kind of path a replay asks about.
+    #[test]
+    fn keys_along_agrees_with_keys_under() {
+        let scale = Scale {
+            accounts: 1000,
+            storage_slots: 50_000,
+            storage_contracts: 100,
+            code_bytes: 31 * 1000,
+            neighbor_slots: None,
+        };
+        let written_addr = [7u8; 32];
+        let written_hash = key_hash(&written_addr);
+        let slot_a = get_tree_key_for_storage_slot(&written_addr, &slot_from_u64(100));
+        let slot_b = get_tree_key_for_storage_slot(&written_addr, &slot_from_u64(900));
+        let mut written: Vec<[u8; 33]> = [&slot_a, &slot_b]
+            .iter()
+            .map(|k| k[33..66].try_into().unwrap())
+            .collect();
+        written.sort_unstable();
+        let mut contracts = HashMap::new();
+        contracts.insert(
+            written_hash,
+            Contract {
+                untouched_stems: 5,
+                slots_per_stem: 3.0,
+                written,
+            },
+        );
+        let shape = MainnetShape::new(scale, contracts);
+        let other_addr = [9u8; 32];
+        let paths = [
+            get_tree_key_for_basic_data(&written_addr),
+            slot_a.clone(),
+            get_tree_key_for_storage_slot(&other_addr, &slot_from_u64(1)),
+            [&[CODE_ZONE][..], &[0x5Au8; 33][..]].concat(),
+        ];
+        for key in paths {
+            let path = pbt_store::btree::key_path(&key);
+            let nbits = key.len() * 8;
+            let along = shape.keys_along(&path);
+            assert_eq!(along.len(), nbits + 1);
+            for i in 8..=nbits {
+                assert_eq!(
+                    along[i],
+                    shape.keys_under(&prefix_path(&path, i)),
+                    "zone {:#x} at {i} bits",
+                    key[0]
+                );
+            }
+        }
+    }
 
     /// Every key of the set the splits define, by walking all of them.
     fn enumerate(tag: u8, region: &[u8], n: u64) -> Vec<[u8; 32]> {

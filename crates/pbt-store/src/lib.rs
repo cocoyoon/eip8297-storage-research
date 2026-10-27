@@ -13,6 +13,7 @@
 //! - `kv` (libmdbx): fully real, reads included -- the production control.
 
 pub mod append;
+pub mod btree;
 pub mod kv;
 pub mod lsm;
 pub mod mrc;
@@ -190,7 +191,8 @@ pub trait Backend {
     /// `present` is false when the key does not exist (the read returned
     /// zero). Default: not modeled.
     fn serve_state_read(&mut self, _key: &[u8], _present: bool) {}
-    /// Start keeping the ids of index updates, in order (log store only).
+    /// Start keeping the ids of index updates, in order (stores that keep
+    /// one: the log store's index entries, the page store's pages).
     fn record_index_stream(&mut self) {}
     /// Distinct ids per power-of-two window of the index updates since
     /// `record_index_stream`, and how many updates there were.

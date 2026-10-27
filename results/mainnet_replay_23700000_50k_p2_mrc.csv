@@ -1,0 +1,2271 @@
+store,capacity_entries,dram_mb,write_path_reads_per_block_lo,write_path_reads_per_block_hi
+page with NOMT value store,0,1040.247,5301.948,5301.948
+page with NOMT value store,4,1040.262,4968.264,4968.264
+page with NOMT value store,8,1040.278,4966.552,4966.552
+page with NOMT value store,12,1040.294,4965.892,4965.892
+page with NOMT value store,16,1040.309,4965.464,4965.464
+page with NOMT value store,20,1040.325,4965.188,4965.188
+page with NOMT value store,24,1040.341,4964.896,4964.896
+page with NOMT value store,28,1040.356,4964.740,4964.740
+page with NOMT value store,32,1040.372,4964.652,4964.652
+page with NOMT value store,36,1040.388,4964.616,4964.616
+page with NOMT value store,40,1040.403,4964.536,4964.536
+page with NOMT value store,44,1040.419,4964.408,4964.408
+page with NOMT value store,48,1040.435,4964.276,4964.276
+page with NOMT value store,52,1040.451,4964.160,4964.160
+page with NOMT value store,56,1040.466,4964.016,4964.016
+page with NOMT value store,60,1040.482,4963.916,4963.916
+page with NOMT value store,64,1040.498,4963.732,4963.732
+page with NOMT value store,68,1040.513,4963.672,4963.672
+page with NOMT value store,76,1040.545,4963.480,4963.480
+page with NOMT value store,80,1040.560,4963.432,4963.432
+page with NOMT value store,88,1040.592,4963.220,4963.220
+page with NOMT value store,96,1040.623,4963.036,4963.036
+page with NOMT value store,100,1040.639,4962.916,4962.916
+page with NOMT value store,112,1040.686,4962.588,4962.588
+page with NOMT value store,120,1040.717,4962.312,4962.312
+page with NOMT value store,128,1040.749,4961.948,4961.948
+page with NOMT value store,140,1040.796,4961.372,4961.372
+page with NOMT value store,152,1040.843,4960.756,4960.756
+page with NOMT value store,164,1040.890,4960.084,4960.084
+page with NOMT value store,176,1040.937,4959.252,4959.252
+page with NOMT value store,192,1041.000,4957.692,4957.692
+page with NOMT value store,204,1041.047,4956.156,4956.156
+page with NOMT value store,224,1041.125,4952.824,4952.824
+page with NOMT value store,240,1041.188,4949.676,4949.676
+page with NOMT value store,260,1041.266,4944.316,4944.316
+page with NOMT value store,280,1041.345,4937.764,4937.764
+page with NOMT value store,304,1041.439,4928.220,4928.220
+page with NOMT value store,328,1041.533,4916.500,4916.500
+page with NOMT value store,356,1041.643,4902.280,4902.280
+page with NOMT value store,384,1041.752,4888.512,4888.512
+page with NOMT value store,412,1041.862,4876.432,4876.432
+page with NOMT value store,448,1042.003,4862.032,4862.032
+page with NOMT value store,484,1042.145,4851.336,4851.336
+page with NOMT value store,520,1042.286,4842.768,4842.768
+page with NOMT value store,564,1042.458,4834.812,4834.812
+page with NOMT value store,608,1042.631,4829.048,4829.048
+page with NOMT value store,656,1042.819,4824.672,4824.672
+page with NOMT value store,708,1043.023,4821.688,4821.688
+page with NOMT value store,768,1043.258,4818.556,4818.556
+page with NOMT value store,828,1043.494,4815.492,4815.492
+page with NOMT value store,896,1043.760,4813.044,4813.044
+page with NOMT value store,968,1044.043,4811.464,4811.464
+page with NOMT value store,1044,1044.341,4809.640,4809.640
+page with NOMT value store,1128,1044.670,4808.124,4808.124
+page with NOMT value store,1220,1045.031,4806.760,4806.760
+page with NOMT value store,1316,1045.407,4805.560,4805.560
+page with NOMT value store,1420,1045.815,4804.604,4804.604
+page with NOMT value store,1536,1046.270,4803.668,4803.668
+page with NOMT value store,1656,1046.741,4802.980,4802.980
+page with NOMT value store,1792,1047.274,4802.068,4802.068
+page with NOMT value store,1936,1047.839,4801.104,4801.104
+page with NOMT value store,2088,1048.435,4800.128,4800.128
+page with NOMT value store,2256,1049.094,4798.440,4798.440
+page with NOMT value store,2436,1049.799,4795.784,4795.784
+page with NOMT value store,2632,1050.568,4792.028,4792.028
+page with NOMT value store,2844,1051.399,4785.844,4785.844
+page with NOMT value store,3072,1052.293,4775.244,4775.244
+page with NOMT value store,3316,1053.250,4756.032,4756.032
+page with NOMT value store,3580,1054.286,4721.972,4721.972
+page with NOMT value store,3868,1055.415,4663.792,4663.792
+page with NOMT value store,4176,1056.623,4562.328,4562.328
+page with NOMT value store,4512,1057.940,4416.072,4416.072
+page with NOMT value store,4872,1059.352,4258.560,4258.560
+page with NOMT value store,5264,1060.889,4117.336,4117.336
+page with NOMT value store,5684,1062.536,4017.056,4017.056
+page with NOMT value store,6140,1064.325,3954.944,3954.944
+page with NOMT value store,6632,1066.254,3906.792,3906.792
+page with NOMT value store,7160,1068.325,3856.652,3856.652
+page with NOMT value store,7736,1070.583,3777.708,3777.708
+page with NOMT value store,8352,1072.999,3683.132,3683.132
+page with NOMT value store,9020,1075.619,3596.280,3596.280
+page with NOMT value store,9744,1078.458,3530.232,3530.232
+page with NOMT value store,10524,1081.517,3476.032,3476.032
+page with NOMT value store,11364,1084.811,3410.696,3410.696
+page with NOMT value store,12276,1088.387,3334.716,3334.716
+page with NOMT value store,13256,1092.230,3269.516,3269.516
+page with NOMT value store,14316,1096.387,3205.412,3205.412
+page with NOMT value store,15464,1100.889,3139.332,3139.332
+page with NOMT value store,16700,1105.736,3074.248,3074.248
+page with NOMT value store,18036,1110.975,3008.812,3008.812
+page with NOMT value store,19480,1116.638,2940.696,2940.696
+page with NOMT value store,21040,1122.755,2877.136,2877.136
+page with NOMT value store,22720,1129.343,2814.360,2814.360
+page with NOMT value store,24540,1136.480,2752.064,2752.064
+page with NOMT value store,26504,1144.182,2691.008,2691.008
+page with NOMT value store,28624,1152.496,2631.828,2631.828
+page with NOMT value store,30912,1161.468,2573.552,2573.552
+page with NOMT value store,33388,1171.178,2515.280,2515.280
+page with NOMT value store,36056,1181.641,2460.208,2460.208
+page with NOMT value store,38944,1192.966,2406.480,2406.480
+page with NOMT value store,42060,1205.185,2353.572,2353.572
+page with NOMT value store,45424,1218.377,2299.952,2299.952
+page with NOMT value store,49056,1232.620,2249.620,2249.620
+page with NOMT value store,52980,1248.008,2198.756,2198.756
+page with NOMT value store,57220,1264.635,2146.400,2146.400
+page with NOMT value store,61800,1282.596,2095.416,2095.416
+page with NOMT value store,66744,1301.984,2043.496,2043.496
+page with NOMT value store,72080,1322.909,1991.748,1991.748
+page with NOMT value store,77848,1345.528,1942.396,1942.396
+page with NOMT value store,84076,1369.951,1892.912,1892.912
+page with NOMT value store,90804,1396.335,1844.940,1844.940
+page with NOMT value store,98068,1424.821,1797.828,1797.828
+page with NOMT value store,105912,1455.581,1751.536,1751.536
+page with NOMT value store,114384,1488.804,1707.396,1707.396
+page with NOMT value store,123536,1524.694,1663.216,1663.216
+page with NOMT value store,133420,1563.454,1619.988,1619.988
+page with NOMT value store,144092,1605.305,1576.860,1576.860
+page with NOMT value store,155620,1650.512,1530.716,1530.716
+page with NOMT value store,168072,1699.342,1484.712,1484.712
+page with NOMT value store,181516,1752.063,1441.072,1441.072
+page with NOMT value store,196040,1809.019,1399.568,1399.568
+page with NOMT value store,211720,1870.508,1359.472,1359.472
+page with NOMT value store,228660,1936.939,1324.892,1324.892
+page with NOMT value store,246952,2008.671,1289.072,1289.072
+page with NOMT value store,266708,2086.144,1251.200,1251.200
+page with NOMT value store,288044,2169.814,1215.272,1215.272
+page with NOMT value store,311088,2260.181,1181.308,1181.308
+page with NOMT value store,335976,2357.779,1150.608,1150.608
+page with NOMT value store,362856,2463.190,1117.588,1117.588
+page with NOMT value store,391884,2577.023,1083.436,1083.436
+page with NOMT value store,423236,2699.970,1052.560,1052.560
+page with NOMT value store,457092,2832.737,1021.872,1021.872
+page with NOMT value store,493660,2976.139,995.108,995.108
+page with NOMT value store,533152,3131.007,970.188,970.188
+page with NOMT value store,575808,3298.283,945.576,945.576
+page with NOMT value store,621872,3478.923,922.176,922.176
+page with NOMT value store,671620,3674.010,898.600,898.600
+page with NOMT value store,725352,3884.721,874.940,874.940
+page with NOMT value store,783380,4112.278,853.016,853.016
+page with NOMT value store,846048,4358.031,831.272,831.272
+page with NOMT value store,913732,4623.455,810.352,810.352
+page with NOMT value store,986832,4910.117,788.964,788.964
+page with NOMT value store,1065780,5219.712,768.592,768.592
+page with NOMT value store,1151040,5554.060,749.556,749.556
+page with NOMT value store,1243124,5915.168,729.184,729.184
+page with NOMT value store,1342576,6305.170,709.896,709.896
+page with NOMT value store,1449980,6726.356,688.288,688.288
+page with NOMT value store,1565980,7181.251,666.908,666.908
+page with NOMT value store,1691256,7672.522,647.500,647.500
+page with NOMT value store,1826560,8203.118,628.564,628.564
+page with NOMT value store,1972684,8776.144,609.612,609.612
+page with NOMT value store,2130500,9395.021,590.788,590.788
+page with NOMT value store,2300940,10063.403,570.528,570.528
+page with NOMT value store,2485012,10785.243,550.556,550.556
+page with NOMT value store,2683816,11564.855,530.068,530.068
+page with NOMT value store,2898520,12406.818,509.524,509.524
+page with NOMT value store,3130400,13316.138,489.088,489.088
+page with NOMT value store,3380836,14298.225,468.220,468.220
+page with NOMT value store,3651300,15358.852,446.156,446.156
+page with NOMT value store,3943404,16504.340,422.408,422.408
+page with NOMT value store,4258876,17741.466,393.500,393.500
+page with NOMT value store,4599588,19077.571,367.168,367.168
+page with NOMT value store,4967556,20520.561,343.360,343.360
+page with NOMT value store,5364960,22078.984,325.512,325.512
+page with NOMT value store,5794156,23762.080,306.912,306.912
+page with NOMT value store,6257688,25579.825,285.024,285.024
+page with NOMT value store,6758304,27542.995,259.496,259.496
+page with NOMT value store,7298968,29663.214,240.532,240.532
+page with NOMT value store,7882888,31953.061,221.184,221.184
+page with NOMT value store,8513520,34426.090,201.764,201.764
+page with NOMT value store,9194600,37096.951,183.876,183.876
+page with NOMT value store,9930168,39981.488,167.372,167.372
+page with NOMT value store,10724584,43096.797,154.260,154.260
+page with NOMT value store,11582548,46461.310,143.768,143.768
+page with NOMT value store,12509152,50094.996,131.904,131.904
+page with NOMT value store,12793424,51209.771,128.740,128.740
+page with NOMT value store,13509884,54019.375,0.000,127.948
+page with NOMT value store,14590676,58257.711,0.000,127.948
+page with NOMT value store,15757932,62835.115,0.000,127.948
+page with NOMT value store,17018564,67778.695,0.000,127.948
+page with NOMT value store,18380052,73117.782,0.000,127.948
+page with NOMT value store,19850456,78883.984,0.000,127.948
+page with NOMT value store,21438492,85111.481,0.000,127.948
+page with NOMT value store,23153572,91837.183,0.000,127.948
+page with NOMT value store,25005856,99100.931,0.000,127.948
+page with NOMT value store,27006324,106945.784,0.000,127.948
+page with NOMT value store,29166832,115418.235,0.000,127.948
+page with NOMT value store,31500180,124568.479,0.000,127.948
+page with NOMT value store,34020192,134450.729,0.000,127.948
+page with NOMT value store,36741808,145123.570,0.000,127.948
+page with NOMT value store,39681152,156650.233,0.000,127.948
+page with NOMT value store,42855644,169099.031,0.000,127.948
+page with NOMT value store,46284096,182543.736,0.000,127.948
+page with NOMT value store,49986824,197064.016,0.000,127.948
+page with NOMT value store,53985772,212745.926,0.000,127.948
+page with NOMT value store,58304632,229682.373,0.000,127.948
+page with NOMT value store,62969004,247973.749,0.000,127.948
+page with NOMT value store,68006524,267728.428,0.000,127.948
+page with NOMT value store,73447048,289063.491,0.000,127.948
+page with NOMT value store,79322812,312105.351,0.000,127.948
+page with NOMT value store,85668636,336990.556,0.000,127.948
+page with NOMT value store,92522128,363866.585,0.000,127.948
+page with NOMT value store,99923896,392892.683,0.000,127.948
+page with NOMT value store,107917808,424240.879,0.000,127.948
+page with NOMT value store,116551236,458096.943,0.000,127.948
+page with NOMT value store,125875332,494661.467,0.000,127.948
+page with NOMT value store,135945360,534151.171,0.000,127.948
+page with NOMT value store,146820988,576800.041,0.000,127.948
+page with NOMT value store,148925816,585054.143,0.000,127.948
+log with index in DRAM,0,73657.992,21077.224,21077.224
+log with index in DRAM,4,73657.992,21077.224,21077.224
+log with index in DRAM,8,73657.993,21077.220,21077.220
+log with index in DRAM,12,73657.993,21077.220,21077.220
+log with index in DRAM,16,73657.993,21077.220,21077.220
+log with index in DRAM,20,73657.994,21077.220,21077.220
+log with index in DRAM,24,73657.994,21077.220,21077.220
+log with index in DRAM,28,73657.994,21077.220,21077.220
+log with index in DRAM,32,73657.995,21077.220,21077.220
+log with index in DRAM,36,73657.995,21077.220,21077.220
+log with index in DRAM,40,73657.995,21077.220,21077.220
+log with index in DRAM,44,73657.996,21077.220,21077.220
+log with index in DRAM,48,73657.996,21077.220,21077.220
+log with index in DRAM,52,73657.996,21077.220,21077.220
+log with index in DRAM,56,73657.997,21077.220,21077.220
+log with index in DRAM,60,73657.997,21077.220,21077.220
+log with index in DRAM,64,73657.997,21077.220,21077.220
+log with index in DRAM,68,73657.998,21077.220,21077.220
+log with index in DRAM,76,73657.998,21077.220,21077.220
+log with index in DRAM,80,73657.999,21077.220,21077.220
+log with index in DRAM,88,73657.999,21077.220,21077.220
+log with index in DRAM,96,73658.000,21077.220,21077.220
+log with index in DRAM,100,73658.000,21077.220,21077.220
+log with index in DRAM,112,73658.001,21077.220,21077.220
+log with index in DRAM,120,73658.002,21077.220,21077.220
+log with index in DRAM,128,73658.003,21077.220,21077.220
+log with index in DRAM,140,73658.004,21077.220,21077.220
+log with index in DRAM,152,73658.005,21077.220,21077.220
+log with index in DRAM,164,73658.006,21077.220,21077.220
+log with index in DRAM,176,73658.007,21077.220,21077.220
+log with index in DRAM,192,73658.008,21077.220,21077.220
+log with index in DRAM,204,73658.009,21077.220,21077.220
+log with index in DRAM,224,73658.011,21077.220,21077.220
+log with index in DRAM,240,73658.012,21077.220,21077.220
+log with index in DRAM,260,73658.014,21077.220,21077.220
+log with index in DRAM,280,73658.015,21077.220,21077.220
+log with index in DRAM,304,73658.017,21077.220,21077.220
+log with index in DRAM,328,73658.020,21077.220,21077.220
+log with index in DRAM,356,73658.022,21077.220,21077.220
+log with index in DRAM,384,73658.024,21077.220,21077.220
+log with index in DRAM,412,73658.027,21077.220,21077.220
+log with index in DRAM,448,73658.030,21077.216,21077.216
+log with index in DRAM,484,73658.033,21077.216,21077.216
+log with index in DRAM,520,73658.036,21077.216,21077.216
+log with index in DRAM,564,73658.039,21077.204,21077.204
+log with index in DRAM,608,73658.043,21077.200,21077.200
+log with index in DRAM,656,73658.047,21077.172,21077.172
+log with index in DRAM,708,73658.051,21077.144,21077.144
+log with index in DRAM,768,73658.056,21077.088,21077.088
+log with index in DRAM,828,73658.061,21076.996,21076.996
+log with index in DRAM,896,73658.067,21076.932,21076.932
+log with index in DRAM,968,73658.073,21076.824,21076.824
+log with index in DRAM,1044,73658.080,21076.728,21076.728
+log with index in DRAM,1128,73658.087,21076.628,21076.628
+log with index in DRAM,1220,73658.094,21076.520,21076.520
+log with index in DRAM,1316,73658.102,21076.408,21076.408
+log with index in DRAM,1420,73658.111,21076.288,21076.288
+log with index in DRAM,1536,73658.121,21076.180,21076.180
+log with index in DRAM,1656,73658.131,21076.056,21076.056
+log with index in DRAM,1792,73658.142,21075.992,21075.992
+log with index in DRAM,1936,73658.154,21075.888,21075.888
+log with index in DRAM,2088,73658.167,21075.764,21075.764
+log with index in DRAM,2256,73658.181,21075.636,21075.636
+log with index in DRAM,2436,73658.196,21075.504,21075.504
+log with index in DRAM,2632,73658.213,21075.400,21075.400
+log with index in DRAM,2844,73658.231,21075.308,21075.308
+log with index in DRAM,3072,73658.250,21075.232,21075.232
+log with index in DRAM,3316,73658.270,21075.180,21075.180
+log with index in DRAM,3580,73658.292,21075.072,21075.072
+log with index in DRAM,3868,73658.317,21074.984,21074.984
+log with index in DRAM,4176,73658.342,21074.956,21074.956
+log with index in DRAM,4512,73658.371,21074.876,21074.876
+log with index in DRAM,4872,73658.401,21074.808,21074.808
+log with index in DRAM,5264,73658.434,21074.644,21074.644
+log with index in DRAM,5684,73658.469,21074.440,21074.440
+log with index in DRAM,6140,73658.507,21074.004,21074.004
+log with index in DRAM,6632,73658.549,21073.228,21073.228
+log with index in DRAM,7160,73658.593,21071.756,21071.756
+log with index in DRAM,7736,73658.641,21070.412,21070.412
+log with index in DRAM,8352,73658.693,21067.480,21067.480
+log with index in DRAM,9020,73658.749,21062.956,21062.956
+log with index in DRAM,9744,73658.810,21056.840,21056.840
+log with index in DRAM,10524,73658.875,21049.224,21049.224
+log with index in DRAM,11364,73658.946,21040.192,21040.192
+log with index in DRAM,12276,73659.022,21027.492,21027.492
+log with index in DRAM,13256,73659.104,21008.612,21008.612
+log with index in DRAM,14316,73659.193,20980.880,20980.880
+log with index in DRAM,15464,73659.290,20917.936,20917.936
+log with index in DRAM,16700,73659.394,20784.116,20784.116
+log with index in DRAM,18036,73659.506,20517.280,20517.280
+log with index in DRAM,19480,73659.627,20079.992,20079.992
+log with index in DRAM,21040,73659.758,19509.500,19509.500
+log with index in DRAM,22720,73659.899,18906.596,18906.596
+log with index in DRAM,24540,73660.051,18441.112,18441.112
+log with index in DRAM,26504,73660.216,18132.328,18132.328
+log with index in DRAM,28624,73660.394,17926.860,17926.860
+log with index in DRAM,30912,73660.586,17759.196,17759.196
+log with index in DRAM,33388,73660.794,17542.744,17542.744
+log with index in DRAM,36056,73661.018,17219.404,17219.404
+log with index in DRAM,38944,73661.260,16812.468,16812.468
+log with index in DRAM,42060,73661.522,16445.724,16445.724
+log with index in DRAM,45424,73661.804,16187.192,16187.192
+log with index in DRAM,49056,73662.109,15962.996,15962.996
+log with index in DRAM,52980,73662.438,15665.608,15665.608
+log with index in DRAM,57220,73662.794,15333.100,15333.100
+log with index in DRAM,61800,73663.178,15041.764,15041.764
+log with index in DRAM,66744,73663.593,14765.092,14765.092
+log with index in DRAM,72080,73664.041,14453.096,14453.096
+log with index in DRAM,77848,73664.525,14146.136,14146.136
+log with index in DRAM,84076,73665.048,13852.932,13852.932
+log with index in DRAM,90804,73665.613,13532.836,13532.836
+log with index in DRAM,98068,73666.222,13217.964,13217.964
+log with index in DRAM,105912,73666.880,12934.800,12934.800
+log with index in DRAM,114384,73667.591,12633.628,12633.628
+log with index in DRAM,123536,73668.360,12334.692,12334.692
+log with index in DRAM,133420,73669.189,12051.124,12051.124
+log with index in DRAM,144092,73670.085,11764.752,11764.752
+log with index in DRAM,155620,73671.052,11469.688,11469.688
+log with index in DRAM,168072,73672.097,11194.728,11194.728
+log with index in DRAM,181516,73673.225,10927.888,10927.888
+log with index in DRAM,196040,73674.444,10660.460,10660.460
+log with index in DRAM,211720,73675.760,10407.420,10407.420
+log with index in DRAM,228660,73677.182,10141.792,10141.792
+log with index in DRAM,246952,73678.717,9893.088,9893.088
+log with index in DRAM,266708,73680.375,9641.836,9641.836
+log with index in DRAM,288044,73682.166,9396.392,9396.392
+log with index in DRAM,311088,73684.100,9142.928,9142.928
+log with index in DRAM,335976,73686.188,8899.324,8899.324
+log with index in DRAM,362856,73688.444,8661.688,8661.688
+log with index in DRAM,391884,73690.880,8424.488,8424.488
+log with index in DRAM,423236,73693.511,8195.468,8195.468
+log with index in DRAM,457092,73696.353,7970.004,7970.004
+log with index in DRAM,493660,73699.422,7748.076,7748.076
+log with index in DRAM,533152,73702.736,7542.232,7542.232
+log with index in DRAM,575808,73706.316,7337.520,7337.520
+log with index in DRAM,621872,73710.182,7136.856,7136.856
+log with index in DRAM,671620,73714.357,6928.768,6928.768
+log with index in DRAM,725352,73718.866,6711.060,6711.060
+log with index in DRAM,783380,73723.736,6506.152,6506.152
+log with index in DRAM,846048,73728.995,6305.112,6305.112
+log with index in DRAM,913732,73734.675,6114.500,6114.500
+log with index in DRAM,986832,73740.810,5929.884,5929.884
+log with index in DRAM,1065780,73747.436,5773.952,5773.952
+log with index in DRAM,1151040,73754.591,5600.172,5600.172
+log with index in DRAM,1243124,73762.319,5428.220,5428.220
+log with index in DRAM,1342576,73770.665,5262.004,5262.004
+log with index in DRAM,1449980,73779.679,5117.060,5117.060
+log with index in DRAM,1565980,73789.414,4974.808,4974.808
+log with index in DRAM,1691256,73799.928,4821.312,4821.312
+log with index in DRAM,1826560,73811.283,4672.124,4672.124
+log with index in DRAM,1972684,73823.546,4526.660,4526.660
+log with index in DRAM,2130500,73836.791,4384.416,4384.416
+log with index in DRAM,2300940,73851.095,4262.484,4262.484
+log with index in DRAM,2485012,73866.542,4147.480,4147.480
+log with index in DRAM,2683816,73883.227,4033.748,4033.748
+log with index in DRAM,2898520,73901.245,3922.528,3922.528
+log with index in DRAM,3130400,73920.706,3813.608,3813.608
+log with index in DRAM,3380836,73941.723,3702.728,3702.728
+log with index in DRAM,3651300,73964.421,3603.312,3603.312
+log with index in DRAM,3943404,73988.936,3505.956,3505.956
+log with index in DRAM,4258876,74015.411,3409.304,3409.304
+log with index in DRAM,4599588,74044.005,3310.856,3310.856
+log with index in DRAM,4967556,74074.886,3220.224,3220.224
+log with index in DRAM,5364960,74108.237,3135.612,3135.612
+log with index in DRAM,5794156,74144.257,3044.500,3044.500
+log with index in DRAM,6257688,74183.158,2957.052,2957.052
+log with index in DRAM,6758304,74225.171,2861.656,2861.656
+log with index in DRAM,7298968,74270.546,2772.392,2772.392
+log with index in DRAM,7882888,74319.550,2690.128,2690.128
+log with index in DRAM,8513520,74372.475,2615.388,2615.388
+log with index in DRAM,9194600,74429.634,2544.952,2544.952
+log with index in DRAM,9930168,74491.365,2475.128,2475.128
+log with index in DRAM,10724584,74558.035,2404.724,2404.724
+log with index in DRAM,11582548,74630.038,2331.324,2331.324
+log with index in DRAM,12509152,74707.802,2259.644,2259.644
+log with index in DRAM,13509884,74791.787,2192.216,2192.216
+log with index in DRAM,14590676,74882.490,2121.188,2121.188
+log with index in DRAM,15757932,74980.450,2054.260,2054.260
+log with index in DRAM,17018564,75086.247,1983.140,1983.140
+log with index in DRAM,18380052,75200.507,1907.988,1907.988
+log with index in DRAM,19850456,75323.909,1813.116,1813.116
+log with index in DRAM,21438492,75457.182,1728.936,1728.936
+log with index in DRAM,23153572,75601.117,1661.544,1661.544
+log with index in DRAM,25005856,75756.567,1606.724,1606.724
+log with index in DRAM,27006324,75924.453,1561.904,1561.904
+log with index in DRAM,29166832,76105.770,1515.140,1515.140
+log with index in DRAM,31500180,76301.592,1457.480,1457.480
+log with index in DRAM,34020192,76513.080,1383.160,1383.160
+log with index in DRAM,36741808,76741.487,1328.028,1328.028
+log with index in DRAM,39681152,76988.167,1280.856,1280.856
+log with index in DRAM,42855644,77254.581,1223.928,1223.928
+log with index in DRAM,46284096,77542.308,1165.392,1165.392
+log with index in DRAM,49986824,77853.053,1117.540,1117.540
+log with index in DRAM,53985772,78188.658,1063.344,1063.344
+log with index in DRAM,58304632,78551.111,1018.872,1018.872
+log with index in DRAM,62969004,78942.561,998.712,998.712
+log with index in DRAM,68006524,79365.327,963.228,963.228
+log with index in DRAM,73447048,79821.914,935.232,935.232
+log with index in DRAM,79322812,80315.027,896.152,896.152
+log with index in DRAM,81607288,80506.748,883.324,883.324
+log with index in DRAM,85668636,80847.590,0.000,879.216
+log with index in DRAM,92522128,81422.758,0.000,879.216
+log with index in DRAM,99923896,82043.939,0.000,879.216
+log with index in DRAM,107917808,82714.815,0.000,879.216
+log with index in DRAM,116551236,83439.361,0.000,879.216
+log with index in DRAM,125875332,84221.870,0.000,879.216
+log with index in DRAM,135945360,85066.981,0.000,879.216
+log with index in DRAM,146820988,85979.700,0.000,879.216
+log with index in DRAM,158566668,86965.436,0.000,879.216
+log with index in DRAM,171252004,88030.032,0.000,879.216
+log with index in DRAM,184952164,89179.795,0.000,879.216
+log with index in DRAM,199748336,90421.539,0.000,879.216
+log with index in DRAM,215728204,91762.623,0.000,879.216
+log with index in DRAM,232986460,93210.994,0.000,879.216
+log with index in DRAM,251625376,94775.234,0.000,879.216
+log with index in DRAM,271755408,96464.613,0.000,879.216
+log with index in DRAM,293495840,98289.143,0.000,879.216
+log with index in DRAM,316975508,100259.635,0.000,879.216
+log with index in DRAM,342333548,102387.767,0.000,879.216
+log with index in DRAM,369720232,104686.149,0.000,879.216
+log with index in DRAM,399297852,107168.401,0.000,879.216
+log with index in DRAM,431241680,109849.234,0.000,879.216
+log with index in DRAM,465741012,112744.533,0.000,879.216
+log with index in DRAM,503000292,115871.456,0.000,879.216
+log with index in DRAM,543240316,119248.534,0.000,879.216
+log with index in DRAM,586699544,122895.777,0.000,879.216
+log with index in DRAM,633635508,126834.800,0.000,879.216
+log with index in DRAM,684326348,131088.945,0.000,879.216
+log with index in DRAM,739072456,135683.421,0.000,879.216
+log with index in DRAM,798198252,140645.455,0.000,879.216
+log with index in DRAM,862054112,146004.452,0.000,879.216
+log with index in DRAM,931018440,151792.169,0.000,879.216
+log with index in DRAM,1005499916,158042.903,0.000,879.216
+log with index in DRAM,1085939912,164793.696,0.000,879.216
+log with index in DRAM,1172815104,172084.553,0.000,879.216
+log with index in DRAM,1266640312,179958.677,0.000,879.216
+log with index in DRAM,1367971536,188462.732,0.000,879.216
+log with index in DRAM,1477409260,197647.111,0.000,879.216
+log with index in DRAM,1595602000,207566.241,0.000,879.216
+log with index in DRAM,1723250160,218278.901,0.000,879.216
+log with index in DRAM,1861110172,229848.573,0.000,879.216
+log with index in DRAM,2009998988,242343.820,0.000,879.216
+log with index in DRAM,2170798908,255838.686,0.000,879.216
+log with index in DRAM,2344462820,270413.142,0.000,879.216
+log with index in DRAM,2532019844,286153.554,0.000,879.216
+log with index in DRAM,2734581432,303153.199,0.000,879.216
+log with index in DRAM,2953347948,321512.815,0.000,879.216
+log with index in DRAM,3189615784,341341.201,0.000,879.216
+log with index in DRAM,3444785048,362755.858,0.000,879.216
+log with index in DRAM,3720367852,385883.688,0.000,879.216
+log with index in DRAM,4017997280,410861.743,0.000,879.216
+log with index in DRAM,4339437060,437838.043,0.000,879.216
+log with index in DRAM,4686592028,466972.447,0.000,879.216
+log with index in DRAM,5014844568,494520.497,0.000,879.216
+log with index on disk (1.5 B),0,7735.754,21077.224,21077.224
+log with index on disk (1.5 B),4,7735.755,21077.224,21077.224
+log with index on disk (1.5 B),8,7735.755,21077.220,21077.220
+log with index on disk (1.5 B),12,7735.755,21077.220,21077.220
+log with index on disk (1.5 B),16,7735.756,21077.220,21077.220
+log with index on disk (1.5 B),20,7735.756,21077.220,21077.220
+log with index on disk (1.5 B),24,7735.757,21077.220,21077.220
+log with index on disk (1.5 B),28,7735.757,21077.220,21077.220
+log with index on disk (1.5 B),32,7735.757,21077.220,21077.220
+log with index on disk (1.5 B),36,7735.758,21077.220,21077.220
+log with index on disk (1.5 B),40,7735.758,21077.220,21077.220
+log with index on disk (1.5 B),44,7735.758,21077.220,21077.220
+log with index on disk (1.5 B),48,7735.759,21077.220,21077.220
+log with index on disk (1.5 B),52,7735.759,21077.220,21077.220
+log with index on disk (1.5 B),56,7735.759,21077.220,21077.220
+log with index on disk (1.5 B),60,7735.760,21077.220,21077.220
+log with index on disk (1.5 B),64,7735.760,21077.220,21077.220
+log with index on disk (1.5 B),68,7735.761,21077.220,21077.220
+log with index on disk (1.5 B),76,7735.761,21077.220,21077.220
+log with index on disk (1.5 B),80,7735.762,21077.220,21077.220
+log with index on disk (1.5 B),88,7735.762,21077.220,21077.220
+log with index on disk (1.5 B),96,7735.763,21077.220,21077.220
+log with index on disk (1.5 B),100,7735.764,21077.220,21077.220
+log with index on disk (1.5 B),112,7735.765,21077.220,21077.220
+log with index on disk (1.5 B),120,7735.765,21077.220,21077.220
+log with index on disk (1.5 B),128,7735.766,21077.220,21077.220
+log with index on disk (1.5 B),140,7735.767,21077.220,21077.220
+log with index on disk (1.5 B),152,7735.768,21077.220,21077.220
+log with index on disk (1.5 B),164,7735.769,21077.220,21077.220
+log with index on disk (1.5 B),176,7735.770,21077.220,21077.220
+log with index on disk (1.5 B),192,7735.772,21077.220,21077.220
+log with index on disk (1.5 B),204,7735.773,21077.220,21077.220
+log with index on disk (1.5 B),224,7735.775,21077.220,21077.220
+log with index on disk (1.5 B),240,7735.776,21077.220,21077.220
+log with index on disk (1.5 B),260,7735.778,21077.220,21077.220
+log with index on disk (1.5 B),280,7735.780,21077.220,21077.220
+log with index on disk (1.5 B),304,7735.782,21077.220,21077.220
+log with index on disk (1.5 B),328,7735.784,21077.220,21077.220
+log with index on disk (1.5 B),356,7735.787,21077.220,21077.220
+log with index on disk (1.5 B),384,7735.790,21077.220,21077.220
+log with index on disk (1.5 B),412,7735.792,21077.220,21077.220
+log with index on disk (1.5 B),448,7735.795,21077.216,21077.216
+log with index on disk (1.5 B),484,7735.799,21077.216,21077.216
+log with index on disk (1.5 B),520,7735.802,21077.216,21077.216
+log with index on disk (1.5 B),564,7735.806,21077.204,21077.204
+log with index on disk (1.5 B),608,7735.810,21077.200,21077.200
+log with index on disk (1.5 B),656,7735.814,21077.172,21077.172
+log with index on disk (1.5 B),708,7735.819,21077.144,21077.144
+log with index on disk (1.5 B),768,7735.825,21077.088,21077.088
+log with index on disk (1.5 B),828,7735.830,21076.996,21076.996
+log with index on disk (1.5 B),896,7735.836,21076.932,21076.932
+log with index on disk (1.5 B),968,7735.843,21076.824,21076.824
+log with index on disk (1.5 B),1044,7735.850,21076.728,21076.728
+log with index on disk (1.5 B),1128,7735.858,21076.628,21076.628
+log with index on disk (1.5 B),1220,7735.866,21076.520,21076.520
+log with index on disk (1.5 B),1316,7735.875,21076.408,21076.408
+log with index on disk (1.5 B),1420,7735.884,21076.288,21076.288
+log with index on disk (1.5 B),1536,7735.895,21076.180,21076.180
+log with index on disk (1.5 B),1656,7735.906,21076.056,21076.056
+log with index on disk (1.5 B),1792,7735.918,21075.992,21075.992
+log with index on disk (1.5 B),1936,7735.932,21075.888,21075.888
+log with index on disk (1.5 B),2088,7735.946,21075.764,21075.764
+log with index on disk (1.5 B),2256,7735.961,21075.636,21075.636
+log with index on disk (1.5 B),2436,7735.977,21075.504,21075.504
+log with index on disk (1.5 B),2632,7735.995,21075.400,21075.400
+log with index on disk (1.5 B),2844,7736.015,21075.308,21075.308
+log with index on disk (1.5 B),3072,7736.036,21075.232,21075.232
+log with index on disk (1.5 B),3316,7736.058,21075.180,21075.180
+log with index on disk (1.5 B),3580,7736.082,21075.072,21075.072
+log with index on disk (1.5 B),3868,7736.108,21074.984,21074.984
+log with index on disk (1.5 B),4176,7736.137,21074.956,21074.956
+log with index on disk (1.5 B),4512,7736.167,21074.876,21074.876
+log with index on disk (1.5 B),4872,7736.200,21074.808,21074.808
+log with index on disk (1.5 B),5264,7736.236,21074.644,21074.644
+log with index on disk (1.5 B),5684,7736.275,21074.440,21074.440
+log with index on disk (1.5 B),6140,7736.316,21074.004,21074.004
+log with index on disk (1.5 B),6632,7736.362,21073.228,21073.228
+log with index on disk (1.5 B),7160,7736.410,21071.756,21071.756
+log with index on disk (1.5 B),7736,7736.463,21070.412,21070.412
+log with index on disk (1.5 B),8352,7736.519,21067.480,21067.480
+log with index on disk (1.5 B),9020,7736.580,21062.956,21062.956
+log with index on disk (1.5 B),9744,7736.646,21056.840,21056.840
+log with index on disk (1.5 B),10524,7736.718,21049.224,21049.224
+log with index on disk (1.5 B),11364,7736.795,21040.192,21040.192
+log with index on disk (1.5 B),12276,7736.878,21027.492,21027.492
+log with index on disk (1.5 B),13256,7736.968,21008.612,21008.612
+log with index on disk (1.5 B),14316,7737.065,20980.880,20980.880
+log with index on disk (1.5 B),15464,7737.170,20917.936,20917.936
+log with index on disk (1.5 B),16700,7737.283,20784.116,20784.116
+log with index on disk (1.5 B),18036,7737.406,20517.280,20517.280
+log with index on disk (1.5 B),19480,7737.538,20079.992,20079.992
+log with index on disk (1.5 B),21040,7737.681,19509.500,19509.500
+log with index on disk (1.5 B),22720,7737.834,18906.596,18906.596
+log with index on disk (1.5 B),24540,7738.001,18441.112,18441.112
+log with index on disk (1.5 B),26504,7738.181,18132.328,18132.328
+log with index on disk (1.5 B),28624,7738.375,17926.860,17926.860
+log with index on disk (1.5 B),30912,7738.584,17759.196,17759.196
+log with index on disk (1.5 B),33388,7738.811,17542.744,17542.744
+log with index on disk (1.5 B),36056,7739.055,17219.404,17219.404
+log with index on disk (1.5 B),38944,7739.320,16812.468,16812.468
+log with index on disk (1.5 B),42060,7739.605,16445.724,16445.724
+log with index on disk (1.5 B),45424,7739.913,16187.192,16187.192
+log with index on disk (1.5 B),49056,7740.246,15962.996,15962.996
+log with index on disk (1.5 B),52980,7740.605,15665.608,15665.608
+log with index on disk (1.5 B),57220,7740.993,15333.100,15333.100
+log with index on disk (1.5 B),61800,7741.412,15041.764,15041.764
+log with index on disk (1.5 B),66744,7741.865,14765.092,14765.092
+log with index on disk (1.5 B),72080,7742.353,14453.096,14453.096
+log with index on disk (1.5 B),77848,7742.882,14146.136,14146.136
+log with index on disk (1.5 B),84076,7743.452,13852.932,13852.932
+log with index on disk (1.5 B),90804,7744.068,13532.836,13532.836
+log with index on disk (1.5 B),98068,7744.733,13217.964,13217.964
+log with index on disk (1.5 B),105912,7745.451,12934.800,12934.800
+log with index on disk (1.5 B),114384,7746.227,12633.628,12633.628
+log with index on disk (1.5 B),123536,7747.064,12334.692,12334.692
+log with index on disk (1.5 B),133420,7747.969,12051.124,12051.124
+log with index on disk (1.5 B),144092,7748.946,11764.752,11764.752
+log with index on disk (1.5 B),155620,7750.002,11469.688,11469.688
+log with index on disk (1.5 B),168072,7751.142,11194.728,11194.728
+log with index on disk (1.5 B),181516,7752.373,10927.888,10927.888
+log with index on disk (1.5 B),196040,7753.702,10660.460,10660.460
+log with index on disk (1.5 B),211720,7755.138,10407.420,10407.420
+log with index on disk (1.5 B),228660,7756.689,10141.792,10141.792
+log with index on disk (1.5 B),246952,7758.363,9893.088,9893.088
+log with index on disk (1.5 B),266708,7760.172,9641.836,9641.836
+log with index on disk (1.5 B),288044,7762.126,9396.392,9396.392
+log with index on disk (1.5 B),311088,7764.235,9142.928,9142.928
+log with index on disk (1.5 B),335976,7766.514,8899.324,8899.324
+log with index on disk (1.5 B),362856,7768.975,8661.688,8661.688
+log with index on disk (1.5 B),391884,7771.632,8424.488,8424.488
+log with index on disk (1.5 B),423236,7774.503,8195.468,8195.468
+log with index on disk (1.5 B),457092,7777.602,7970.004,7970.004
+log with index on disk (1.5 B),493660,7780.950,7748.076,7748.076
+log with index on disk (1.5 B),533152,7784.566,7542.232,7542.232
+log with index on disk (1.5 B),575808,7788.471,7337.520,7337.520
+log with index on disk (1.5 B),621872,7792.688,7136.856,7136.856
+log with index on disk (1.5 B),671620,7797.243,6928.768,6928.768
+log with index on disk (1.5 B),725352,7802.162,6711.060,6711.060
+log with index on disk (1.5 B),783380,7807.475,6506.152,6506.152
+log with index on disk (1.5 B),846048,7813.212,6305.112,6305.112
+log with index on disk (1.5 B),913732,7819.409,6114.500,6114.500
+log with index on disk (1.5 B),986832,7826.102,5929.884,5929.884
+log with index on disk (1.5 B),1065780,7833.329,5773.952,5773.952
+log with index on disk (1.5 B),1151040,7841.135,5600.172,5600.172
+log with index on disk (1.5 B),1243124,7849.566,5428.220,5428.220
+log with index on disk (1.5 B),1342576,7858.671,5262.004,5262.004
+log with index on disk (1.5 B),1449980,7868.504,5117.060,5117.060
+log with index on disk (1.5 B),1565980,7879.124,4974.808,4974.808
+log with index on disk (1.5 B),1691256,7890.593,4821.312,4821.312
+log with index on disk (1.5 B),1826560,7902.981,4672.124,4672.124
+log with index on disk (1.5 B),1972684,7916.359,4526.660,4526.660
+log with index on disk (1.5 B),2130500,7930.807,4384.416,4384.416
+log with index on disk (1.5 B),2300940,7946.412,4262.484,4262.484
+log with index on disk (1.5 B),2485012,7963.264,4147.480,4147.480
+log with index on disk (1.5 B),2683816,7981.465,4033.748,4033.748
+log with index on disk (1.5 B),2898520,8001.122,3922.528,3922.528
+log with index on disk (1.5 B),3130400,8022.351,3813.608,3813.608
+log with index on disk (1.5 B),3380836,8045.279,3702.728,3702.728
+log with index on disk (1.5 B),3651300,8070.041,3603.312,3603.312
+log with index on disk (1.5 B),3943404,8096.784,3505.956,3505.956
+log with index on disk (1.5 B),4258876,8125.666,3409.304,3409.304
+log with index on disk (1.5 B),4599588,8156.859,3310.856,3310.856
+log with index on disk (1.5 B),4967556,8190.548,3220.224,3220.224
+log with index on disk (1.5 B),5364960,8226.931,3135.612,3135.612
+log with index on disk (1.5 B),5794156,8266.225,3044.500,3044.500
+log with index on disk (1.5 B),6257688,8308.663,2957.052,2957.052
+log with index on disk (1.5 B),6758304,8354.496,2861.656,2861.656
+log with index on disk (1.5 B),7298968,8403.995,2772.392,2772.392
+log with index on disk (1.5 B),7882888,8457.454,2690.128,2690.128
+log with index on disk (1.5 B),8513520,8515.190,2615.388,2615.388
+log with index on disk (1.5 B),9194600,8577.545,2544.952,2544.952
+log with index on disk (1.5 B),9930168,8644.888,2475.128,2475.128
+log with index on disk (1.5 B),10724584,8717.619,2404.724,2404.724
+log with index on disk (1.5 B),11582548,8796.168,2331.324,2331.324
+log with index on disk (1.5 B),12509152,8881.001,2259.644,2259.644
+log with index on disk (1.5 B),13509884,8972.621,2192.216,2192.216
+log with index on disk (1.5 B),14590676,9071.571,2121.188,2121.188
+log with index on disk (1.5 B),15757932,9178.436,2054.260,2054.260
+log with index on disk (1.5 B),17018564,9293.850,1983.140,1983.140
+log with index on disk (1.5 B),18380052,9418.498,1907.988,1907.988
+log with index on disk (1.5 B),19850456,9553.118,1813.116,1813.116
+log with index on disk (1.5 B),21438492,9698.507,1728.936,1728.936
+log with index on disk (1.5 B),23153572,9855.527,1661.544,1661.544
+log with index on disk (1.5 B),25005856,10025.109,1606.724,1606.724
+log with index on disk (1.5 B),27006324,10208.257,1561.904,1561.904
+log with index on disk (1.5 B),29166832,10406.058,1515.140,1515.140
+log with index on disk (1.5 B),31500180,10619.682,1457.480,1457.480
+log with index on disk (1.5 B),34020192,10850.396,1383.160,1383.160
+log with index on disk (1.5 B),36741808,11099.567,1328.028,1328.028
+log with index on disk (1.5 B),39681152,11368.672,1280.856,1280.856
+log with index on disk (1.5 B),42855644,11659.306,1223.928,1223.928
+log with index on disk (1.5 B),46284096,11973.190,1165.392,1165.392
+log with index on disk (1.5 B),49986824,12312.185,1117.540,1117.540
+log with index on disk (1.5 B),53985772,12678.299,1063.344,1063.344
+log with index on disk (1.5 B),58304632,13073.703,1018.872,1018.872
+log with index on disk (1.5 B),62969004,13500.739,998.712,998.712
+log with index on disk (1.5 B),68006524,13961.938,963.228,963.228
+log with index on disk (1.5 B),73447048,14460.032,935.232,935.232
+log with index on disk (1.5 B),79322812,14997.975,896.152,896.152
+log with index on disk (1.5 B),81607288,15207.125,883.324,883.324
+log with index on disk (1.5 B),85668636,15578.952,0.000,879.216
+log with index on disk (1.5 B),92522128,16206.408,0.000,879.216
+log with index on disk (1.5 B),99923896,16884.060,0.000,879.216
+log with index on disk (1.5 B),107917808,17615.925,0.000,879.216
+log with index on disk (1.5 B),116551236,18406.339,0.000,879.216
+log with index on disk (1.5 B),125875332,19259.985,0.000,879.216
+log with index on disk (1.5 B),135945360,20181.924,0.000,879.216
+log with index on disk (1.5 B),146820988,21177.617,0.000,879.216
+log with index on disk (1.5 B),158566668,22252.966,0.000,879.216
+log with index on disk (1.5 B),171252004,23414.344,0.000,879.216
+log with index on disk (1.5 B),184952164,24668.631,0.000,879.216
+log with index on disk (1.5 B),199748336,26023.261,0.000,879.216
+log with index on disk (1.5 B),215728204,27486.261,0.000,879.216
+log with index on disk (1.5 B),232986460,29066.302,0.000,879.216
+log with index on disk (1.5 B),251625376,30772.746,0.000,879.216
+log with index on disk (1.5 B),271755408,32615.705,0.000,879.216
+log with index on disk (1.5 B),293495840,34606.101,0.000,879.216
+log with index on disk (1.5 B),316975508,36755.729,0.000,879.216
+log with index on disk (1.5 B),342333548,39077.327,0.000,879.216
+log with index on disk (1.5 B),369720232,41584.653,0.000,879.216
+log with index on disk (1.5 B),399297852,44292.565,0.000,879.216
+log with index on disk (1.5 B),431241680,47217.109,0.000,879.216
+log with index on disk (1.5 B),465741012,50375.618,0.000,879.216
+log with index on disk (1.5 B),503000292,53786.806,0.000,879.216
+log with index on disk (1.5 B),543240316,57470.891,0.000,879.216
+log with index on disk (1.5 B),586699544,61449.702,0.000,879.216
+log with index on disk (1.5 B),633635508,65746.818,0.000,879.216
+log with index on disk (1.5 B),684326348,70387.703,0.000,879.216
+log with index on disk (1.5 B),739072456,75399.859,0.000,879.216
+log with index on disk (1.5 B),798198252,80812.987,0.000,879.216
+log with index on disk (1.5 B),862054112,86659.165,0.000,879.216
+log with index on disk (1.5 B),931018440,92973.038,0.000,879.216
+log with index on disk (1.5 B),1005499916,99792.021,0.000,879.216
+log with index on disk (1.5 B),1085939912,107156.523,0.000,879.216
+log with index on disk (1.5 B),1172815104,115110.184,0.000,879.216
+log with index on disk (1.5 B),1266640312,123700.138,0.000,879.216
+log with index on disk (1.5 B),1367971536,132977.289,0.000,879.216
+log with index on disk (1.5 B),1477409260,142996.612,0.000,879.216
+log with index on disk (1.5 B),1595602000,153817.480,0.000,879.216
+log with index on disk (1.5 B),1723250160,165504.019,0.000,879.216
+log with index on disk (1.5 B),1861110172,178125.480,0.000,879.216
+log with index on disk (1.5 B),2009998988,191756.658,0.000,879.216
+log with index on disk (1.5 B),2170798908,206478.330,0.000,879.216
+log with index on disk (1.5 B),2344462820,222377.736,0.000,879.216
+log with index on disk (1.5 B),2532019844,239549.095,0.000,879.216
+log with index on disk (1.5 B),2734581432,258094.162,0.000,879.216
+log with index on disk (1.5 B),2953347948,278122.835,0.000,879.216
+log with index on disk (1.5 B),3189615784,299753.801,0.000,879.216
+log with index on disk (1.5 B),3444785048,323115.245,0.000,879.216
+log with index on disk (1.5 B),3720367852,348345.604,0.000,879.216
+log with index on disk (1.5 B),4017997280,375594.392,0.000,879.216
+log with index on disk (1.5 B),4339437060,405023.083,0.000,879.216
+log with index on disk (1.5 B),4686592028,436806.069,0.000,879.216
+log with index on disk (1.5 B),5014844568,466858.487,0.000,879.216
+LSM of records, node cache,0,9104.730,21077.224,21077.224
+LSM of records, node cache,4,9104.731,21077.224,21077.224
+LSM of records, node cache,8,9104.731,21077.220,21077.220
+LSM of records, node cache,12,9104.731,21077.220,21077.220
+LSM of records, node cache,16,9104.732,21077.220,21077.220
+LSM of records, node cache,20,9104.732,21077.220,21077.220
+LSM of records, node cache,24,9104.732,21077.220,21077.220
+LSM of records, node cache,28,9104.733,21077.220,21077.220
+LSM of records, node cache,32,9104.733,21077.220,21077.220
+LSM of records, node cache,36,9104.734,21077.220,21077.220
+LSM of records, node cache,40,9104.734,21077.220,21077.220
+LSM of records, node cache,44,9104.734,21077.220,21077.220
+LSM of records, node cache,48,9104.735,21077.220,21077.220
+LSM of records, node cache,52,9104.735,21077.220,21077.220
+LSM of records, node cache,56,9104.735,21077.220,21077.220
+LSM of records, node cache,60,9104.736,21077.220,21077.220
+LSM of records, node cache,64,9104.736,21077.220,21077.220
+LSM of records, node cache,68,9104.737,21077.220,21077.220
+LSM of records, node cache,76,9104.737,21077.220,21077.220
+LSM of records, node cache,80,9104.738,21077.220,21077.220
+LSM of records, node cache,88,9104.738,21077.220,21077.220
+LSM of records, node cache,96,9104.739,21077.220,21077.220
+LSM of records, node cache,100,9104.739,21077.220,21077.220
+LSM of records, node cache,112,9104.741,21077.220,21077.220
+LSM of records, node cache,120,9104.741,21077.220,21077.220
+LSM of records, node cache,128,9104.742,21077.220,21077.220
+LSM of records, node cache,140,9104.743,21077.220,21077.220
+LSM of records, node cache,152,9104.744,21077.220,21077.220
+LSM of records, node cache,164,9104.745,21077.220,21077.220
+LSM of records, node cache,176,9104.747,21077.220,21077.220
+LSM of records, node cache,192,9104.748,21077.220,21077.220
+LSM of records, node cache,204,9104.749,21077.220,21077.220
+LSM of records, node cache,224,9104.751,21077.220,21077.220
+LSM of records, node cache,240,9104.752,21077.220,21077.220
+LSM of records, node cache,260,9104.754,21077.220,21077.220
+LSM of records, node cache,280,9104.756,21077.220,21077.220
+LSM of records, node cache,304,9104.758,21077.220,21077.220
+LSM of records, node cache,328,9104.761,21077.220,21077.220
+LSM of records, node cache,356,9104.763,21077.220,21077.220
+LSM of records, node cache,384,9104.766,21077.220,21077.220
+LSM of records, node cache,412,9104.768,21077.220,21077.220
+LSM of records, node cache,448,9104.772,21077.216,21077.216
+LSM of records, node cache,484,9104.775,21077.216,21077.216
+LSM of records, node cache,520,9104.778,21077.216,21077.216
+LSM of records, node cache,564,9104.782,21077.204,21077.204
+LSM of records, node cache,608,9104.786,21077.200,21077.200
+LSM of records, node cache,656,9104.791,21077.172,21077.172
+LSM of records, node cache,708,9104.796,21077.144,21077.144
+LSM of records, node cache,768,9104.801,21077.088,21077.088
+LSM of records, node cache,828,9104.807,21076.996,21076.996
+LSM of records, node cache,896,9104.813,21076.932,21076.932
+LSM of records, node cache,968,9104.820,21076.824,21076.824
+LSM of records, node cache,1044,9104.827,21076.728,21076.728
+LSM of records, node cache,1128,9104.835,21076.628,21076.628
+LSM of records, node cache,1220,9104.843,21076.520,21076.520
+LSM of records, node cache,1316,9104.852,21076.408,21076.408
+LSM of records, node cache,1420,9104.862,21076.288,21076.288
+LSM of records, node cache,1536,9104.872,21076.180,21076.180
+LSM of records, node cache,1656,9104.883,21076.056,21076.056
+LSM of records, node cache,1792,9104.896,21075.992,21075.992
+LSM of records, node cache,1936,9104.909,21075.888,21075.888
+LSM of records, node cache,2088,9104.923,21075.764,21075.764
+LSM of records, node cache,2256,9104.939,21075.636,21075.636
+LSM of records, node cache,2436,9104.956,21075.504,21075.504
+LSM of records, node cache,2632,9104.974,21075.400,21075.400
+LSM of records, node cache,2844,9104.993,21075.308,21075.308
+LSM of records, node cache,3072,9105.014,21075.232,21075.232
+LSM of records, node cache,3316,9105.037,21075.180,21075.180
+LSM of records, node cache,3580,9105.061,21075.072,21075.072
+LSM of records, node cache,3868,9105.088,21074.984,21074.984
+LSM of records, node cache,4176,9105.117,21074.956,21074.956
+LSM of records, node cache,4512,9105.148,21074.876,21074.876
+LSM of records, node cache,4872,9105.181,21074.808,21074.808
+LSM of records, node cache,5264,9105.217,21074.644,21074.644
+LSM of records, node cache,5684,9105.256,21074.440,21074.440
+LSM of records, node cache,6140,9105.298,21074.004,21074.004
+LSM of records, node cache,6632,9105.344,21073.228,21073.228
+LSM of records, node cache,7160,9105.393,21071.756,21071.756
+LSM of records, node cache,7736,9105.446,21070.412,21070.412
+LSM of records, node cache,8352,9105.503,21067.480,21067.480
+LSM of records, node cache,9020,9105.565,21062.956,21062.956
+LSM of records, node cache,9744,9105.632,21056.840,21056.840
+LSM of records, node cache,10524,9105.704,21049.224,21049.224
+LSM of records, node cache,11364,9105.781,21040.192,21040.192
+LSM of records, node cache,12276,9105.866,21027.492,21027.492
+LSM of records, node cache,13256,9105.957,21008.612,21008.612
+LSM of records, node cache,14316,9106.055,20980.880,20980.880
+LSM of records, node cache,15464,9106.161,20917.936,20917.936
+LSM of records, node cache,16700,9106.275,20784.116,20784.116
+LSM of records, node cache,18036,9106.399,20517.280,20517.280
+LSM of records, node cache,19480,9106.532,20079.992,20079.992
+LSM of records, node cache,21040,9106.677,19509.500,19509.500
+LSM of records, node cache,22720,9106.832,18906.596,18906.596
+LSM of records, node cache,24540,9107.000,18441.112,18441.112
+LSM of records, node cache,26504,9107.182,18132.328,18132.328
+LSM of records, node cache,28624,9107.378,17926.860,17926.860
+LSM of records, node cache,30912,9107.590,17759.196,17759.196
+LSM of records, node cache,33388,9107.819,17542.744,17542.744
+LSM of records, node cache,36056,9108.066,17219.404,17219.404
+LSM of records, node cache,38944,9108.333,16812.468,16812.468
+LSM of records, node cache,42060,9108.621,16445.724,16445.724
+LSM of records, node cache,45424,9108.932,16187.192,16187.192
+LSM of records, node cache,49056,9109.268,15962.996,15962.996
+LSM of records, node cache,52980,9109.631,15665.608,15665.608
+LSM of records, node cache,57220,9110.023,15333.100,15333.100
+LSM of records, node cache,61800,9110.447,15041.764,15041.764
+LSM of records, node cache,66744,9110.904,14765.092,14765.092
+LSM of records, node cache,72080,9111.398,14453.096,14453.096
+LSM of records, node cache,77848,9111.932,14146.136,14146.136
+LSM of records, node cache,84076,9112.508,13852.932,13852.932
+LSM of records, node cache,90804,9113.130,13532.836,13532.836
+LSM of records, node cache,98068,9113.802,13217.964,13217.964
+LSM of records, node cache,105912,9114.528,12934.800,12934.800
+LSM of records, node cache,114384,9115.312,12633.628,12633.628
+LSM of records, node cache,123536,9116.158,12334.692,12334.692
+LSM of records, node cache,133420,9117.072,12051.124,12051.124
+LSM of records, node cache,144092,9118.060,11764.752,11764.752
+LSM of records, node cache,155620,9119.126,11469.688,11469.688
+LSM of records, node cache,168072,9120.278,11194.728,11194.728
+LSM of records, node cache,181516,9121.522,10927.888,10927.888
+LSM of records, node cache,196040,9122.865,10660.460,10660.460
+LSM of records, node cache,211720,9124.316,10407.420,10407.420
+LSM of records, node cache,228660,9125.883,10141.792,10141.792
+LSM of records, node cache,246952,9127.575,9893.088,9893.088
+LSM of records, node cache,266708,9129.402,9641.836,9641.836
+LSM of records, node cache,288044,9131.376,9396.392,9396.392
+LSM of records, node cache,311088,9133.508,9142.928,9142.928
+LSM of records, node cache,335976,9135.810,8899.324,8899.324
+LSM of records, node cache,362856,9138.297,8661.688,8661.688
+LSM of records, node cache,391884,9140.982,8424.488,8424.488
+LSM of records, node cache,423236,9143.882,8195.468,8195.468
+LSM of records, node cache,457092,9147.014,7970.004,7970.004
+LSM of records, node cache,493660,9150.397,7748.076,7748.076
+LSM of records, node cache,533152,9154.050,7542.232,7542.232
+LSM of records, node cache,575808,9157.996,7337.520,7337.520
+LSM of records, node cache,621872,9162.257,7136.856,7136.856
+LSM of records, node cache,671620,9166.859,6928.768,6928.768
+LSM of records, node cache,725352,9171.830,6711.060,6711.060
+LSM of records, node cache,783380,9177.198,6506.152,6506.152
+LSM of records, node cache,846048,9182.995,6305.112,6305.112
+LSM of records, node cache,913732,9189.256,6114.500,6114.500
+LSM of records, node cache,986832,9196.019,5929.884,5929.884
+LSM of records, node cache,1065780,9203.322,5773.952,5773.952
+LSM of records, node cache,1151040,9211.209,5600.172,5600.172
+LSM of records, node cache,1243124,9219.727,5428.220,5428.220
+LSM of records, node cache,1342576,9228.927,5262.004,5262.004
+LSM of records, node cache,1449980,9238.863,5117.060,5117.060
+LSM of records, node cache,1565980,9249.593,4974.808,4974.808
+LSM of records, node cache,1691256,9261.182,4821.312,4821.312
+LSM of records, node cache,1826560,9273.699,4672.124,4672.124
+LSM of records, node cache,1972684,9287.216,4526.660,4526.660
+LSM of records, node cache,2130500,9301.815,4384.416,4384.416
+LSM of records, node cache,2300940,9317.582,4262.484,4262.484
+LSM of records, node cache,2485012,9334.610,4147.480,4147.480
+LSM of records, node cache,2683816,9353.000,4033.748,4033.748
+LSM of records, node cache,2898520,9372.862,3922.528,3922.528
+LSM of records, node cache,3130400,9394.312,3813.608,3813.608
+LSM of records, node cache,3380836,9417.479,3702.728,3702.728
+LSM of records, node cache,3651300,9442.499,3603.312,3603.312
+LSM of records, node cache,3943404,9469.520,3505.956,3505.956
+LSM of records, node cache,4258876,9498.704,3409.304,3409.304
+LSM of records, node cache,4599588,9530.222,3310.856,3310.856
+LSM of records, node cache,4967556,9564.261,3220.224,3220.224
+LSM of records, node cache,5364960,9601.023,3135.612,3135.612
+LSM of records, node cache,5794156,9640.727,3044.500,3044.500
+LSM of records, node cache,6257688,9683.606,2957.052,2957.052
+LSM of records, node cache,6758304,9729.917,2861.656,2861.656
+LSM of records, node cache,7298968,9779.932,2772.392,2772.392
+LSM of records, node cache,7882888,9833.948,2690.128,2690.128
+LSM of records, node cache,8513520,9892.285,2615.388,2615.388
+LSM of records, node cache,9194600,9955.290,2544.952,2544.952
+LSM of records, node cache,9930168,10023.334,2475.128,2475.128
+LSM of records, node cache,10724584,10096.823,2404.724,2404.724
+LSM of records, node cache,11582548,10176.190,2331.324,2331.324
+LSM of records, node cache,12509152,10261.907,2259.644,2259.644
+LSM of records, node cache,13509884,10354.481,2192.216,2192.216
+LSM of records, node cache,14590676,10454.461,2121.188,2121.188
+LSM of records, node cache,15757932,10562.440,2054.260,2054.260
+LSM of records, node cache,17018564,10679.056,1983.140,1983.140
+LSM of records, node cache,18380052,10805.003,1907.988,1907.988
+LSM of records, node cache,19850456,10941.025,1813.116,1813.116
+LSM of records, node cache,21438492,11087.928,1728.936,1728.936
+LSM of records, node cache,23153572,11246.584,1661.544,1661.544
+LSM of records, node cache,25005856,11417.932,1606.724,1606.724
+LSM of records, node cache,27006324,11602.988,1561.904,1561.904
+LSM of records, node cache,29166832,11802.849,1515.140,1515.140
+LSM of records, node cache,31500180,12018.699,1457.480,1457.480
+LSM of records, node cache,34020192,12251.816,1383.160,1383.160
+LSM of records, node cache,36741808,12503.583,1328.028,1328.028
+LSM of records, node cache,39681152,12775.491,1280.856,1280.856
+LSM of records, node cache,42855644,13069.152,1223.928,1223.928
+LSM of records, node cache,46284096,13386.306,1165.392,1165.392
+LSM of records, node cache,49986824,13728.832,1117.540,1117.540
+LSM of records, node cache,53985772,14098.760,1063.344,1063.344
+LSM of records, node cache,58304632,14498.282,1018.872,1018.872
+LSM of records, node cache,62969004,14929.767,998.712,998.712
+LSM of records, node cache,68006524,15395.770,963.228,963.228
+LSM of records, node cache,73447048,15899.053,935.232,935.232
+LSM of records, node cache,79322812,16442.599,896.152,896.152
+LSM of records, node cache,81607288,16653.927,883.324,883.324
+LSM of records, node cache,85668636,17029.628,0.000,879.216
+LSM of records, node cache,92522128,17663.620,0.000,879.216
+LSM of records, node cache,99923896,18348.331,0.000,879.216
+LSM of records, node cache,107917808,19087.819,0.000,879.216
+LSM of records, node cache,116551236,19886.467,0.000,879.216
+LSM of records, node cache,125875332,20749.005,0.000,879.216
+LSM of records, node cache,135945360,21680.547,0.000,879.216
+LSM of records, node cache,146820988,22686.613,0.000,879.216
+LSM of records, node cache,158566668,23773.163,0.000,879.216
+LSM of records, node cache,171252004,24946.638,0.000,879.216
+LSM of records, node cache,184952164,26213.991,0.000,879.216
+LSM of records, node cache,199748336,27582.731,0.000,879.216
+LSM of records, node cache,215728204,29060.972,0.000,879.216
+LSM of records, node cache,232986460,30657.471,0.000,879.216
+LSM of records, node cache,251625376,32381.690,0.000,879.216
+LSM of records, node cache,271755408,34243.847,0.000,879.216
+LSM of records, node cache,293495840,36254.976,0.000,879.216
+LSM of records, node cache,316975508,38426.996,0.000,879.216
+LSM of records, node cache,342333548,40772.777,0.000,879.216
+LSM of records, node cache,369720232,43306.221,0.000,879.216
+LSM of records, node cache,399297852,46042.341,0.000,879.216
+LSM of records, node cache,431241680,48997.349,0.000,879.216
+LSM of records, node cache,465741012,52188.759,0.000,879.216
+LSM of records, node cache,503000292,55635.481,0.000,879.216
+LSM of records, node cache,543240316,59357.941,0.000,879.216
+LSM of records, node cache,586699544,63378.198,0.000,879.216
+LSM of records, node cache,633635508,67720.076,0.000,879.216
+LSM of records, node cache,684326348,72409.303,0.000,879.216
+LSM of records, node cache,739072456,77473.669,0.000,879.216
+LSM of records, node cache,798198252,82943.184,0.000,879.216
+LSM of records, node cache,862054112,88850.260,0.000,879.216
+LSM of records, node cache,931018440,95229.903,0.000,879.216
+LSM of records, node cache,1005499916,102119.916,0.000,879.216
+LSM of records, node cache,1085939912,109561.132,0.000,879.216
+LSM of records, node cache,1172815104,117597.644,0.000,879.216
+LSM of records, node cache,1266640312,126277.077,0.000,879.216
+LSM of records, node cache,1367971536,135650.864,0.000,879.216
+LSM of records, node cache,1477409260,145774.555,0.000,879.216
+LSM of records, node cache,1595602000,156708.141,0.000,879.216
+LSM of records, node cache,1723250160,168516.414,0.000,879.216
+LSM of records, node cache,1861110172,181269.348,0.000,879.216
+LSM of records, node cache,2009998988,195042.518,0.000,879.216
+LSM of records, node cache,2170798908,209917.541,0.000,879.216
+LSM of records, node cache,2344462820,225982.566,0.000,879.216
+LSM of records, node cache,2532019844,243332.793,0.000,879.216
+LSM of records, node cache,2734581432,262071.038,0.000,879.216
+LSM of records, node cache,2953347948,282308.343,0.000,879.216
+LSM of records, node cache,3189615784,304164.632,0.000,879.216
+LSM of records, node cache,3444785048,327769.424,0.000,879.216
+LSM of records, node cache,3720367852,353262.599,0.000,879.216
+LSM of records, node cache,4017997280,380795.229,0.000,879.216
+LSM of records, node cache,4339437060,410530.468,0.000,879.216
+LSM of records, node cache,4686592028,442644.528,0.000,879.216
+LSM of records, node cache,5014844568,473009.991,0.000,879.216
+LSM of records, block cache,0,9109.865,10130.576,10130.576
+LSM of records, block cache,4,9109.881,9804.580,9804.580
+LSM of records, block cache,8,9109.897,9802.068,9802.068
+LSM of records, block cache,12,9109.912,9801.476,9801.476
+LSM of records, block cache,16,9109.928,9801.088,9801.088
+LSM of records, block cache,20,9109.944,9800.836,9800.836
+LSM of records, block cache,24,9109.959,9800.664,9800.664
+LSM of records, block cache,28,9109.975,9800.500,9800.500
+LSM of records, block cache,32,9109.991,9800.408,9800.408
+LSM of records, block cache,36,9110.006,9800.300,9800.300
+LSM of records, block cache,40,9110.022,9800.156,9800.156
+LSM of records, block cache,44,9110.038,9800.056,9800.056
+LSM of records, block cache,48,9110.053,9799.912,9799.912
+LSM of records, block cache,52,9110.069,9799.824,9799.824
+LSM of records, block cache,56,9110.085,9799.736,9799.736
+LSM of records, block cache,60,9110.100,9799.672,9799.672
+LSM of records, block cache,64,9110.116,9799.596,9799.596
+LSM of records, block cache,68,9110.132,9799.536,9799.536
+LSM of records, block cache,76,9110.163,9799.420,9799.420
+LSM of records, block cache,80,9110.179,9799.388,9799.388
+LSM of records, block cache,88,9110.210,9799.196,9799.196
+LSM of records, block cache,96,9110.242,9799.012,9799.012
+LSM of records, block cache,100,9110.257,9798.904,9798.904
+LSM of records, block cache,112,9110.304,9798.616,9798.616
+LSM of records, block cache,120,9110.336,9798.376,9798.376
+LSM of records, block cache,128,9110.367,9798.068,9798.068
+LSM of records, block cache,140,9110.414,9797.536,9797.536
+LSM of records, block cache,152,9110.461,9797.020,9797.020
+LSM of records, block cache,164,9110.508,9796.384,9796.384
+LSM of records, block cache,176,9110.555,9795.676,9795.676
+LSM of records, block cache,192,9110.618,9794.288,9794.288
+LSM of records, block cache,204,9110.665,9792.824,9792.824
+LSM of records, block cache,224,9110.744,9789.624,9789.624
+LSM of records, block cache,240,9110.806,9786.640,9786.640
+LSM of records, block cache,260,9110.885,9781.704,9781.704
+LSM of records, block cache,280,9110.963,9775.436,9775.436
+LSM of records, block cache,304,9111.057,9766.516,9766.516
+LSM of records, block cache,328,9111.151,9755.120,9755.120
+LSM of records, block cache,356,9111.261,9741.384,9741.384
+LSM of records, block cache,384,9111.371,9728.036,9728.036
+LSM of records, block cache,412,9111.481,9716.056,9716.056
+LSM of records, block cache,448,9111.622,9702.644,9702.644
+LSM of records, block cache,484,9111.763,9692.308,9692.308
+LSM of records, block cache,520,9111.904,9683.956,9683.956
+LSM of records, block cache,564,9112.077,9676.200,9676.200
+LSM of records, block cache,608,9112.249,9670.472,9670.472
+LSM of records, block cache,656,9112.438,9665.948,9665.948
+LSM of records, block cache,708,9112.642,9662.940,9662.940
+LSM of records, block cache,768,9112.877,9659.804,9659.804
+LSM of records, block cache,828,9113.112,9656.384,9656.384
+LSM of records, block cache,896,9113.379,9653.836,9653.836
+LSM of records, block cache,968,9113.661,9651.916,9651.916
+LSM of records, block cache,1044,9113.959,9649.888,9649.888
+LSM of records, block cache,1128,9114.289,9647.680,9647.680
+LSM of records, block cache,1220,9114.649,9645.360,9645.360
+LSM of records, block cache,1316,9115.026,9643.040,9643.040
+LSM of records, block cache,1420,9115.434,9640.664,9640.664
+LSM of records, block cache,1536,9115.889,9638.224,9638.224
+LSM of records, block cache,1656,9116.359,9635.596,9635.596
+LSM of records, block cache,1792,9116.893,9632.800,9632.800
+LSM of records, block cache,1936,9117.457,9630.144,9630.144
+LSM of records, block cache,2088,9118.053,9627.364,9627.364
+LSM of records, block cache,2256,9118.712,9624.708,9624.708
+LSM of records, block cache,2436,9119.418,9621.728,9621.728
+LSM of records, block cache,2632,9120.187,9618.660,9618.660
+LSM of records, block cache,2844,9121.018,9615.132,9615.132
+LSM of records, block cache,3072,9121.912,9611.212,9611.212
+LSM of records, block cache,3316,9122.869,9607.104,9607.104
+LSM of records, block cache,3580,9123.904,9602.464,9602.464
+LSM of records, block cache,3868,9125.034,9597.068,9597.068
+LSM of records, block cache,4176,9126.241,9590.940,9590.940
+LSM of records, block cache,4512,9127.559,9583.956,9583.956
+LSM of records, block cache,4872,9128.971,9575.824,9575.824
+LSM of records, block cache,5264,9130.508,9567.168,9567.168
+LSM of records, block cache,5684,9132.155,9555.184,9555.184
+LSM of records, block cache,6140,9133.943,9542.756,9542.756
+LSM of records, block cache,6632,9135.873,9521.440,9521.440
+LSM of records, block cache,7160,9137.943,9473.064,9473.064
+LSM of records, block cache,7736,9140.202,9381.040,9381.040
+LSM of records, block cache,8352,9142.618,9213.000,9213.000
+LSM of records, block cache,9020,9145.237,8962.332,8962.332
+LSM of records, block cache,9744,9148.076,8656.920,8656.920
+LSM of records, block cache,10524,9151.135,8384.124,8384.124
+LSM of records, block cache,11364,9154.429,8198.540,8198.540
+LSM of records, block cache,12276,9158.006,8074.144,8074.144
+LSM of records, block cache,13256,9161.849,7980.616,7980.616
+LSM of records, block cache,14316,9166.005,7891.256,7891.256
+LSM of records, block cache,15464,9170.507,7761.300,7761.300
+LSM of records, block cache,16700,9175.354,7571.776,7571.776
+LSM of records, block cache,18036,9180.593,7386.948,7386.948
+LSM of records, block cache,19480,9186.256,7245.252,7245.252
+LSM of records, block cache,21040,9192.374,7138.360,7138.360
+LSM of records, block cache,22720,9198.962,7016.208,7016.208
+LSM of records, block cache,24540,9206.099,6848.160,6848.160
+LSM of records, block cache,26504,9213.801,6708.648,6708.648
+LSM of records, block cache,28624,9222.114,6583.416,6583.416
+LSM of records, block cache,30912,9231.087,6431.036,6431.036
+LSM of records, block cache,33388,9240.796,6290.160,6290.160
+LSM of records, block cache,36056,9251.259,6153.152,6153.152
+LSM of records, block cache,38944,9262.584,5999.420,5999.420
+LSM of records, block cache,42060,9274.804,5854.604,5854.604
+LSM of records, block cache,45424,9287.996,5716.288,5716.288
+LSM of records, block cache,49056,9302.239,5574.748,5574.748
+LSM of records, block cache,52980,9317.627,5436.628,5436.628
+LSM of records, block cache,57220,9334.254,5304.364,5304.364
+LSM of records, block cache,61800,9352.214,5168.576,5168.576
+LSM of records, block cache,66744,9371.602,5031.964,5031.964
+LSM of records, block cache,72080,9392.528,4903.732,4903.732
+LSM of records, block cache,77848,9415.147,4777.584,4777.584
+LSM of records, block cache,84076,9439.570,4655.068,4655.068
+LSM of records, block cache,90804,9465.954,4538.992,4538.992
+LSM of records, block cache,98068,9494.440,4417.828,4417.828
+LSM of records, block cache,105912,9525.200,4300.556,4300.556
+LSM of records, block cache,114384,9558.423,4182.184,4182.184
+LSM of records, block cache,123536,9594.313,4068.124,4068.124
+LSM of records, block cache,133420,9633.073,3950.668,3950.668
+LSM of records, block cache,144092,9674.923,3836.912,3836.912
+LSM of records, block cache,155620,9720.130,3726.396,3726.396
+LSM of records, block cache,168072,9768.961,3617.152,3617.152
+LSM of records, block cache,181516,9821.682,3512.376,3512.376
+LSM of records, block cache,196040,9878.638,3409.816,3409.816
+LSM of records, block cache,211720,9940.127,3310.132,3310.132
+LSM of records, block cache,228660,10006.557,3213.856,3213.856
+LSM of records, block cache,246952,10078.290,3120.920,3120.920
+LSM of records, block cache,266708,10155.763,3028.896,3028.896
+LSM of records, block cache,288044,10239.432,2932.212,2932.212
+LSM of records, block cache,311088,10329.799,2833.384,2833.384
+LSM of records, block cache,335976,10427.398,2741.212,2741.212
+LSM of records, block cache,362856,10532.808,2646.748,2646.748
+LSM of records, block cache,391884,10646.642,2566.964,2566.964
+LSM of records, block cache,423236,10769.589,2487.008,2487.008
+LSM of records, block cache,457092,10902.355,2413.548,2413.548
+LSM of records, block cache,493660,11045.757,2331.936,2331.936
+LSM of records, block cache,533152,11200.625,2254.832,2254.832
+LSM of records, block cache,575808,11367.901,2180.532,2180.532
+LSM of records, block cache,621872,11548.542,2114.364,2114.364
+LSM of records, block cache,671620,11743.629,2047.760,2047.760
+LSM of records, block cache,725352,11954.339,1975.672,1975.672
+LSM of records, block cache,783380,12181.897,1905.620,1905.620
+LSM of records, block cache,846048,12427.650,1836.428,1836.428
+LSM of records, block cache,913732,12693.073,1778.904,1778.904
+LSM of records, block cache,986832,12979.736,1722.164,1722.164
+LSM of records, block cache,1065780,13289.331,1667.224,1667.224
+LSM of records, block cache,1151040,13623.679,1613.956,1613.956
+LSM of records, block cache,1243124,13984.787,1561.444,1561.444
+LSM of records, block cache,1342576,14374.789,1506.752,1506.752
+LSM of records, block cache,1449980,14795.974,1458.268,1458.268
+LSM of records, block cache,1565980,15250.869,1409.812,1409.812
+LSM of records, block cache,1691256,15742.140,1362.248,1362.248
+LSM of records, block cache,1826560,16272.736,1314.196,1314.196
+LSM of records, block cache,1972684,16845.763,1269.760,1269.760
+LSM of records, block cache,2130500,17464.640,1225.520,1225.520
+LSM of records, block cache,2300940,18133.022,1181.260,1181.260
+LSM of records, block cache,2485012,18854.862,1135.184,1135.184
+LSM of records, block cache,2683816,19634.473,1091.528,1091.528
+LSM of records, block cache,2898520,20476.437,1047.264,1047.264
+LSM of records, block cache,3130400,21385.756,1006.600,1006.600
+LSM of records, block cache,3380836,22367.843,967.164,967.164
+LSM of records, block cache,3651300,23428.470,928.104,928.104
+LSM of records, block cache,3943404,24573.959,888.504,888.504
+LSM of records, block cache,4258876,25811.085,849.052,849.052
+LSM of records, block cache,4599588,27147.190,809.592,809.592
+LSM of records, block cache,4967556,28590.180,770.952,770.952
+LSM of records, block cache,5364960,30148.603,734.476,734.476
+LSM of records, block cache,5794156,31831.699,695.992,695.992
+LSM of records, block cache,6257688,33649.444,657.280,657.280
+LSM of records, block cache,6758304,35612.614,614.420,614.420
+LSM of records, block cache,7298968,37732.832,565.836,565.836
+LSM of records, block cache,7882888,40022.680,527.340,527.340
+LSM of records, block cache,8513520,42495.709,497.068,497.068
+LSM of records, block cache,9194600,45166.570,466.740,466.740
+LSM of records, block cache,9930168,48051.106,433.312,433.312
+LSM of records, block cache,10724584,51166.416,395.196,395.196
+LSM of records, block cache,11582548,54530.929,366.728,366.728
+LSM of records, block cache,12509152,58164.615,336.584,336.584
+LSM of records, block cache,13509884,62088.994,307.228,307.228
+LSM of records, block cache,14590676,66327.329,279.460,279.460
+LSM of records, block cache,15757932,70904.734,253.856,253.856
+LSM of records, block cache,17018564,75848.313,234.484,234.484
+LSM of records, block cache,18380052,81187.401,216.840,216.840
+LSM of records, block cache,19850456,86953.603,198.568,198.568
+LSM of records, block cache,19978996,87457.674,197.004,197.004
+LSM of records, block cache,21438492,93181.100,0.000,195.648
+LSM of records, block cache,23153572,99906.801,0.000,195.648
+LSM of records, block cache,25005856,107170.549,0.000,195.648
+LSM of records, block cache,27006324,115015.402,0.000,195.648
+LSM of records, block cache,29166832,123487.853,0.000,195.648
+LSM of records, block cache,31500180,132638.098,0.000,195.648
+LSM of records, block cache,34020192,142520.347,0.000,195.648
+LSM of records, block cache,36741808,153193.188,0.000,195.648
+LSM of records, block cache,39681152,164719.851,0.000,195.648
+LSM of records, block cache,42855644,177168.650,0.000,195.648
+LSM of records, block cache,46284096,190613.354,0.000,195.648
+LSM of records, block cache,49986824,205133.635,0.000,195.648
+LSM of records, block cache,53985772,220815.545,0.000,195.648
+LSM of records, block cache,58304632,237751.992,0.000,195.648
+LSM of records, block cache,62969004,256043.368,0.000,195.648
+LSM of records, block cache,68006524,275798.047,0.000,195.648
+LSM of records, block cache,73447048,297133.109,0.000,195.648
+LSM of records, block cache,79322812,320174.970,0.000,195.648
+LSM of records, block cache,85668636,345060.174,0.000,195.648
+LSM of records, block cache,92522128,371936.203,0.000,195.648
+LSM of records, block cache,99923896,400962.302,0.000,195.648
+LSM of records, block cache,107917808,432310.498,0.000,195.648
+LSM of records, block cache,116551236,466166.562,0.000,195.648
+LSM of records, block cache,125875332,502731.086,0.000,195.648
+LSM of records, block cache,135945360,542220.789,0.000,195.648
+LSM of records, block cache,146820988,584869.660,0.000,195.648
+LSM of records, block cache,151964984,605041.886,0.000,195.648
+B+tree, copy-on-write,0,289.018,26295.268,26295.268
+B+tree, copy-on-write,4,289.034,26295.268,26295.268
+B+tree, copy-on-write,8,289.050,26295.268,26295.268
+B+tree, copy-on-write,12,289.065,26295.268,26295.268
+B+tree, copy-on-write,16,289.081,26295.268,26295.268
+B+tree, copy-on-write,20,289.097,26295.260,26295.260
+B+tree, copy-on-write,24,289.112,21979.292,21979.292
+B+tree, copy-on-write,28,289.128,21977.208,21977.208
+B+tree, copy-on-write,32,289.144,21971.348,21971.348
+B+tree, copy-on-write,36,289.159,21947.544,21947.544
+B+tree, copy-on-write,40,289.175,21896.740,21896.740
+B+tree, copy-on-write,44,289.191,21773.268,21773.268
+B+tree, copy-on-write,48,289.207,21763.688,21763.688
+B+tree, copy-on-write,52,289.222,21747.976,21747.976
+B+tree, copy-on-write,56,289.238,21716.520,21716.520
+B+tree, copy-on-write,60,289.254,21669.100,21669.100
+B+tree, copy-on-write,64,289.269,21645.644,21645.644
+B+tree, copy-on-write,68,289.285,21628.948,21628.948
+B+tree, copy-on-write,76,289.316,21583.632,21583.632
+B+tree, copy-on-write,80,289.332,21568.476,21568.476
+B+tree, copy-on-write,88,289.363,21537.848,21537.848
+B+tree, copy-on-write,96,289.395,21506.044,21506.044
+B+tree, copy-on-write,100,289.410,21493.064,21493.064
+B+tree, copy-on-write,112,289.458,21458.212,21458.212
+B+tree, copy-on-write,120,289.489,21441.656,21441.656
+B+tree, copy-on-write,128,289.520,21422.588,21422.588
+B+tree, copy-on-write,140,289.567,21397.572,21397.572
+B+tree, copy-on-write,152,289.614,21378.076,21378.076
+B+tree, copy-on-write,164,289.661,21360.420,21360.420
+B+tree, copy-on-write,176,289.708,21343.680,21343.680
+B+tree, copy-on-write,192,289.771,21325.136,21325.136
+B+tree, copy-on-write,204,289.818,21311.024,21311.024
+B+tree, copy-on-write,224,289.897,21291.784,21291.784
+B+tree, copy-on-write,240,289.959,21278.676,21278.676
+B+tree, copy-on-write,260,290.038,21261.980,21261.980
+B+tree, copy-on-write,280,290.116,21247.584,21247.584
+B+tree, copy-on-write,304,290.210,21232.064,21232.064
+B+tree, copy-on-write,328,290.305,21217.568,21217.568
+B+tree, copy-on-write,356,290.414,21202.152,21202.152
+B+tree, copy-on-write,384,290.524,21187.976,21187.976
+B+tree, copy-on-write,412,290.634,21174.368,21174.368
+B+tree, copy-on-write,448,290.775,21157.908,21157.908
+B+tree, copy-on-write,484,290.916,21142.848,21142.848
+B+tree, copy-on-write,520,291.057,21128.748,21128.748
+B+tree, copy-on-write,564,291.230,21112.360,21112.360
+B+tree, copy-on-write,608,291.403,21096.088,21096.088
+B+tree, copy-on-write,656,291.591,21077.084,21077.084
+B+tree, copy-on-write,708,291.795,21056.292,21056.292
+B+tree, copy-on-write,768,292.030,21030.136,21030.136
+B+tree, copy-on-write,828,292.265,21002.136,21002.136
+B+tree, copy-on-write,896,292.532,20968.592,20968.592
+B+tree, copy-on-write,968,292.814,20927.616,20927.616
+B+tree, copy-on-write,1044,293.112,20879.848,20879.848
+B+tree, copy-on-write,1128,293.442,20819.556,20819.556
+B+tree, copy-on-write,1220,293.803,20756.076,20756.076
+B+tree, copy-on-write,1316,294.179,20693.264,20693.264
+B+tree, copy-on-write,1420,294.587,20636.196,20636.196
+B+tree, copy-on-write,1536,295.042,20585.056,20585.056
+B+tree, copy-on-write,1656,295.512,20544.492,20544.492
+B+tree, copy-on-write,1792,296.046,20511.216,20511.216
+B+tree, copy-on-write,1936,296.610,20483.248,20483.248
+B+tree, copy-on-write,2088,297.206,20459.600,20459.600
+B+tree, copy-on-write,2256,297.865,20438.928,20438.928
+B+tree, copy-on-write,2436,298.571,20418.512,20418.512
+B+tree, copy-on-write,2632,299.340,20396.992,20396.992
+B+tree, copy-on-write,2844,300.171,20377.688,20377.688
+B+tree, copy-on-write,3072,301.065,20358.580,20358.580
+B+tree, copy-on-write,3316,302.022,20338.992,20338.992
+B+tree, copy-on-write,3580,303.057,20318.040,20318.040
+B+tree, copy-on-write,3868,304.187,20296.688,20296.688
+B+tree, copy-on-write,4176,305.395,20273.132,20273.132
+B+tree, copy-on-write,4512,306.712,20247.864,20247.864
+B+tree, copy-on-write,4872,308.124,20220.828,20220.828
+B+tree, copy-on-write,5264,309.661,20190.600,20190.600
+B+tree, copy-on-write,5684,311.308,20158.440,20158.440
+B+tree, copy-on-write,6140,313.096,20123.384,20123.384
+B+tree, copy-on-write,6632,315.026,20083.324,20083.324
+B+tree, copy-on-write,7160,317.096,20039.692,20039.692
+B+tree, copy-on-write,7736,319.355,19989.008,19989.008
+B+tree, copy-on-write,8352,321.771,19931.272,19931.272
+B+tree, copy-on-write,9020,324.390,19867.984,19867.984
+B+tree, copy-on-write,9744,327.229,19795.984,19795.984
+B+tree, copy-on-write,10524,330.288,19718.080,19718.080
+B+tree, copy-on-write,11364,333.582,19635.852,19635.852
+B+tree, copy-on-write,12276,337.159,19542.056,19542.056
+B+tree, copy-on-write,13256,341.002,19446.052,19446.052
+B+tree, copy-on-write,14316,345.159,19318.928,19318.928
+B+tree, copy-on-write,15464,349.661,19090.344,19090.344
+B+tree, copy-on-write,16700,354.508,18688.692,18688.692
+B+tree, copy-on-write,18036,359.747,18049.324,18049.324
+B+tree, copy-on-write,19480,365.409,17147.808,17147.808
+B+tree, copy-on-write,21040,371.527,16219.108,16219.108
+B+tree, copy-on-write,22720,378.115,15523.720,15523.720
+B+tree, copy-on-write,24540,385.252,15087.304,15087.304
+B+tree, copy-on-write,26504,392.954,14780.460,14780.460
+B+tree, copy-on-write,28624,401.268,14504.964,14504.964
+B+tree, copy-on-write,30912,410.240,14125.672,14125.672
+B+tree, copy-on-write,33388,419.950,13617.692,13617.692
+B+tree, copy-on-write,36056,430.412,13139.552,13139.552
+B+tree, copy-on-write,38944,441.738,12793.472,12793.472
+B+tree, copy-on-write,42060,453.957,12508.140,12508.140
+B+tree, copy-on-write,45424,467.149,12123.004,12123.004
+B+tree, copy-on-write,49056,481.392,11747.472,11747.472
+B+tree, copy-on-write,52980,496.780,11424.660,11424.660
+B+tree, copy-on-write,57220,513.407,11072.504,11072.504
+B+tree, copy-on-write,61800,531.368,10728.268,10728.268
+B+tree, copy-on-write,66744,550.755,10402.248,10402.248
+B+tree, copy-on-write,72080,571.681,10052.656,10052.656
+B+tree, copy-on-write,77848,594.300,9723.772,9723.772
+B+tree, copy-on-write,84076,618.723,9406.700,9406.700
+B+tree, copy-on-write,90804,645.107,9093.076,9093.076
+B+tree, copy-on-write,98068,673.593,8787.440,8787.440
+B+tree, copy-on-write,105912,704.353,8485.632,8485.632
+B+tree, copy-on-write,114384,737.576,8182.016,8182.016
+B+tree, copy-on-write,123536,773.466,7895.972,7895.972
+B+tree, copy-on-write,133420,812.226,7624.968,7624.968
+B+tree, copy-on-write,144092,854.076,7356.516,7356.516
+B+tree, copy-on-write,155620,899.284,7104.364,7104.364
+B+tree, copy-on-write,168072,948.114,6845.476,6845.476
+B+tree, copy-on-write,181516,1000.835,6600.412,6600.412
+B+tree, copy-on-write,196040,1057.791,6352.228,6352.228
+B+tree, copy-on-write,211720,1119.280,6109.352,6109.352
+B+tree, copy-on-write,228660,1185.711,5867.060,5867.060
+B+tree, copy-on-write,246952,1257.443,5638.080,5638.080
+B+tree, copy-on-write,266708,1334.916,5413.308,5413.308
+B+tree, copy-on-write,288044,1418.585,5196.316,5196.316
+B+tree, copy-on-write,311088,1508.953,4991.688,4991.688
+B+tree, copy-on-write,335976,1606.551,4790.804,4790.804
+B+tree, copy-on-write,362856,1711.961,4600.692,4600.692
+B+tree, copy-on-write,391884,1825.795,4417.040,4417.040
+B+tree, copy-on-write,423236,1948.742,4234.296,4234.296
+B+tree, copy-on-write,457092,2081.509,4048.432,4048.432
+B+tree, copy-on-write,493660,2224.910,3865.588,3865.588
+B+tree, copy-on-write,533152,2379.779,3693.752,3693.752
+B+tree, copy-on-write,575808,2547.054,3531.116,3531.116
+B+tree, copy-on-write,621872,2727.695,3380.488,3380.488
+B+tree, copy-on-write,671620,2922.782,3245.284,3245.284
+B+tree, copy-on-write,725352,3133.493,3096.268,3096.268
+B+tree, copy-on-write,783380,3361.050,2955.364,2955.364
+B+tree, copy-on-write,846048,3606.803,2829.632,2829.632
+B+tree, copy-on-write,913732,3872.226,2708.744,2708.744
+B+tree, copy-on-write,986832,4158.889,2585.744,2585.744
+B+tree, copy-on-write,1065780,4468.484,2464.604,2464.604
+B+tree, copy-on-write,1151040,4802.832,2345.772,2345.772
+B+tree, copy-on-write,1243124,5163.940,2241.724,2241.724
+B+tree, copy-on-write,1342576,5553.942,2145.360,2145.360
+B+tree, copy-on-write,1449980,5975.128,2054.792,2054.792
+B+tree, copy-on-write,1565980,6430.023,1965.420,1965.420
+B+tree, copy-on-write,1691256,6921.294,1878.756,1878.756
+B+tree, copy-on-write,1826560,7451.889,1794.872,1794.872
+B+tree, copy-on-write,1972684,8024.916,1717.792,1717.792
+B+tree, copy-on-write,2130500,8643.793,1644.188,1644.188
+B+tree, copy-on-write,2300940,9312.175,1569.984,1569.984
+B+tree, copy-on-write,2485012,10034.015,1500.156,1500.156
+B+tree, copy-on-write,2683816,10813.626,1435.776,1435.776
+B+tree, copy-on-write,2898520,11655.590,1370.256,1370.256
+B+tree, copy-on-write,3130400,12564.909,1303.424,1303.424
+B+tree, copy-on-write,3380836,13546.996,1239.812,1239.812
+B+tree, copy-on-write,3651300,14607.623,1178.676,1178.676
+B+tree, copy-on-write,3943404,15753.112,1121.976,1121.976
+B+tree, copy-on-write,4258876,16990.238,1067.008,1067.008
+B+tree, copy-on-write,4599588,18326.343,1013.652,1013.652
+B+tree, copy-on-write,4967556,19769.333,958.456,958.456
+B+tree, copy-on-write,5364960,21327.756,904.180,904.180
+B+tree, copy-on-write,5794156,23010.852,851.564,851.564
+B+tree, copy-on-write,6257688,24828.597,803.064,803.064
+B+tree, copy-on-write,6758304,26791.767,752.036,752.036
+B+tree, copy-on-write,7298968,28911.985,701.860,701.860
+B+tree, copy-on-write,7882888,31201.833,643.968,643.968
+B+tree, copy-on-write,8513520,33674.862,589.640,589.640
+B+tree, copy-on-write,9194600,36345.723,544.504,544.504
+B+tree, copy-on-write,9930168,39230.259,507.012,507.012
+B+tree, copy-on-write,10724584,42345.569,469.400,469.400
+B+tree, copy-on-write,11582548,45710.082,424.824,424.824
+B+tree, copy-on-write,12509152,49343.768,387.780,387.780
+B+tree, copy-on-write,13509884,53268.147,354.380,354.380
+B+tree, copy-on-write,14590676,57506.482,319.596,319.596
+B+tree, copy-on-write,15757932,62083.887,288.460,288.460
+B+tree, copy-on-write,17018564,67027.467,260.028,260.028
+B+tree, copy-on-write,18380052,72366.554,238.192,238.192
+B+tree, copy-on-write,19850456,78132.756,218.788,218.788
+B+tree, copy-on-write,21379536,84129.057,199.924,199.924
+B+tree, copy-on-write,21438492,84360.253,140.308,199.264
+B+tree, copy-on-write,23153572,91085.954,0.000,198.548
+B+tree, copy-on-write,25005856,98349.702,0.000,198.548
+B+tree, copy-on-write,27006324,106194.555,0.000,198.548
+B+tree, copy-on-write,29166832,114667.006,0.000,198.548
+B+tree, copy-on-write,31500180,123817.251,0.000,198.548
+B+tree, copy-on-write,34020192,133699.500,0.000,198.548
+B+tree, copy-on-write,36741808,144372.341,0.000,198.548
+B+tree, copy-on-write,39681152,155899.005,0.000,198.548
+B+tree, copy-on-write,42855644,168347.803,0.000,198.548
+B+tree, copy-on-write,46284096,181792.508,0.000,198.548
+B+tree, copy-on-write,49986824,196312.788,0.000,198.548
+B+tree, copy-on-write,53985772,211994.698,0.000,198.548
+B+tree, copy-on-write,58304632,228931.145,0.000,198.548
+B+tree, copy-on-write,62969004,247222.521,0.000,198.548
+B+tree, copy-on-write,68006524,266977.200,0.000,198.548
+B+tree, copy-on-write,73447048,288312.263,0.000,198.548
+B+tree, copy-on-write,79322812,311354.123,0.000,198.548
+B+tree, copy-on-write,85668636,336239.327,0.000,198.548
+B+tree, copy-on-write,92522128,363115.356,0.000,198.548
+B+tree, copy-on-write,99923896,392141.455,0.000,198.548
+B+tree, copy-on-write,107917808,423489.651,0.000,198.548
+B+tree, copy-on-write,116551236,457345.715,0.000,198.548
+B+tree, copy-on-write,125875332,493910.239,0.000,198.548
+B+tree, copy-on-write,135945360,533399.942,0.000,198.548
+B+tree, copy-on-write,146820988,576048.813,0.000,198.548
+B+tree, copy-on-write,154540664,606321.590,0.000,198.548
+log with index on disk, GC at 2/3,0,7735.754,21077.224,21077.224
+log with index on disk, GC at 2/3,4,7735.755,21077.224,21077.224
+log with index on disk, GC at 2/3,8,7735.755,21077.220,21077.220
+log with index on disk, GC at 2/3,12,7735.755,21077.220,21077.220
+log with index on disk, GC at 2/3,16,7735.756,21077.220,21077.220
+log with index on disk, GC at 2/3,20,7735.756,21077.220,21077.220
+log with index on disk, GC at 2/3,24,7735.757,21077.220,21077.220
+log with index on disk, GC at 2/3,28,7735.757,21077.220,21077.220
+log with index on disk, GC at 2/3,32,7735.757,21077.220,21077.220
+log with index on disk, GC at 2/3,36,7735.758,21077.220,21077.220
+log with index on disk, GC at 2/3,40,7735.758,21077.220,21077.220
+log with index on disk, GC at 2/3,44,7735.758,21077.220,21077.220
+log with index on disk, GC at 2/3,48,7735.759,21077.220,21077.220
+log with index on disk, GC at 2/3,52,7735.759,21077.220,21077.220
+log with index on disk, GC at 2/3,56,7735.759,21077.220,21077.220
+log with index on disk, GC at 2/3,60,7735.760,21077.220,21077.220
+log with index on disk, GC at 2/3,64,7735.760,21077.220,21077.220
+log with index on disk, GC at 2/3,68,7735.761,21077.220,21077.220
+log with index on disk, GC at 2/3,76,7735.761,21077.220,21077.220
+log with index on disk, GC at 2/3,80,7735.762,21077.220,21077.220
+log with index on disk, GC at 2/3,88,7735.762,21077.220,21077.220
+log with index on disk, GC at 2/3,96,7735.763,21077.220,21077.220
+log with index on disk, GC at 2/3,100,7735.764,21077.220,21077.220
+log with index on disk, GC at 2/3,112,7735.765,21077.220,21077.220
+log with index on disk, GC at 2/3,120,7735.765,21077.220,21077.220
+log with index on disk, GC at 2/3,128,7735.766,21077.220,21077.220
+log with index on disk, GC at 2/3,140,7735.767,21077.220,21077.220
+log with index on disk, GC at 2/3,152,7735.768,21077.220,21077.220
+log with index on disk, GC at 2/3,164,7735.769,21077.220,21077.220
+log with index on disk, GC at 2/3,176,7735.770,21077.220,21077.220
+log with index on disk, GC at 2/3,192,7735.772,21077.220,21077.220
+log with index on disk, GC at 2/3,204,7735.773,21077.220,21077.220
+log with index on disk, GC at 2/3,224,7735.775,21077.220,21077.220
+log with index on disk, GC at 2/3,240,7735.776,21077.220,21077.220
+log with index on disk, GC at 2/3,260,7735.778,21077.220,21077.220
+log with index on disk, GC at 2/3,280,7735.780,21077.220,21077.220
+log with index on disk, GC at 2/3,304,7735.782,21077.220,21077.220
+log with index on disk, GC at 2/3,328,7735.784,21077.220,21077.220
+log with index on disk, GC at 2/3,356,7735.787,21077.220,21077.220
+log with index on disk, GC at 2/3,384,7735.790,21077.220,21077.220
+log with index on disk, GC at 2/3,412,7735.792,21077.220,21077.220
+log with index on disk, GC at 2/3,448,7735.795,21077.216,21077.216
+log with index on disk, GC at 2/3,484,7735.799,21077.216,21077.216
+log with index on disk, GC at 2/3,520,7735.802,21077.216,21077.216
+log with index on disk, GC at 2/3,564,7735.806,21077.204,21077.204
+log with index on disk, GC at 2/3,608,7735.810,21077.200,21077.200
+log with index on disk, GC at 2/3,656,7735.814,21077.172,21077.172
+log with index on disk, GC at 2/3,708,7735.819,21077.144,21077.144
+log with index on disk, GC at 2/3,768,7735.825,21077.088,21077.088
+log with index on disk, GC at 2/3,828,7735.830,21076.996,21076.996
+log with index on disk, GC at 2/3,896,7735.836,21076.932,21076.932
+log with index on disk, GC at 2/3,968,7735.843,21076.824,21076.824
+log with index on disk, GC at 2/3,1044,7735.850,21076.728,21076.728
+log with index on disk, GC at 2/3,1128,7735.858,21076.628,21076.628
+log with index on disk, GC at 2/3,1220,7735.866,21076.520,21076.520
+log with index on disk, GC at 2/3,1316,7735.875,21076.408,21076.408
+log with index on disk, GC at 2/3,1420,7735.884,21076.288,21076.288
+log with index on disk, GC at 2/3,1536,7735.895,21076.180,21076.180
+log with index on disk, GC at 2/3,1656,7735.906,21076.056,21076.056
+log with index on disk, GC at 2/3,1792,7735.918,21075.992,21075.992
+log with index on disk, GC at 2/3,1936,7735.932,21075.888,21075.888
+log with index on disk, GC at 2/3,2088,7735.946,21075.764,21075.764
+log with index on disk, GC at 2/3,2256,7735.961,21075.636,21075.636
+log with index on disk, GC at 2/3,2436,7735.977,21075.504,21075.504
+log with index on disk, GC at 2/3,2632,7735.995,21075.400,21075.400
+log with index on disk, GC at 2/3,2844,7736.015,21075.308,21075.308
+log with index on disk, GC at 2/3,3072,7736.036,21075.232,21075.232
+log with index on disk, GC at 2/3,3316,7736.058,21075.180,21075.180
+log with index on disk, GC at 2/3,3580,7736.082,21075.072,21075.072
+log with index on disk, GC at 2/3,3868,7736.108,21074.984,21074.984
+log with index on disk, GC at 2/3,4176,7736.137,21074.956,21074.956
+log with index on disk, GC at 2/3,4512,7736.167,21074.876,21074.876
+log with index on disk, GC at 2/3,4872,7736.200,21074.808,21074.808
+log with index on disk, GC at 2/3,5264,7736.236,21074.644,21074.644
+log with index on disk, GC at 2/3,5684,7736.275,21074.440,21074.440
+log with index on disk, GC at 2/3,6140,7736.316,21074.004,21074.004
+log with index on disk, GC at 2/3,6632,7736.362,21073.228,21073.228
+log with index on disk, GC at 2/3,7160,7736.410,21071.756,21071.756
+log with index on disk, GC at 2/3,7736,7736.463,21070.412,21070.412
+log with index on disk, GC at 2/3,8352,7736.519,21067.480,21067.480
+log with index on disk, GC at 2/3,9020,7736.580,21062.956,21062.956
+log with index on disk, GC at 2/3,9744,7736.646,21056.840,21056.840
+log with index on disk, GC at 2/3,10524,7736.718,21049.224,21049.224
+log with index on disk, GC at 2/3,11364,7736.795,21040.192,21040.192
+log with index on disk, GC at 2/3,12276,7736.878,21027.492,21027.492
+log with index on disk, GC at 2/3,13256,7736.968,21008.612,21008.612
+log with index on disk, GC at 2/3,14316,7737.065,20980.880,20980.880
+log with index on disk, GC at 2/3,15464,7737.170,20917.936,20917.936
+log with index on disk, GC at 2/3,16700,7737.283,20784.116,20784.116
+log with index on disk, GC at 2/3,18036,7737.406,20517.280,20517.280
+log with index on disk, GC at 2/3,19480,7737.538,20079.992,20079.992
+log with index on disk, GC at 2/3,21040,7737.681,19509.500,19509.500
+log with index on disk, GC at 2/3,22720,7737.834,18906.596,18906.596
+log with index on disk, GC at 2/3,24540,7738.001,18441.112,18441.112
+log with index on disk, GC at 2/3,26504,7738.181,18132.328,18132.328
+log with index on disk, GC at 2/3,28624,7738.375,17926.860,17926.860
+log with index on disk, GC at 2/3,30912,7738.584,17759.196,17759.196
+log with index on disk, GC at 2/3,33388,7738.811,17542.744,17542.744
+log with index on disk, GC at 2/3,36056,7739.055,17219.404,17219.404
+log with index on disk, GC at 2/3,38944,7739.320,16812.468,16812.468
+log with index on disk, GC at 2/3,42060,7739.605,16445.724,16445.724
+log with index on disk, GC at 2/3,45424,7739.913,16187.192,16187.192
+log with index on disk, GC at 2/3,49056,7740.246,15962.996,15962.996
+log with index on disk, GC at 2/3,52980,7740.605,15665.608,15665.608
+log with index on disk, GC at 2/3,57220,7740.993,15333.100,15333.100
+log with index on disk, GC at 2/3,61800,7741.412,15041.764,15041.764
+log with index on disk, GC at 2/3,66744,7741.865,14765.092,14765.092
+log with index on disk, GC at 2/3,72080,7742.353,14453.096,14453.096
+log with index on disk, GC at 2/3,77848,7742.882,14146.136,14146.136
+log with index on disk, GC at 2/3,84076,7743.452,13852.932,13852.932
+log with index on disk, GC at 2/3,90804,7744.068,13532.836,13532.836
+log with index on disk, GC at 2/3,98068,7744.733,13217.964,13217.964
+log with index on disk, GC at 2/3,105912,7745.451,12934.800,12934.800
+log with index on disk, GC at 2/3,114384,7746.227,12633.628,12633.628
+log with index on disk, GC at 2/3,123536,7747.064,12334.692,12334.692
+log with index on disk, GC at 2/3,133420,7747.969,12051.124,12051.124
+log with index on disk, GC at 2/3,144092,7748.946,11764.752,11764.752
+log with index on disk, GC at 2/3,155620,7750.002,11469.688,11469.688
+log with index on disk, GC at 2/3,168072,7751.142,11194.728,11194.728
+log with index on disk, GC at 2/3,181516,7752.373,10927.888,10927.888
+log with index on disk, GC at 2/3,196040,7753.702,10660.460,10660.460
+log with index on disk, GC at 2/3,211720,7755.138,10407.420,10407.420
+log with index on disk, GC at 2/3,228660,7756.689,10141.792,10141.792
+log with index on disk, GC at 2/3,246952,7758.363,9893.088,9893.088
+log with index on disk, GC at 2/3,266708,7760.172,9641.836,9641.836
+log with index on disk, GC at 2/3,288044,7762.126,9396.392,9396.392
+log with index on disk, GC at 2/3,311088,7764.235,9142.928,9142.928
+log with index on disk, GC at 2/3,335976,7766.514,8899.324,8899.324
+log with index on disk, GC at 2/3,362856,7768.975,8661.688,8661.688
+log with index on disk, GC at 2/3,391884,7771.632,8424.488,8424.488
+log with index on disk, GC at 2/3,423236,7774.503,8195.468,8195.468
+log with index on disk, GC at 2/3,457092,7777.602,7970.004,7970.004
+log with index on disk, GC at 2/3,493660,7780.950,7748.076,7748.076
+log with index on disk, GC at 2/3,533152,7784.566,7542.232,7542.232
+log with index on disk, GC at 2/3,575808,7788.471,7337.520,7337.520
+log with index on disk, GC at 2/3,621872,7792.688,7136.856,7136.856
+log with index on disk, GC at 2/3,671620,7797.243,6928.768,6928.768
+log with index on disk, GC at 2/3,725352,7802.162,6711.060,6711.060
+log with index on disk, GC at 2/3,783380,7807.475,6506.152,6506.152
+log with index on disk, GC at 2/3,846048,7813.212,6305.112,6305.112
+log with index on disk, GC at 2/3,913732,7819.409,6114.500,6114.500
+log with index on disk, GC at 2/3,986832,7826.102,5929.884,5929.884
+log with index on disk, GC at 2/3,1065780,7833.329,5773.952,5773.952
+log with index on disk, GC at 2/3,1151040,7841.135,5600.172,5600.172
+log with index on disk, GC at 2/3,1243124,7849.566,5428.220,5428.220
+log with index on disk, GC at 2/3,1342576,7858.671,5262.004,5262.004
+log with index on disk, GC at 2/3,1449980,7868.504,5117.060,5117.060
+log with index on disk, GC at 2/3,1565980,7879.124,4974.808,4974.808
+log with index on disk, GC at 2/3,1691256,7890.593,4821.312,4821.312
+log with index on disk, GC at 2/3,1826560,7902.981,4672.124,4672.124
+log with index on disk, GC at 2/3,1972684,7916.359,4526.660,4526.660
+log with index on disk, GC at 2/3,2130500,7930.807,4384.416,4384.416
+log with index on disk, GC at 2/3,2300940,7946.412,4262.484,4262.484
+log with index on disk, GC at 2/3,2485012,7963.264,4147.480,4147.480
+log with index on disk, GC at 2/3,2683816,7981.465,4033.748,4033.748
+log with index on disk, GC at 2/3,2898520,8001.122,3922.528,3922.528
+log with index on disk, GC at 2/3,3130400,8022.351,3813.608,3813.608
+log with index on disk, GC at 2/3,3380836,8045.279,3702.728,3702.728
+log with index on disk, GC at 2/3,3651300,8070.041,3603.312,3603.312
+log with index on disk, GC at 2/3,3943404,8096.784,3505.956,3505.956
+log with index on disk, GC at 2/3,4258876,8125.666,3409.304,3409.304
+log with index on disk, GC at 2/3,4599588,8156.859,3310.856,3310.856
+log with index on disk, GC at 2/3,4967556,8190.548,3220.224,3220.224
+log with index on disk, GC at 2/3,5364960,8226.931,3135.612,3135.612
+log with index on disk, GC at 2/3,5794156,8266.225,3044.500,3044.500
+log with index on disk, GC at 2/3,6257688,8308.663,2957.052,2957.052
+log with index on disk, GC at 2/3,6758304,8354.496,2861.656,2861.656
+log with index on disk, GC at 2/3,7298968,8403.995,2772.392,2772.392
+log with index on disk, GC at 2/3,7882888,8457.454,2690.128,2690.128
+log with index on disk, GC at 2/3,8513520,8515.190,2615.388,2615.388
+log with index on disk, GC at 2/3,9194600,8577.545,2544.952,2544.952
+log with index on disk, GC at 2/3,9930168,8644.888,2475.128,2475.128
+log with index on disk, GC at 2/3,10724584,8717.619,2404.724,2404.724
+log with index on disk, GC at 2/3,11582548,8796.168,2331.324,2331.324
+log with index on disk, GC at 2/3,12509152,8881.001,2259.644,2259.644
+log with index on disk, GC at 2/3,13509884,8972.621,2192.216,2192.216
+log with index on disk, GC at 2/3,14590676,9071.571,2121.188,2121.188
+log with index on disk, GC at 2/3,15757932,9178.436,2054.260,2054.260
+log with index on disk, GC at 2/3,17018564,9293.850,1983.140,1983.140
+log with index on disk, GC at 2/3,18380052,9418.498,1907.988,1907.988
+log with index on disk, GC at 2/3,19850456,9553.118,1813.116,1813.116
+log with index on disk, GC at 2/3,21438492,9698.507,1728.936,1728.936
+log with index on disk, GC at 2/3,23153572,9855.527,1661.544,1661.544
+log with index on disk, GC at 2/3,25005856,10025.109,1606.724,1606.724
+log with index on disk, GC at 2/3,27006324,10208.257,1561.904,1561.904
+log with index on disk, GC at 2/3,29166832,10406.058,1515.140,1515.140
+log with index on disk, GC at 2/3,31500180,10619.682,1457.480,1457.480
+log with index on disk, GC at 2/3,34020192,10850.396,1383.160,1383.160
+log with index on disk, GC at 2/3,36741808,11099.567,1328.028,1328.028
+log with index on disk, GC at 2/3,39681152,11368.672,1280.856,1280.856
+log with index on disk, GC at 2/3,42855644,11659.306,1223.928,1223.928
+log with index on disk, GC at 2/3,46284096,11973.190,1165.392,1165.392
+log with index on disk, GC at 2/3,49986824,12312.185,1117.540,1117.540
+log with index on disk, GC at 2/3,53985772,12678.299,1063.344,1063.344
+log with index on disk, GC at 2/3,58304632,13073.703,1018.872,1018.872
+log with index on disk, GC at 2/3,62969004,13500.739,998.712,998.712
+log with index on disk, GC at 2/3,68006524,13961.938,963.228,963.228
+log with index on disk, GC at 2/3,73447048,14460.032,935.232,935.232
+log with index on disk, GC at 2/3,79322812,14997.975,896.152,896.152
+log with index on disk, GC at 2/3,81607288,15207.125,883.324,883.324
+log with index on disk, GC at 2/3,85668636,15578.952,0.000,879.216
+log with index on disk, GC at 2/3,92522128,16206.408,0.000,879.216
+log with index on disk, GC at 2/3,99923896,16884.060,0.000,879.216
+log with index on disk, GC at 2/3,107917808,17615.925,0.000,879.216
+log with index on disk, GC at 2/3,116551236,18406.339,0.000,879.216
+log with index on disk, GC at 2/3,125875332,19259.985,0.000,879.216
+log with index on disk, GC at 2/3,135945360,20181.924,0.000,879.216
+log with index on disk, GC at 2/3,146820988,21177.617,0.000,879.216
+log with index on disk, GC at 2/3,158566668,22252.966,0.000,879.216
+log with index on disk, GC at 2/3,171252004,23414.344,0.000,879.216
+log with index on disk, GC at 2/3,184952164,24668.631,0.000,879.216
+log with index on disk, GC at 2/3,199748336,26023.261,0.000,879.216
+log with index on disk, GC at 2/3,215728204,27486.261,0.000,879.216
+log with index on disk, GC at 2/3,232986460,29066.302,0.000,879.216
+log with index on disk, GC at 2/3,251625376,30772.746,0.000,879.216
+log with index on disk, GC at 2/3,271755408,32615.705,0.000,879.216
+log with index on disk, GC at 2/3,293495840,34606.101,0.000,879.216
+log with index on disk, GC at 2/3,316975508,36755.729,0.000,879.216
+log with index on disk, GC at 2/3,342333548,39077.327,0.000,879.216
+log with index on disk, GC at 2/3,369720232,41584.653,0.000,879.216
+log with index on disk, GC at 2/3,399297852,44292.565,0.000,879.216
+log with index on disk, GC at 2/3,431241680,47217.109,0.000,879.216
+log with index on disk, GC at 2/3,465741012,50375.618,0.000,879.216
+log with index on disk, GC at 2/3,503000292,53786.806,0.000,879.216
+log with index on disk, GC at 2/3,543240316,57470.891,0.000,879.216
+log with index on disk, GC at 2/3,586699544,61449.702,0.000,879.216
+log with index on disk, GC at 2/3,633635508,65746.818,0.000,879.216
+log with index on disk, GC at 2/3,684326348,70387.703,0.000,879.216
+log with index on disk, GC at 2/3,739072456,75399.859,0.000,879.216
+log with index on disk, GC at 2/3,798198252,80812.987,0.000,879.216
+log with index on disk, GC at 2/3,862054112,86659.165,0.000,879.216
+log with index on disk, GC at 2/3,931018440,92973.038,0.000,879.216
+log with index on disk, GC at 2/3,1005499916,99792.021,0.000,879.216
+log with index on disk, GC at 2/3,1085939912,107156.523,0.000,879.216
+log with index on disk, GC at 2/3,1172815104,115110.184,0.000,879.216
+log with index on disk, GC at 2/3,1266640312,123700.138,0.000,879.216
+log with index on disk, GC at 2/3,1367971536,132977.289,0.000,879.216
+log with index on disk, GC at 2/3,1477409260,142996.612,0.000,879.216
+log with index on disk, GC at 2/3,1595602000,153817.480,0.000,879.216
+log with index on disk, GC at 2/3,1723250160,165504.019,0.000,879.216
+log with index on disk, GC at 2/3,1861110172,178125.480,0.000,879.216
+log with index on disk, GC at 2/3,2009998988,191756.658,0.000,879.216
+log with index on disk, GC at 2/3,2170798908,206478.330,0.000,879.216
+log with index on disk, GC at 2/3,2344462820,222377.736,0.000,879.216
+log with index on disk, GC at 2/3,2532019844,239549.095,0.000,879.216
+log with index on disk, GC at 2/3,2734581432,258094.162,0.000,879.216
+log with index on disk, GC at 2/3,2953347948,278122.835,0.000,879.216
+log with index on disk, GC at 2/3,3189615784,299753.801,0.000,879.216
+log with index on disk, GC at 2/3,3444785048,323115.245,0.000,879.216
+log with index on disk, GC at 2/3,3720367852,348345.604,0.000,879.216
+log with index on disk, GC at 2/3,4017997280,375594.392,0.000,879.216
+log with index on disk, GC at 2/3,4339437060,405023.083,0.000,879.216
+log with index on disk, GC at 2/3,4686592028,436806.069,0.000,879.216
+log with index on disk, GC at 2/3,5014844568,466858.487,0.000,879.216
+LSM of records, page-keyed,0,9111.850,5301.948,5301.948
+LSM of records, page-keyed,4,9111.865,4968.264,4968.264
+LSM of records, page-keyed,8,9111.881,4966.552,4966.552
+LSM of records, page-keyed,12,9111.897,4965.892,4965.892
+LSM of records, page-keyed,16,9111.912,4965.464,4965.464
+LSM of records, page-keyed,20,9111.928,4965.188,4965.188
+LSM of records, page-keyed,24,9111.944,4964.896,4964.896
+LSM of records, page-keyed,28,9111.959,4964.740,4964.740
+LSM of records, page-keyed,32,9111.975,4964.652,4964.652
+LSM of records, page-keyed,36,9111.991,4964.616,4964.616
+LSM of records, page-keyed,40,9112.006,4964.536,4964.536
+LSM of records, page-keyed,44,9112.022,4964.408,4964.408
+LSM of records, page-keyed,48,9112.038,4964.276,4964.276
+LSM of records, page-keyed,52,9112.053,4964.160,4964.160
+LSM of records, page-keyed,56,9112.069,4964.016,4964.016
+LSM of records, page-keyed,60,9112.085,4963.916,4963.916
+LSM of records, page-keyed,64,9112.101,4963.732,4963.732
+LSM of records, page-keyed,68,9112.116,4963.672,4963.672
+LSM of records, page-keyed,76,9112.148,4963.480,4963.480
+LSM of records, page-keyed,80,9112.163,4963.432,4963.432
+LSM of records, page-keyed,88,9112.195,4963.220,4963.220
+LSM of records, page-keyed,96,9112.226,4963.036,4963.036
+LSM of records, page-keyed,100,9112.242,4962.916,4962.916
+LSM of records, page-keyed,112,9112.289,4962.588,4962.588
+LSM of records, page-keyed,120,9112.320,4962.312,4962.312
+LSM of records, page-keyed,128,9112.351,4961.948,4961.948
+LSM of records, page-keyed,140,9112.399,4961.372,4961.372
+LSM of records, page-keyed,152,9112.446,4960.756,4960.756
+LSM of records, page-keyed,164,9112.493,4960.084,4960.084
+LSM of records, page-keyed,176,9112.540,4959.252,4959.252
+LSM of records, page-keyed,192,9112.602,4957.692,4957.692
+LSM of records, page-keyed,204,9112.650,4956.156,4956.156
+LSM of records, page-keyed,224,9112.728,4952.824,4952.824
+LSM of records, page-keyed,240,9112.791,4949.676,4949.676
+LSM of records, page-keyed,260,9112.869,4944.316,4944.316
+LSM of records, page-keyed,280,9112.948,4937.764,4937.764
+LSM of records, page-keyed,304,9113.042,4928.220,4928.220
+LSM of records, page-keyed,328,9113.136,4916.500,4916.500
+LSM of records, page-keyed,356,9113.246,4902.280,4902.280
+LSM of records, page-keyed,384,9113.355,4888.512,4888.512
+LSM of records, page-keyed,412,9113.465,4876.432,4876.432
+LSM of records, page-keyed,448,9113.606,4862.032,4862.032
+LSM of records, page-keyed,484,9113.748,4851.336,4851.336
+LSM of records, page-keyed,520,9113.889,4842.768,4842.768
+LSM of records, page-keyed,564,9114.061,4834.812,4834.812
+LSM of records, page-keyed,608,9114.234,4829.048,4829.048
+LSM of records, page-keyed,656,9114.422,4824.672,4824.672
+LSM of records, page-keyed,708,9114.626,4821.688,4821.688
+LSM of records, page-keyed,768,9114.861,4818.556,4818.556
+LSM of records, page-keyed,828,9115.097,4815.492,4815.492
+LSM of records, page-keyed,896,9115.363,4813.044,4813.044
+LSM of records, page-keyed,968,9115.646,4811.464,4811.464
+LSM of records, page-keyed,1044,9115.944,4809.640,4809.640
+LSM of records, page-keyed,1128,9116.273,4808.124,4808.124
+LSM of records, page-keyed,1220,9116.634,4806.760,4806.760
+LSM of records, page-keyed,1316,9117.010,4805.560,4805.560
+LSM of records, page-keyed,1420,9117.418,4804.604,4804.604
+LSM of records, page-keyed,1536,9117.873,4803.668,4803.668
+LSM of records, page-keyed,1656,9118.344,4802.980,4802.980
+LSM of records, page-keyed,1792,9118.877,4802.068,4802.068
+LSM of records, page-keyed,1936,9119.442,4801.104,4801.104
+LSM of records, page-keyed,2088,9120.038,4800.128,4800.128
+LSM of records, page-keyed,2256,9120.696,4798.440,4798.440
+LSM of records, page-keyed,2436,9121.402,4795.784,4795.784
+LSM of records, page-keyed,2632,9122.171,4792.028,4792.028
+LSM of records, page-keyed,2844,9123.002,4785.844,4785.844
+LSM of records, page-keyed,3072,9123.896,4775.244,4775.244
+LSM of records, page-keyed,3316,9124.853,4756.032,4756.032
+LSM of records, page-keyed,3580,9125.889,4721.972,4721.972
+LSM of records, page-keyed,3868,9127.018,4663.792,4663.792
+LSM of records, page-keyed,4176,9128.226,4562.328,4562.328
+LSM of records, page-keyed,4512,9129.543,4416.072,4416.072
+LSM of records, page-keyed,4872,9130.955,4258.560,4258.560
+LSM of records, page-keyed,5264,9132.492,4117.336,4117.336
+LSM of records, page-keyed,5684,9134.139,4017.056,4017.056
+LSM of records, page-keyed,6140,9135.928,3954.944,3954.944
+LSM of records, page-keyed,6632,9137.857,3906.792,3906.792
+LSM of records, page-keyed,7160,9139.928,3856.652,3856.652
+LSM of records, page-keyed,7736,9142.186,3777.708,3777.708
+LSM of records, page-keyed,8352,9144.602,3683.132,3683.132
+LSM of records, page-keyed,9020,9147.222,3596.280,3596.280
+LSM of records, page-keyed,9744,9150.061,3530.232,3530.232
+LSM of records, page-keyed,10524,9153.119,3476.032,3476.032
+LSM of records, page-keyed,11364,9156.414,3410.696,3410.696
+LSM of records, page-keyed,12276,9159.990,3334.716,3334.716
+LSM of records, page-keyed,13256,9163.833,3269.516,3269.516
+LSM of records, page-keyed,14316,9167.990,3205.412,3205.412
+LSM of records, page-keyed,15464,9172.492,3139.332,3139.332
+LSM of records, page-keyed,16700,9177.339,3074.248,3074.248
+LSM of records, page-keyed,18036,9182.578,3008.812,3008.812
+LSM of records, page-keyed,19480,9188.241,2940.696,2940.696
+LSM of records, page-keyed,21040,9194.358,2877.136,2877.136
+LSM of records, page-keyed,22720,9200.946,2814.360,2814.360
+LSM of records, page-keyed,24540,9208.083,2752.064,2752.064
+LSM of records, page-keyed,26504,9215.785,2691.008,2691.008
+LSM of records, page-keyed,28624,9224.099,2631.828,2631.828
+LSM of records, page-keyed,30912,9233.071,2573.552,2573.552
+LSM of records, page-keyed,33388,9242.781,2515.280,2515.280
+LSM of records, page-keyed,36056,9253.243,2460.208,2460.208
+LSM of records, page-keyed,38944,9264.569,2406.480,2406.480
+LSM of records, page-keyed,42060,9276.788,2353.572,2353.572
+LSM of records, page-keyed,45424,9289.980,2299.952,2299.952
+LSM of records, page-keyed,49056,9304.223,2249.620,2249.620
+LSM of records, page-keyed,52980,9319.611,2198.756,2198.756
+LSM of records, page-keyed,57220,9336.238,2146.400,2146.400
+LSM of records, page-keyed,61800,9354.199,2095.416,2095.416
+LSM of records, page-keyed,66744,9373.587,2043.496,2043.496
+LSM of records, page-keyed,72080,9394.512,1991.748,1991.748
+LSM of records, page-keyed,77848,9417.131,1942.396,1942.396
+LSM of records, page-keyed,84076,9441.554,1892.912,1892.912
+LSM of records, page-keyed,90804,9467.938,1844.940,1844.940
+LSM of records, page-keyed,98068,9496.424,1797.828,1797.828
+LSM of records, page-keyed,105912,9527.184,1751.536,1751.536
+LSM of records, page-keyed,114384,9560.407,1707.396,1707.396
+LSM of records, page-keyed,123536,9596.297,1663.216,1663.216
+LSM of records, page-keyed,133420,9635.057,1619.988,1619.988
+LSM of records, page-keyed,144092,9676.908,1576.860,1576.860
+LSM of records, page-keyed,155620,9722.115,1530.716,1530.716
+LSM of records, page-keyed,168072,9770.945,1484.712,1484.712
+LSM of records, page-keyed,181516,9823.666,1441.072,1441.072
+LSM of records, page-keyed,196040,9880.622,1399.568,1399.568
+LSM of records, page-keyed,211720,9942.111,1359.472,1359.472
+LSM of records, page-keyed,228660,10008.542,1324.892,1324.892
+LSM of records, page-keyed,246952,10080.274,1289.072,1289.072
+LSM of records, page-keyed,266708,10157.747,1251.200,1251.200
+LSM of records, page-keyed,288044,10241.417,1215.272,1215.272
+LSM of records, page-keyed,311088,10331.784,1181.308,1181.308
+LSM of records, page-keyed,335976,10429.382,1150.608,1150.608
+LSM of records, page-keyed,362856,10534.793,1117.588,1117.588
+LSM of records, page-keyed,391884,10648.626,1083.436,1083.436
+LSM of records, page-keyed,423236,10771.573,1052.560,1052.560
+LSM of records, page-keyed,457092,10904.340,1021.872,1021.872
+LSM of records, page-keyed,493660,11047.742,995.108,995.108
+LSM of records, page-keyed,533152,11202.610,970.188,970.188
+LSM of records, page-keyed,575808,11369.886,945.576,945.576
+LSM of records, page-keyed,621872,11550.526,922.176,922.176
+LSM of records, page-keyed,671620,11745.613,898.600,898.600
+LSM of records, page-keyed,725352,11956.324,874.940,874.940
+LSM of records, page-keyed,783380,12183.881,853.016,853.016
+LSM of records, page-keyed,846048,12429.634,831.272,831.272
+LSM of records, page-keyed,913732,12695.058,810.352,810.352
+LSM of records, page-keyed,986832,12981.720,788.964,788.964
+LSM of records, page-keyed,1065780,13291.315,768.592,768.592
+LSM of records, page-keyed,1151040,13625.663,749.556,749.556
+LSM of records, page-keyed,1243124,13986.771,729.184,729.184
+LSM of records, page-keyed,1342576,14376.773,709.896,709.896
+LSM of records, page-keyed,1449980,14797.959,688.288,688.288
+LSM of records, page-keyed,1565980,15252.854,666.908,666.908
+LSM of records, page-keyed,1691256,15744.125,647.500,647.500
+LSM of records, page-keyed,1826560,16274.721,628.564,628.564
+LSM of records, page-keyed,1972684,16847.747,609.612,609.612
+LSM of records, page-keyed,2130500,17466.624,590.788,590.788
+LSM of records, page-keyed,2300940,18135.006,570.528,570.528
+LSM of records, page-keyed,2485012,18856.846,550.556,550.556
+LSM of records, page-keyed,2683816,19636.458,530.068,530.068
+LSM of records, page-keyed,2898520,20478.421,509.524,509.524
+LSM of records, page-keyed,3130400,21387.741,489.088,489.088
+LSM of records, page-keyed,3380836,22369.828,468.220,468.220
+LSM of records, page-keyed,3651300,23430.455,446.156,446.156
+LSM of records, page-keyed,3943404,24575.943,422.408,422.408
+LSM of records, page-keyed,4258876,25813.069,393.500,393.500
+LSM of records, page-keyed,4599588,27149.174,367.168,367.168
+LSM of records, page-keyed,4967556,28592.164,343.360,343.360
+LSM of records, page-keyed,5364960,30150.587,325.512,325.512
+LSM of records, page-keyed,5794156,31833.683,306.912,306.912
+LSM of records, page-keyed,6257688,33651.428,285.024,285.024
+LSM of records, page-keyed,6758304,35614.598,259.496,259.496
+LSM of records, page-keyed,7298968,37734.817,240.532,240.532
+LSM of records, page-keyed,7882888,40024.664,221.184,221.184
+LSM of records, page-keyed,8513520,42497.693,201.764,201.764
+LSM of records, page-keyed,9194600,45168.554,183.876,183.876
+LSM of records, page-keyed,9930168,48053.091,167.372,167.372
+LSM of records, page-keyed,10724584,51168.400,154.260,154.260
+LSM of records, page-keyed,11582548,54532.913,143.768,143.768
+LSM of records, page-keyed,12509152,58166.599,131.904,131.904
+LSM of records, page-keyed,12793424,59281.374,128.740,128.740
+LSM of records, page-keyed,13509884,62090.978,0.000,127.948
+LSM of records, page-keyed,14590676,66329.314,0.000,127.948
+LSM of records, page-keyed,15757932,70906.718,0.000,127.948
+LSM of records, page-keyed,17018564,75850.298,0.000,127.948
+LSM of records, page-keyed,18380052,81189.385,0.000,127.948
+LSM of records, page-keyed,19850456,86955.587,0.000,127.948
+LSM of records, page-keyed,21438492,93183.084,0.000,127.948
+LSM of records, page-keyed,23153572,99908.786,0.000,127.948
+LSM of records, page-keyed,25005856,107172.534,0.000,127.948
+LSM of records, page-keyed,27006324,115017.386,0.000,127.948
+LSM of records, page-keyed,29166832,123489.838,0.000,127.948
+LSM of records, page-keyed,31500180,132640.082,0.000,127.948
+LSM of records, page-keyed,34020192,142522.331,0.000,127.948
+LSM of records, page-keyed,36741808,153195.173,0.000,127.948
+LSM of records, page-keyed,39681152,164721.836,0.000,127.948
+LSM of records, page-keyed,42855644,177170.634,0.000,127.948
+LSM of records, page-keyed,46284096,190615.339,0.000,127.948
+LSM of records, page-keyed,49986824,205135.619,0.000,127.948
+LSM of records, page-keyed,53985772,220817.529,0.000,127.948
+LSM of records, page-keyed,58304632,237753.976,0.000,127.948
+LSM of records, page-keyed,62969004,256045.352,0.000,127.948
+LSM of records, page-keyed,68006524,275800.031,0.000,127.948
+LSM of records, page-keyed,73447048,297135.094,0.000,127.948
+LSM of records, page-keyed,79322812,320176.954,0.000,127.948
+LSM of records, page-keyed,85668636,345062.159,0.000,127.948
+LSM of records, page-keyed,92522128,371938.188,0.000,127.948
+LSM of records, page-keyed,99923896,400964.286,0.000,127.948
+LSM of records, page-keyed,107917808,432312.482,0.000,127.948
+LSM of records, page-keyed,116551236,466168.546,0.000,127.948
+LSM of records, page-keyed,125875332,502733.070,0.000,127.948
+LSM of records, page-keyed,135945360,542222.774,0.000,127.948
+LSM of records, page-keyed,146820988,584871.644,0.000,127.948
+LSM of records, page-keyed,148925816,593125.746,0.000,127.948
+page log,0,2355.897,5301.948,5301.948
+page log,4,2355.913,4968.264,4968.264
+page log,8,2355.929,4966.552,4966.552
+page log,12,2355.945,4965.892,4965.892
+page log,16,2355.960,4965.464,4965.464
+page log,20,2355.976,4965.188,4965.188
+page log,24,2355.992,4964.896,4964.896
+page log,28,2356.007,4964.740,4964.740
+page log,32,2356.023,4964.652,4964.652
+page log,36,2356.039,4964.616,4964.616
+page log,40,2356.054,4964.536,4964.536
+page log,44,2356.070,4964.408,4964.408
+page log,48,2356.086,4964.276,4964.276
+page log,52,2356.101,4964.160,4964.160
+page log,56,2356.117,4964.016,4964.016
+page log,60,2356.133,4963.916,4963.916
+page log,64,2356.148,4963.732,4963.732
+page log,68,2356.164,4963.672,4963.672
+page log,76,2356.196,4963.480,4963.480
+page log,80,2356.211,4963.432,4963.432
+page log,88,2356.243,4963.220,4963.220
+page log,96,2356.274,4963.036,4963.036
+page log,100,2356.290,4962.916,4962.916
+page log,112,2356.337,4962.588,4962.588
+page log,120,2356.368,4962.312,4962.312
+page log,128,2356.399,4961.948,4961.948
+page log,140,2356.446,4961.372,4961.372
+page log,152,2356.494,4960.756,4960.756
+page log,164,2356.541,4960.084,4960.084
+page log,176,2356.588,4959.252,4959.252
+page log,192,2356.650,4957.692,4957.692
+page log,204,2356.697,4956.156,4956.156
+page log,224,2356.776,4952.824,4952.824
+page log,240,2356.839,4949.676,4949.676
+page log,260,2356.917,4944.316,4944.316
+page log,280,2356.996,4937.764,4937.764
+page log,304,2357.090,4928.220,4928.220
+page log,328,2357.184,4916.500,4916.500
+page log,356,2357.294,4902.280,4902.280
+page log,384,2357.403,4888.512,4888.512
+page log,412,2357.513,4876.432,4876.432
+page log,448,2357.654,4862.032,4862.032
+page log,484,2357.795,4851.336,4851.336
+page log,520,2357.937,4842.768,4842.768
+page log,564,2358.109,4834.812,4834.812
+page log,608,2358.282,4829.048,4829.048
+page log,656,2358.470,4824.672,4824.672
+page log,708,2358.674,4821.688,4821.688
+page log,768,2358.909,4818.556,4818.556
+page log,828,2359.144,4815.492,4815.492
+page log,896,2359.411,4813.044,4813.044
+page log,968,2359.694,4811.464,4811.464
+page log,1044,2359.992,4809.640,4809.640
+page log,1128,2360.321,4808.124,4808.124
+page log,1220,2360.682,4806.760,4806.760
+page log,1316,2361.058,4805.560,4805.560
+page log,1420,2361.466,4804.604,4804.604
+page log,1536,2361.921,4803.668,4803.668
+page log,1656,2362.392,4802.980,4802.980
+page log,1792,2362.925,4802.068,4802.068
+page log,1936,2363.490,4801.104,4801.104
+page log,2088,2364.086,4800.128,4800.128
+page log,2256,2364.744,4798.440,4798.440
+page log,2436,2365.450,4795.784,4795.784
+page log,2632,2366.219,4792.028,4792.028
+page log,2844,2367.050,4785.844,4785.844
+page log,3072,2367.944,4775.244,4775.244
+page log,3316,2368.901,4756.032,4756.032
+page log,3580,2369.936,4721.972,4721.972
+page log,3868,2371.066,4663.792,4663.792
+page log,4176,2372.274,4562.328,4562.328
+page log,4512,2373.591,4416.072,4416.072
+page log,4872,2375.003,4258.560,4258.560
+page log,5264,2376.540,4117.336,4117.336
+page log,5684,2378.187,4017.056,4017.056
+page log,6140,2379.976,3954.944,3954.944
+page log,6632,2381.905,3906.792,3906.792
+page log,7160,2383.975,3856.652,3856.652
+page log,7736,2386.234,3777.708,3777.708
+page log,8352,2388.650,3683.132,3683.132
+page log,9020,2391.269,3596.280,3596.280
+page log,9744,2394.109,3530.232,3530.232
+page log,10524,2397.167,3476.032,3476.032
+page log,11364,2400.462,3410.696,3410.696
+page log,12276,2404.038,3334.716,3334.716
+page log,13256,2407.881,3269.516,3269.516
+page log,14316,2412.038,3205.412,3205.412
+page log,15464,2416.540,3139.332,3139.332
+page log,16700,2421.387,3074.248,3074.248
+page log,18036,2426.626,3008.812,3008.812
+page log,19480,2432.288,2940.696,2940.696
+page log,21040,2438.406,2877.136,2877.136
+page log,22720,2444.994,2814.360,2814.360
+page log,24540,2452.131,2752.064,2752.064
+page log,26504,2459.833,2691.008,2691.008
+page log,28624,2468.147,2631.828,2631.828
+page log,30912,2477.119,2573.552,2573.552
+page log,33388,2486.829,2515.280,2515.280
+page log,36056,2497.291,2460.208,2460.208
+page log,38944,2508.617,2406.480,2406.480
+page log,42060,2520.836,2353.572,2353.572
+page log,45424,2534.028,2299.952,2299.952
+page log,49056,2548.271,2249.620,2249.620
+page log,52980,2563.659,2198.756,2198.756
+page log,57220,2580.286,2146.400,2146.400
+page log,61800,2598.247,2095.416,2095.416
+page log,66744,2617.635,2043.496,2043.496
+page log,72080,2638.560,1991.748,1991.748
+page log,77848,2661.179,1942.396,1942.396
+page log,84076,2685.602,1892.912,1892.912
+page log,90804,2711.986,1844.940,1844.940
+page log,98068,2740.472,1797.828,1797.828
+page log,105912,2771.232,1751.536,1751.536
+page log,114384,2804.455,1707.396,1707.396
+page log,123536,2840.345,1663.216,1663.216
+page log,133420,2879.105,1619.988,1619.988
+page log,144092,2920.956,1576.860,1576.860
+page log,155620,2966.163,1530.716,1530.716
+page log,168072,3014.993,1484.712,1484.712
+page log,181516,3067.714,1441.072,1441.072
+page log,196040,3124.670,1399.568,1399.568
+page log,211720,3186.159,1359.472,1359.472
+page log,228660,3252.590,1324.892,1324.892
+page log,246952,3324.322,1289.072,1289.072
+page log,266708,3401.795,1251.200,1251.200
+page log,288044,3485.465,1215.272,1215.272
+page log,311088,3575.832,1181.308,1181.308
+page log,335976,3673.430,1150.608,1150.608
+page log,362856,3778.840,1117.588,1117.588
+page log,391884,3892.674,1083.436,1083.436
+page log,423236,4015.621,1052.560,1052.560
+page log,457092,4148.388,1021.872,1021.872
+page log,493660,4291.790,995.108,995.108
+page log,533152,4446.658,970.188,970.188
+page log,575808,4613.934,945.576,945.576
+page log,621872,4794.574,922.176,922.176
+page log,671620,4989.661,898.600,898.600
+page log,725352,5200.372,874.940,874.940
+page log,783380,5427.929,853.016,853.016
+page log,846048,5673.682,831.272,831.272
+page log,913732,5939.106,810.352,810.352
+page log,986832,6225.768,788.964,788.964
+page log,1065780,6535.363,768.592,768.592
+page log,1151040,6869.711,749.556,749.556
+page log,1243124,7230.819,729.184,729.184
+page log,1342576,7620.821,709.896,709.896
+page log,1449980,8042.007,688.288,688.288
+page log,1565980,8496.902,666.908,666.908
+page log,1691256,8988.173,647.500,647.500
+page log,1826560,9518.769,628.564,628.564
+page log,1972684,10091.795,609.612,609.612
+page log,2130500,10710.672,590.788,590.788
+page log,2300940,11379.054,570.528,570.528
+page log,2485012,12100.894,550.556,550.556
+page log,2683816,12880.506,530.068,530.068
+page log,2898520,13722.469,509.524,509.524
+page log,3130400,14631.789,489.088,489.088
+page log,3380836,15613.876,468.220,468.220
+page log,3651300,16674.503,446.156,446.156
+page log,3943404,17819.991,422.408,422.408
+page log,4258876,19057.117,393.500,393.500
+page log,4599588,20393.222,367.168,367.168
+page log,4967556,21836.212,343.360,343.360
+page log,5364960,23394.635,325.512,325.512
+page log,5794156,25077.731,306.912,306.912
+page log,6257688,26895.476,285.024,285.024
+page log,6758304,28858.646,259.496,259.496
+page log,7298968,30978.865,240.532,240.532
+page log,7882888,33268.712,221.184,221.184
+page log,8513520,35741.741,201.764,201.764
+page log,9194600,38412.602,183.876,183.876
+page log,9930168,41297.139,167.372,167.372
+page log,10724584,44412.448,154.260,154.260
+page log,11582548,47776.961,143.768,143.768
+page log,12509152,51410.647,131.904,131.904
+page log,12793424,52525.422,128.740,128.740
+page log,13509884,55335.026,0.000,127.948
+page log,14590676,59573.362,0.000,127.948
+page log,15757932,64150.766,0.000,127.948
+page log,17018564,69094.346,0.000,127.948
+page log,18380052,74433.433,0.000,127.948
+page log,19850456,80199.635,0.000,127.948
+page log,21438492,86427.132,0.000,127.948
+page log,23153572,93152.834,0.000,127.948
+page log,25005856,100416.582,0.000,127.948
+page log,27006324,108261.434,0.000,127.948
+page log,29166832,116733.886,0.000,127.948
+page log,31500180,125884.130,0.000,127.948
+page log,34020192,135766.379,0.000,127.948
+page log,36741808,146439.220,0.000,127.948
+page log,39681152,157965.884,0.000,127.948
+page log,42855644,170414.682,0.000,127.948
+page log,46284096,183859.387,0.000,127.948
+page log,49986824,198379.667,0.000,127.948
+page log,53985772,214061.577,0.000,127.948
+page log,58304632,230998.024,0.000,127.948
+page log,62969004,249289.400,0.000,127.948
+page log,68006524,269044.079,0.000,127.948
+page log,73447048,290379.142,0.000,127.948
+page log,79322812,313421.002,0.000,127.948
+page log,85668636,338306.207,0.000,127.948
+page log,92522128,365182.236,0.000,127.948
+page log,99923896,394208.334,0.000,127.948
+page log,107917808,425556.530,0.000,127.948
+page log,116551236,459412.594,0.000,127.948
+page log,125875332,495977.118,0.000,127.948
+page log,135945360,535466.822,0.000,127.948
+page log,146820988,578115.692,0.000,127.948
+page log,148925816,586369.794,0.000,127.948
+page LSM,0,526.921,5301.948,5301.948
+page LSM,4,526.937,4968.264,4968.264
+page LSM,8,526.953,4966.552,4966.552
+page LSM,12,526.968,4965.892,4965.892
+page LSM,16,526.984,4965.464,4965.464
+page LSM,20,527.000,4965.188,4965.188
+page LSM,24,527.015,4964.896,4964.896
+page LSM,28,527.031,4964.740,4964.740
+page LSM,32,527.047,4964.652,4964.652
+page LSM,36,527.062,4964.616,4964.616
+page LSM,40,527.078,4964.536,4964.536
+page LSM,44,527.094,4964.408,4964.408
+page LSM,48,527.110,4964.276,4964.276
+page LSM,52,527.125,4964.160,4964.160
+page LSM,56,527.141,4964.016,4964.016
+page LSM,60,527.157,4963.916,4963.916
+page LSM,64,527.172,4963.732,4963.732
+page LSM,68,527.188,4963.672,4963.672
+page LSM,76,527.219,4963.480,4963.480
+page LSM,80,527.235,4963.432,4963.432
+page LSM,88,527.266,4963.220,4963.220
+page LSM,96,527.298,4963.036,4963.036
+page LSM,100,527.313,4962.916,4962.916
+page LSM,112,527.361,4962.588,4962.588
+page LSM,120,527.392,4962.312,4962.312
+page LSM,128,527.423,4961.948,4961.948
+page LSM,140,527.470,4961.372,4961.372
+page LSM,152,527.517,4960.756,4960.756
+page LSM,164,527.564,4960.084,4960.084
+page LSM,176,527.611,4959.252,4959.252
+page LSM,192,527.674,4957.692,4957.692
+page LSM,204,527.721,4956.156,4956.156
+page LSM,224,527.800,4952.824,4952.824
+page LSM,240,527.862,4949.676,4949.676
+page LSM,260,527.941,4944.316,4944.316
+page LSM,280,528.019,4937.764,4937.764
+page LSM,304,528.113,4928.220,4928.220
+page LSM,328,528.208,4916.500,4916.500
+page LSM,356,528.317,4902.280,4902.280
+page LSM,384,528.427,4888.512,4888.512
+page LSM,412,528.537,4876.432,4876.432
+page LSM,448,528.678,4862.032,4862.032
+page LSM,484,528.819,4851.336,4851.336
+page LSM,520,528.960,4842.768,4842.768
+page LSM,564,529.133,4834.812,4834.812
+page LSM,608,529.306,4829.048,4829.048
+page LSM,656,529.494,4824.672,4824.672
+page LSM,708,529.698,4821.688,4821.688
+page LSM,768,529.933,4818.556,4818.556
+page LSM,828,530.168,4815.492,4815.492
+page LSM,896,530.435,4813.044,4813.044
+page LSM,968,530.717,4811.464,4811.464
+page LSM,1044,531.015,4809.640,4809.640
+page LSM,1128,531.345,4808.124,4808.124
+page LSM,1220,531.706,4806.760,4806.760
+page LSM,1316,532.082,4805.560,4805.560
+page LSM,1420,532.490,4804.604,4804.604
+page LSM,1536,532.945,4803.668,4803.668
+page LSM,1656,533.415,4802.980,4802.980
+page LSM,1792,533.949,4802.068,4802.068
+page LSM,1936,534.513,4801.104,4801.104
+page LSM,2088,535.109,4800.128,4800.128
+page LSM,2256,535.768,4798.440,4798.440
+page LSM,2436,536.474,4795.784,4795.784
+page LSM,2632,537.243,4792.028,4792.028
+page LSM,2844,538.074,4785.844,4785.844
+page LSM,3072,538.968,4775.244,4775.244
+page LSM,3316,539.925,4756.032,4756.032
+page LSM,3580,540.960,4721.972,4721.972
+page LSM,3868,542.090,4663.792,4663.792
+page LSM,4176,543.298,4562.328,4562.328
+page LSM,4512,544.615,4416.072,4416.072
+page LSM,4872,546.027,4258.560,4258.560
+page LSM,5264,547.564,4117.336,4117.336
+page LSM,5684,549.211,4017.056,4017.056
+page LSM,6140,550.999,3954.944,3954.944
+page LSM,6632,552.929,3906.792,3906.792
+page LSM,7160,554.999,3856.652,3856.652
+page LSM,7736,557.258,3777.708,3777.708
+page LSM,8352,559.674,3683.132,3683.132
+page LSM,9020,562.293,3596.280,3596.280
+page LSM,9744,565.132,3530.232,3530.232
+page LSM,10524,568.191,3476.032,3476.032
+page LSM,11364,571.485,3410.696,3410.696
+page LSM,12276,575.062,3334.716,3334.716
+page LSM,13256,578.905,3269.516,3269.516
+page LSM,14316,583.062,3205.412,3205.412
+page LSM,15464,587.564,3139.332,3139.332
+page LSM,16700,592.411,3074.248,3074.248
+page LSM,18036,597.650,3008.812,3008.812
+page LSM,19480,603.312,2940.696,2940.696
+page LSM,21040,609.430,2877.136,2877.136
+page LSM,22720,616.018,2814.360,2814.360
+page LSM,24540,623.155,2752.064,2752.064
+page LSM,26504,630.857,2691.008,2691.008
+page LSM,28624,639.171,2631.828,2631.828
+page LSM,30912,648.143,2573.552,2573.552
+page LSM,33388,657.853,2515.280,2515.280
+page LSM,36056,668.315,2460.208,2460.208
+page LSM,38944,679.641,2406.480,2406.480
+page LSM,42060,691.860,2353.572,2353.572
+page LSM,45424,705.052,2299.952,2299.952
+page LSM,49056,719.295,2249.620,2249.620
+page LSM,52980,734.683,2198.756,2198.756
+page LSM,57220,751.310,2146.400,2146.400
+page LSM,61800,769.271,2095.416,2095.416
+page LSM,66744,788.658,2043.496,2043.496
+page LSM,72080,809.584,1991.748,1991.748
+page LSM,77848,832.203,1942.396,1942.396
+page LSM,84076,856.626,1892.912,1892.912
+page LSM,90804,883.010,1844.940,1844.940
+page LSM,98068,911.496,1797.828,1797.828
+page LSM,105912,942.256,1751.536,1751.536
+page LSM,114384,975.479,1707.396,1707.396
+page LSM,123536,1011.369,1663.216,1663.216
+page LSM,133420,1050.129,1619.988,1619.988
+page LSM,144092,1091.979,1576.860,1576.860
+page LSM,155620,1137.187,1530.716,1530.716
+page LSM,168072,1186.017,1484.712,1484.712
+page LSM,181516,1238.738,1441.072,1441.072
+page LSM,196040,1295.694,1399.568,1399.568
+page LSM,211720,1357.183,1359.472,1359.472
+page LSM,228660,1423.614,1324.892,1324.892
+page LSM,246952,1495.346,1289.072,1289.072
+page LSM,266708,1572.819,1251.200,1251.200
+page LSM,288044,1656.488,1215.272,1215.272
+page LSM,311088,1746.856,1181.308,1181.308
+page LSM,335976,1844.454,1150.608,1150.608
+page LSM,362856,1949.864,1117.588,1117.588
+page LSM,391884,2063.698,1083.436,1083.436
+page LSM,423236,2186.645,1052.560,1052.560
+page LSM,457092,2319.412,1021.872,1021.872
+page LSM,493660,2462.813,995.108,995.108
+page LSM,533152,2617.682,970.188,970.188
+page LSM,575808,2784.957,945.576,945.576
+page LSM,621872,2965.598,922.176,922.176
+page LSM,671620,3160.685,898.600,898.600
+page LSM,725352,3371.396,874.940,874.940
+page LSM,783380,3598.953,853.016,853.016
+page LSM,846048,3844.706,831.272,831.272
+page LSM,913732,4110.129,810.352,810.352
+page LSM,986832,4396.792,788.964,788.964
+page LSM,1065780,4706.387,768.592,768.592
+page LSM,1151040,5040.735,749.556,749.556
+page LSM,1243124,5401.843,729.184,729.184
+page LSM,1342576,5791.845,709.896,709.896
+page LSM,1449980,6213.031,688.288,688.288
+page LSM,1565980,6667.926,666.908,666.908
+page LSM,1691256,7159.197,647.500,647.500
+page LSM,1826560,7689.792,628.564,628.564
+page LSM,1972684,8262.819,609.612,609.612
+page LSM,2130500,8881.696,590.788,590.788
+page LSM,2300940,9550.078,570.528,570.528
+page LSM,2485012,10271.918,550.556,550.556
+page LSM,2683816,11051.529,530.068,530.068
+page LSM,2898520,11893.493,509.524,509.524
+page LSM,3130400,12802.812,489.088,489.088
+page LSM,3380836,13784.899,468.220,468.220
+page LSM,3651300,14845.526,446.156,446.156
+page LSM,3943404,15991.015,422.408,422.408
+page LSM,4258876,17228.141,393.500,393.500
+page LSM,4599588,18564.246,367.168,367.168
+page LSM,4967556,20007.236,343.360,343.360
+page LSM,5364960,21565.659,325.512,325.512
+page LSM,5794156,23248.755,306.912,306.912
+page LSM,6257688,25066.500,285.024,285.024
+page LSM,6758304,27029.670,259.496,259.496
+page LSM,7298968,29149.888,240.532,240.532
+page LSM,7882888,31439.736,221.184,221.184
+page LSM,8513520,33912.765,201.764,201.764
+page LSM,9194600,36583.626,183.876,183.876
+page LSM,9930168,39468.162,167.372,167.372
+page LSM,10724584,42583.472,154.260,154.260
+page LSM,11582548,45947.985,143.768,143.768
+page LSM,12509152,49581.671,131.904,131.904
+page LSM,12793424,50696.446,128.740,128.740
+page LSM,13509884,53506.050,0.000,127.948
+page LSM,14590676,57744.385,0.000,127.948
+page LSM,15757932,62321.790,0.000,127.948
+page LSM,17018564,67265.370,0.000,127.948
+page LSM,18380052,72604.457,0.000,127.948
+page LSM,19850456,78370.659,0.000,127.948
+page LSM,21438492,84598.156,0.000,127.948
+page LSM,23153572,91323.857,0.000,127.948
+page LSM,25005856,98587.605,0.000,127.948
+page LSM,27006324,106432.458,0.000,127.948
+page LSM,29166832,114904.909,0.000,127.948
+page LSM,31500180,124055.154,0.000,127.948
+page LSM,34020192,133937.403,0.000,127.948
+page LSM,36741808,144610.244,0.000,127.948
+page LSM,39681152,156136.908,0.000,127.948
+page LSM,42855644,168585.706,0.000,127.948
+page LSM,46284096,182030.411,0.000,127.948
+page LSM,49986824,196550.691,0.000,127.948
+page LSM,53985772,212232.601,0.000,127.948
+page LSM,58304632,229169.048,0.000,127.948
+page LSM,62969004,247460.424,0.000,127.948
+page LSM,68006524,267215.103,0.000,127.948
+page LSM,73447048,288550.166,0.000,127.948
+page LSM,79322812,311592.026,0.000,127.948
+page LSM,85668636,336477.230,0.000,127.948
+page LSM,92522128,363353.259,0.000,127.948
+page LSM,99923896,392379.358,0.000,127.948
+page LSM,107917808,423727.554,0.000,127.948
+page LSM,116551236,457583.618,0.000,127.948
+page LSM,125875332,494148.142,0.000,127.948
+page LSM,135945360,533637.845,0.000,127.948
+page LSM,146820988,576286.716,0.000,127.948
+page LSM,148925816,584540.818,0.000,127.948
